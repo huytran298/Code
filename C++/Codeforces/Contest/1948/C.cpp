@@ -1,0 +1,103 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
+#include<bits/stdc++.h>
+using namespace std; 
+
+#define ll long long
+#define maxN (ll) 1e6 + 5
+#define endl '\n'
+#define fi first
+#define se second
+#define infi (int)(1e18)
+#define bend(a) (a).begin(), (a).end()
+#define rbend(a) (a).rbegin(), (a).rend()
+#define gcd(a, b) __gcd(a, b)
+#define lcm(a, b) ((a / gcd(a, b)) * b)
+#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#define LIMIT (long long) 1e18
+#define maxSelf(a, b) a = max(a, b)
+#define minSelf(a, b) a = min(a, b)
+#define elif else if
+#define FORi(a, b, c) for(int i = a; i <= b; i += c)
+#define FORj(a, b, c) for(int j = a; j <= b; j += c)
+#define foreach(a) for(auto x : a)
+#define pb push_back
+#define mod 1000000007
+int nxt(){ int n; cin >> n; return n;}
+/*
+ _  _             _____              
+| || |_  _ _  _  |_   _| _ __ _ _ _  
+| __ | || | || |   | || '_/ _` | ' \ 
+|_||_|\_,_|\_, |   |_||_| \__,_|_||_|
+           |__/                      
+*/
+void solve(){
+    ll n;
+    cin >> n;
+    char tbl[3][n + 1];
+    for(int i = 1; i < 3; i ++){
+        for(int j = 1; j <= n; j ++)cin >> tbl[i][j];
+    }
+    vector<vector<ll>> visited(3, vector<ll>(n + 1, 0));
+    queue<pair<ll, ll>> go;
+    go.push({1, 1});
+    visited[1][1] = 1;
+    while(!go.empty()){
+        pair<ll, ll> stand = go.front();
+        go.pop();
+        if(stand.first == 2 && stand.second == n)return void (cout << "YES");
+        ll u = stand.first, v = stand.second;
+        //cout << u << ' ' << v << '\n';
+        if(u == 1){
+            if(v + 1 <= n && tbl[u][v + 1] == '>' && !visited[u][v + 2]){
+                go.push({u, v + 2});
+                visited[u][v + 2] = 1;
+            }
+            if(v - 1 > 0 && tbl[u][v - 1] == '<' && !visited[u][v - 2]){
+                go.push({u, v - 2});
+                visited[u][v - 2] = 1;
+            }
+            if(tbl[u + 1][v] == '<' && !visited[u + 1][v - 1]){
+                go.push({u + 1, v - 1});
+                visited[u + 1][v - 1] = 1;
+            }
+            if(tbl[u + 1][v] == '>' && !visited[u + 1][v + 1]){
+                go.push({u + 1, v + 1});
+                visited[u + 1][v + 1] = 1;
+            }
+        }
+        if(u == 2){
+            if(v + 1 <= n && tbl[u][v + 1] == '>' && !visited[u][v + 2]){
+                go.push({u, v + 2});
+                visited[u][v + 2] = 1;
+            }
+            if(v - 1 > 0 && tbl[u][v - 1] == '<' && !visited[u][v - 2]){
+                go.push({u, v - 2});
+                visited[u][v - 2] = 1;
+            }
+            if(tbl[u - 1][v] == '<' && !visited[u - 1][v - 1]){
+                go.push({u - 1, v - 1});
+                visited[u - 1][v - 1] = 1;
+            }
+            if(tbl[u - 1][v] == '>' && !visited[u - 1][v + 1]){
+                go.push({u - 1, v + 1});
+                visited[u - 1][v + 1] = 1;
+            }
+        }
+    }
+    cout << "NO";
+}
+
+signed main(){
+    fast; 
+    ll t = 1;
+    cin >> t;
+    while(t --) {
+        solve();
+        cout << endl;
+    }
+}
