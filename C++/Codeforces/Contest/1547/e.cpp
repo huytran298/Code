@@ -41,7 +41,10 @@ void solve(){
     ll a[n + 1], t[k + 1];
     for(int i = 1; i <= n; i ++)cin >> a[i];
     for(int i = 1; i <= k; i ++)cin >> t[i];
-    
+    vector<ll> L(n + 1, infi), R(n + 1, infi);
+    for(int i = 1; i <= n; i ++){
+        
+    }
 }
 
 signed main(){
