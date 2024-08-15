@@ -39,12 +39,18 @@ void solve(){
     ll n, k;
     cin >> n >> k;
     ll a[n + 1], t[k + 1];
-    for(int i = 1; i <= n; i ++)cin >> a[i];
+    for(int i = 1; i <= k; i ++)cin >> a[i];
     for(int i = 1; i <= k; i ++)cin >> t[i];
-    vector<ll> L(n + 1, infi), R(n + 1, infi);
+    vector<ll> L(n + 1, infi), R(n + 1, infi), c(n + 1, infi);
+    for(int i = 1; i <= k; i ++)c[a[i]] = t[i];
+    ll ltmp = infi, rtmp = infi;
     for(int i = 1; i <= n; i ++){
-        
+        ltmp = min(ltmp + 1, c[i]);
+        L[i] = ltmp;
+        rtmp = min(rtmp + 1, c[n - i + 1]);
+        R[n - i + 1] = rtmp;
     }
+    for(int i = 1; i <= n; i ++)cout << min(L[i], R[i]) << ' ';
 }
 
 signed main(){
