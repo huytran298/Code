@@ -53,7 +53,7 @@ void solve(){
     for(int i = 0; i < 4; i ++){
         if(inp[n - (i + 1)] == want[r])r --;
         else break;
-    }  
+    }
     if(4 - r - 1 == 4 || l + (4 - r - 1) >= 4)return void (cout << "YES");
     else cout << "NO";
 }
