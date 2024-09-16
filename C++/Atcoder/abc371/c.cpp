@@ -36,14 +36,7 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    vector<pair<ll, ll>> points;
-    for(int i = 1; i <= n; i ++){
-        ll x, y;
-        cin >> x >> y;
-        //points.pb(x, y);
-    }
+       
 }
 
 signed main(){

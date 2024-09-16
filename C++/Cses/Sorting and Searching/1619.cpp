@@ -38,18 +38,28 @@ int nxt(){ int n; cin >> n; return n;}
 void solve(){
     ll n;
     cin >> n;
-    vector<pair<ll, ll>> points;
+    set<ll> times;
+    map<ll, ll> status;
     for(int i = 1; i <= n; i ++){
-        ll x, y;
-        cin >> x >> y;
-        //points.pb(x, y);
+        ll a, b;
+        cin >> a >> b;
+        status[a] ++;
+        status[b] --;
+        times.insert(a);
+        times.insert(b);
+    }      
+    ll ans = 0, st = 0;
+    for(auto x : times){
+        st += status[x];
+        ans = max(st, ans);
     }
+    cout << ans;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

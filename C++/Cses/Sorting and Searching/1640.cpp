@@ -36,20 +36,36 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    vector<pair<ll, ll>> points;
+    ll n, x;
+    cin >> n >> x;
+    ll a[n + 1];
+    map<ll, vector<ll>> ps;
     for(int i = 1; i <= n; i ++){
-        ll x, y;
-        cin >> x >> y;
-        //points.pb(x, y);
+        cin >> a[i];
+    
+        ps[a[i]].pb(i);
     }
+    for(int i = 1; i <= n; i ++){
+        if(x < a[i])break;
+        ll tmp = x - a[i];
+        if(ps[tmp].empty())continue;
+        if(tmp != a[i])return void (cout << i << ' ' << ps[tmp].front());
+        else {
+            ll pos;
+            do {
+                pos = ps[tmp].back();
+                ps[tmp].pop_back();
+            }while(pos == i && !ps[tmp].empty());
+            if(pos != i) return void (cout << i << ' ' << pos);
+        }
+    }
+    cout << "IMPOSSIBLE";
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

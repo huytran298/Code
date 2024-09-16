@@ -36,20 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    vector<pair<ll, ll>> points;
-    for(int i = 1; i <= n; i ++){
-        ll x, y;
-        cin >> x >> y;
-        //points.pb(x, y);
-    }
+    char a, b, c;
+    cin >> a >> b >> c;
+    if(a == '>' && c == '<'){
+        if(b == '>')cout << "C";
+        else cout << "A";
+    }else if(a == '<' && c == '>'){
+        if(b == '>')cout << "A";
+        else cout << "C";
+    }else cout << "B";
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

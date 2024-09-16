@@ -36,20 +36,25 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    vector<pair<ll, ll>> points;
-    for(int i = 1; i <= n; i ++){
-        ll x, y;
-        cin >> x >> y;
-        //points.pb(x, y);
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> gender(n + 1, 0);
+    for(int i = 1; i <= m; i ++){
+        ll family;
+        char genders;
+        cin >> family >> genders;
+        if(gender[family] == 0 && genders == 'M'){
+            cout << "Yes\n";
+            gender[family] = 1;
+        }
+        else cout << "No\n";
     }
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;
