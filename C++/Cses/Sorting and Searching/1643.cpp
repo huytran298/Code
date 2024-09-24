@@ -36,31 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, x;
-    cin >> n >> x;
+    ll n;
+    cin >> n;
     ll a[n + 1];
-    map<ll, vector<ll>> ps;
+    for(int i = 1; i <= n; i ++)cin >> a[i];
+    ll sum = 0, ans = -infi;
     for(int i = 1; i <= n; i ++){
-        cin >> a[i];
-    
-        ps[a[i]].pb(i);
-    }
-    for(int i = 1; i <= n; i ++){
-        if(x <= a[i])continue;
-        ll tmp = x - a[i];
-        if(ps[tmp].empty())continue;
-        if(tmp != a[i])return void (cout << i << ' ' << ps[tmp].front());
-        else {
-            if(ps[tmp].size() <= 1)continue;
-            ll pos;
-            do {
-                pos = ps[tmp].back();
-                ps[tmp].pop_back();
-            }while(pos == i && !ps[tmp].empty());
-            if(pos != i) return void (cout << i << ' ' << pos);
+        if(sum + a[i] > 0){
+            sum += a[i];
+            ans = max(sum, ans);
+        }else {
+            sum = 0;
+            ans = max(ans, a[i]);
         }
     }
-    cout << "IMPOSSIBLE";
+    cout << ans;
 }
 
 signed main(){
