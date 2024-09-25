@@ -1,4 +1,6 @@
-for(auto x: times)cout << x.first << ' ';
-    // cout << endl;
-    // for(auto x : times)cout << x.second << ' ';
-    // return;
+for(int i = 1; i <= m; i ++){
+    //     ll u, v;
+    //     cin >> u >> v;
+    //     prcs(pos, a, u, v, n, ans);
+    //     cout << ans << '\n';
+    // }
