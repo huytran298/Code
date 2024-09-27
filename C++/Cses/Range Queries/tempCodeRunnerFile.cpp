@@ -35,29 +35,42 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-    ll n;
-    cin >> n;
-    map<ll, ll> last, p;
-    ll ans = 0, cnt = 0;
-    for(int i = 1; i <= n; i ++){
-        ll x;
-        cin >> x;
-        if(last[x] == 0)last[x] = i;
-        else {
-            ans = max(ans, i - 1 - cnt);
-            cnt = max(cnt, last[x]);
-            last[x] = i;
-        }
+vector<ll> tree(maxN * 4), a(maxN + 1);
+void build(ll l, ll r, ll i){
+    if(l == r)tree[i] = a[l];
+    else {
+        ll mid = (l + r) >> 2LL;
+        build(l, mid, i * 2);
+        build(mid + 1, r, i * 2 + 1);
+        tree[i] = min(tree[i * 2], tree[i * 2 + 1]); 
     }
-    ans = max(ans, n - cnt);
-    cout << ans;
+}
+ll get(ll l, ll r, ll i, ll u, ll v){
+    if(r < u || l > v)return infi;
+    else if(u <= l && v <= r)return tree[i];
+    else {
+        ll mid = (l + r) >> 2LL;
+        return min(get(l, mid, i * 2, u, v), get(mid + 1, r, i * 2 + 1, u, v));
+    }
+}
+void solve(){
+    ll n, k;
+    cin >> n >> k;
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+    }
+    build(1, n, 1);
+    for(int i = 1; i <= k; i ++){
+        ll u, v;
+        cin >> u >> v;
+        cout << get(1, n, 1, u, v) << endl;
+    }
 }
 
 signed main(){
     fast; 
     ll t = 1;
-   // cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;
