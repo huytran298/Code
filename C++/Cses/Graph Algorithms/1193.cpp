@@ -44,11 +44,20 @@ void solve(){
     for(int i = 1; i <= n; i ++){
         for(int j = 1; j <= m; j ++){
             cin >> tbl[i][j];
-            
-
+            if(tbl[i][j] == 'A'){
+                xa = i;
+                ya = j;
+            }
         }
     }
-    
+    queue<pair<ll, ll>> ps;
+    ps.push({xa, ya});
+    vector<vector<string>> trace(n + 1, vector<string>(m + 1));
+    vector<vector<ll>> v(n + 1, vector<ll>(m + 1, 0));
+    while(!ps.empty()){
+        
+    }
+
 }
 
 signed main(){
