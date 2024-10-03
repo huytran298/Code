@@ -35,20 +35,29 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    char tbl[n + 1][m + 1];
-    ll xa, ya;
+    ll n;
+    cin >> n;
+    ll a[n + 1];
+    for(int i = 1; i <= n; i ++)cin >> a[i];
+    ll sum1 = 0, sum2 = 0;
+    ll ans = 0;
+    ll cnt1 = 0, cnt2 = 0;
     for(int i = 1; i <= n; i ++){
-        for(int j = 1; j <= m; j ++){
-            cin >> tbl[i][j];
-            
-
+        if(a[i] % 2 != 0){
+            sum1 += a[i];
+            cnt1 ++;
+            if(sum2 > 0)ans += (((((a[i] % mod) * (cnt2 % mod)) % mod) + (sum2 % mod)) % mod); 
+        }
+        else {
+            sum2 += a[i];
+            cnt2 ++;
+            if(sum1 > 0)ans += (((((a[i] % mod) * (cnt1 % mod))  % mod) + (sum1 % mod)) % mod); 
         }
     }
+    cout << ans % mod;
     
+
 }
 
 signed main(){

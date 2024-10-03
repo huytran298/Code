@@ -35,20 +35,24 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    char tbl[n + 1][m + 1];
-    ll xa, ya;
+    ll n;
+    cin >> n;
+    ll a[n + 1], c[n + 1];
     for(int i = 1; i <= n; i ++){
-        for(int j = 1; j <= m; j ++){
-            cin >> tbl[i][j];
+        cin >> a[i] >> c[i];
+    }
+    ll q;
+    cin >> q;
+    while(q --){
+        ll type;
+        cin >> type;
+        if(type == 1){
             
+        }else {
 
         }
     }
-    
 }
 
 signed main(){

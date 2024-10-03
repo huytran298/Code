@@ -35,26 +35,52 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    char tbl[n + 1][m + 1];
-    ll xa, ya;
-    for(int i = 1; i <= n; i ++){
-        for(int j = 1; j <= m; j ++){
-            cin >> tbl[i][j];
-            
-
+    ll n, a, b, c;
+    cin >> n >> a >> b >> c;
+    set<ll> ans;
+    ll s1, s2, s3;
+    s1 = s2 = s3 = 1;
+    for(int i = 1; i * i <= n; i ++){
+        if(n % i == 0){
+            if(i % lcm(a, c) == 0){
+                s1 = i;
+                break;
+            }
         }
     }
-    
+    for(int i = 1; i * i <= n; i ++){
+        if(n % i == 0){
+            if(i % lcm(a, b) == 0){
+                s2 = i;
+                break;
+            }
+        }
+    }
+    for(int i = 1; i * i <= n; i ++){
+        if(n % i == 0){
+            if(i % lcm(b, c) == 0){
+                s3 = i;
+                break;
+            }
+        }
+    }
+    for(int i = 1; s1 * i <= n; i ++){
+        if(n % (s1 * i) == 0)ans.insert(s1 * i);
+    }
+    for(int i = 1; s2 * i <= n; i ++){
+        if(n % (s2 * i) == 0)ans.insert(s2 * i);
+    }
+    for(int i = 1; s3 * i <= n; i ++){
+        if(n % (s3 * i) == 0)ans.insert(s3 * i);
+    }
+    cout << ans.size();
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    //cin >> t;
+   // cin >> t;
     while(t --) {
         solve();
         cout << endl;

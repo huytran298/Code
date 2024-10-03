@@ -35,26 +35,44 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
-void solve(){
-    ll n, m;
-    cin >> n >> m;
-    char tbl[n + 1][m + 1];
-    ll xa, ya;
-    for(int i = 1; i <= n; i ++){
-        for(int j = 1; j <= m; j ++){
-            cin >> tbl[i][j];
-            
-
+set<ll> num(ll n){
+    set<ll> s;
+    for(ll i = 1; i * i <= n; i ++){
+        if(n % i == 0){
+            s.insert(i);
+            if(i * i != n)s.insert(n / i);
         }
     }
+    return s;
+}
+void solve(){
+    ll n, a, b, c;
+    cin >> n >> a >> b >> c;
+    set<ll> ans;
+    ll s1, s2, s3;
+    s1 = lcm(a, c);
+    s2 = lcm(a, b);
+    s3 = lcm(b, c);
+    if(n % s1 == 0){
+        set<ll> vl = num(n / s1);
+        ans.insert(bend(vl));
+    }
+    if(n % s2 == 0){
+        set<ll> vl = num(n / s2);
+        ans.insert(bend(vl));
+    }
+    if(n % s3 == 0){
+        set<ll> vl = num(n / s3);
+        ans.insert(bend(vl));
+    }
     
+    cout << ans.size();
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    //cin >> t;
+   // cin >> t;
     while(t --) {
         solve();
         cout << endl;
