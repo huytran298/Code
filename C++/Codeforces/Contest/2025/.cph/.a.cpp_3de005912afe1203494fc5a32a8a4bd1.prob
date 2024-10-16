@@ -1,0 +1,1 @@
+{"name":"Local: a","url":"/workspaces/Code/C++/Codeforces/Contest/2025/a.cpp","tests":[{"id":1728979709319,"input":"3\nGARAGE\nGARAGEFORSALE\nABCDE\nAABCD\nTRAINING\nDRAINING\n","output":"14\n10\n16\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/workspaces/Code/C++/Codeforces/Contest/2025/a.cpp","group":"local","local":true}
