@@ -35,8 +35,36 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
+bool check(string a, string b, int k){
+    string s = "", s1 = "";
+    for(; k < a.size(); k += 2){
+        s += a[k];
+        s1 += b[k];
+    }
+    sort(bend(s));
+    sort(bend(s1));
+    for(int i = 0; i < s.size(); i ++){
+        if(s[i] != s1[i])return false;
+    }
+    return true;
+}
 void solve(){
-       
+    string a, b;
+    cin >> a >> b;
+    if(a.size() != b.size())return void (cout << "NO");
+    ll n = a.size();
+    vector<vector<ll>> p(2, vector<ll>(26, 0));
+    for(int i = 0; i < n; i ++){
+        p[i % 2][a[i] - 'a'] ++;
+    }
+    for(int i = 0; i < n; i ++){
+        if(p[i % 2][b[i] - 'a'] == 0)return void (cout << "NO");
+        p[i % 2][b[i] - 'a'] --;
+    }
+    for(int i = 0; i < 25; i ++){
+        if(p[0][i] != 0 || p[1][i] != 0)return void (cout << "NO");
+    }
+    cout << "YES";
 }
 
 signed main(){
