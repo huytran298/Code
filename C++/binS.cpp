@@ -29,19 +29,14 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
-long long sumOfN(long long n){
+long long f(long long n){
     if(n == 1)return 1;
-    else return n + sumOfN(n - 1);
+    if(n == 0)return 0;
+    return f(n - 1) + f(n - 2);
 }
-
 signed main(){
     fast; 
-    //callback function
-    ll n;
-    cin >> n;
-    cout << sumOfN(n);
-    //backtracking 
+    ll 
         
 
 }
