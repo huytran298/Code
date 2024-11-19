@@ -44,20 +44,25 @@ void solve(){
     while(q --){
         ll x;
         cin >> x;
-        if(x <= n){
-            cout << s[x - 1] << ' ';
-            continue;
-        }
-        x --;
-        ll tmp = x / n;
-        tmp = log(max(tmp, 1LL))/log(2LL);
-        //tmp ++;
-        //cout << 'f';
-        x -= (1LL << (tmp)) * n;
         
-        if(tmp % 2 == 0){
-            
+        x --;
+        ll cnt = 0;
+        while(x >= n){
+            ll tmp = (x - (x % n)) / n;
+            for(ll j = 63; j >= 0; j --){
+                if((bool)(tmp & (1LL << j))){
+                    tmp = j;
+                    break;
+                }
+            }
+            x -= (1LL << tmp) * n;
+            cnt ++;
         }
+        if(cnt % 2 != 0){
+            char p = s[x];
+            if(p >= 'a' && p <= 'z')cout << (char)(p - 32);
+            else cout << (char)(p + 32);
+        }else cout << s[x];
         cout << ' ';
     }
 
