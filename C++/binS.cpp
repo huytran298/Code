@@ -2,7 +2,7 @@
 using namespace std; 
 
 #define ll long long
-#define maxN (long long) 1e6 + 5
+#define maxN (long long) 1e5 + 5
 #define endl '\n'
 #define fi first
 #define se second
@@ -29,14 +29,74 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-long long f(long long n){
-    if(n == 1)return 1;
-    if(n == 0)return 0;
-    return f(n - 1) + f(n - 2);
+ll a[maxN], n;
+vector<ll> c(maxN, 0);
+ll cnt = 0;
+void bt(ll q){
+    if(q == n + 1 || q == n){
+        bt(q + 1);
+        return ;
+    }
+    for(int i = 2; i < 2 * n; i ++){
+        if(!c[i]){
+            a[q] = i;
+            c[i] = 1;
+            if(q == 2 * n){
+                bool check = false;
+                for(int j = 1; j <= n - 1; j ++){
+                    if(a[j] > a[j + 1]){
+                        check = true;
+                        break;
+                    }
+                }
+                
+                for(int j = 1; j <= n - 1; j ++){
+                    if(a[n + j] > a[n + j + 1]){
+                        check = true;
+                        break;
+                    }
+                }
+                
+                for(int j = 1; j <= n - 1; j ++){
+                    if(a[j] < a[j + n]){
+                        check = true;
+                        break;
+                    }
+                }
+                for(int j = 1; j <= n - 1; j ++){
+                    if(a[j] > a[j + 1]){
+                        check = true;
+                        break;
+                    }
+                }
+                
+                if(!check){
+                    cnt ++;
+                    for(int j = 1; j <= n; j ++){
+                        cout << a[j] << ' ';
+                    }
+                    cout << '\n';
+                    for(int j = 1; j <= n; j ++){
+                        cout << a[n + j] << ' ';
+                    }
+                    cout << "\n-------------------------\n";
+                }
+            }else {
+                bt(q + 1);
+            }
+            c[i] = 0;
+        }
+    }
 }
 signed main(){
     fast; 
-    ll 
-        
+   
+    cout << log(0)/log(2);
 
 }
+
+/*
+    Chia 2 TH : 
+    TH 1 : 2n và 2n - 1 chung cột. Số cách chọn sẽ là S_{n - 1}
+    TH 2 : 2n và 2n - 1 cùng hàng. 
+*/
