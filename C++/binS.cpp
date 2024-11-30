@@ -29,74 +29,33 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-ll a[maxN], n;
-vector<ll> c(maxN, 0);
-ll cnt = 0;
-void bt(ll q){
-    if(q == n + 1 || q == n){
-        bt(q + 1);
-        return ;
+vector<ll> pre(maxN + 1, 0);
+ll a[maxN + 1];
+ll tree[maxN * 4];
+void build(ll l, ll r, ll i){
+    if(l == r){
+        tree[i] = a[i];
+    }else {
+        ll mid = (l + r) / 2;
+        build(l, mid, i * 2);
+        build(mid + 1, r, i * 2 + 1);
+        ll tmp = pre[mid] - pre[l - 1];
+        tree[i] = max(tree[i * 2] + (tree[i * 2 + 1] - tmp * tree[i * 2]), tree[i * 2]);
     }
-    for(int i = 2; i < 2 * n; i ++){
-        if(!c[i]){
-            a[q] = i;
-            c[i] = 1;
-            if(q == 2 * n){
-                bool check = false;
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] > a[j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[n + j] > a[n + j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] < a[j + n]){
-                        check = true;
-                        break;
-                    }
-                }
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] > a[j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                if(!check){
-                    cnt ++;
-                    for(int j = 1; j <= n; j ++){
-                        cout << a[j] << ' ';
-                    }
-                    cout << '\n';
-                    for(int j = 1; j <= n; j ++){
-                        cout << a[n + j] << ' ';
-                    }
-                    cout << "\n-------------------------\n";
-                }
-            }else {
-                bt(q + 1);
-            }
-            c[i] = 0;
-        }
+}
+void solve(){
+    ll n, q;
+    cin >> n >> q;
+    
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+        pre[i] = pre[i - 1] + a[i];
     }
+    
+
 }
 signed main(){
     fast; 
    
-    cout << log(0)/log(2);
 
 }
-
-/*
-    Chia 2 TH : 
-    TH 1 : 2n và 2n - 1 chung cột. Số cách chọn sẽ là S_{n - 1}
-    TH 2 : 2n và 2n - 1 cùng hàng. 
-*/
