@@ -56,6 +56,19 @@ void solve(){
 }
 signed main(){
     fast; 
-   
-
+    long long k;
+    cin >> k;
+    k ++;
+    bool checkFirstBit = 0;
+    for(long long i = 63; i >= 0; i --){
+        if(k & (1LL << i)){
+            if(checkFirstBit == 0){
+                checkFirstBit = 1;
+                continue;
+            }
+            cout << 8;
+        }else if(checkFirstBit == 1){
+            cout << 5;
+        }
+    }
 }
