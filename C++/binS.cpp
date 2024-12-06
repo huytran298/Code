@@ -30,96 +30,46 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 
-ll sol1(priority_queue<ll> q, ll k, ll n, ll mid){
-    vector<ll> sm(k + 1, 0);
-     ll minz = 0, maxz = 0;
-    while(!q.empty()){
-        ll x = q.top();
-        q.pop();
-        ll had = 0;
-        ll minCheck = 0;
-        ll diff = 0, pos, diff1 = infi, pos1 = 0;
-        for(int i = 1; i <= k; i ++){
-            if(sm[i] == 0){
-                sm[i] += x;
-                had = 1;
-                break;
-            }else if(mid == sm[i] + x){
-                sm[i] += x;
-                had = 1;
-                break;
-            }else if(mid > sm[i] + x && mid - (sm[i] + x)  > diff){
-                diff = mid - (sm[i] + x);
-                minCheck = 1;
-                pos = i;
-            }else if(abs(mid - (sm[i] + x))  < diff1){
-                diff1 = abs(mid - (sm[i] + x));
-                pos1 = i;
-            }
-
-        }
-        if(!had){
-            if(minCheck)sm[pos] += x;
-            else sm[pos1] += x;
-        }
-
+vector<ll> pre(maxN + 1, 0);
+ll a[maxN + 1];
+ll tree[maxN * 4];
+void build(ll l, ll r, ll i){
+    if(l == r){
+        tree[i] = a[i];
+    }else {
+        ll mid = (l + r) / 2;
+        build(l, mid, i * 2);
+        build(mid + 1, r, i * 2 + 1);
+        ll tmp = pre[mid] - pre[l - 1];
+        tree[i] = max(tree[i * 2] + (tree[i * 2 + 1] - tmp * tree[i * 2]), tree[i * 2]);
     }
-    ll ans = 0;
-    for(int i = 1; i <= k; i ++)ans = max(ans, sm[i]);
-    return ans;
 }
-ll sol2(priority_queue<ll> q, ll k, ll n, ll mid){
-    vector<ll> sm(k + 1, 0);
-     ll minz = 0, maxz = 0;
-    while(!q.empty()){
-        ll x = q.top();
-        q.pop();
-        ll had = 0;
-        ll minCheck = 0;
-        ll diff = infi, pos, diff1 = infi, pos1 = 0;
-        for(int i = 1; i <= k; i ++){
-            if(sm[i] == 0){
-                sm[i] += x;
-                had = 1;
-                break;
-            }else if(mid == sm[i] + x){
-                sm[i] += x;
-                had = 1;
-                break;
-            }else if(mid > sm[i] + x && mid - (sm[i] + x)  < diff){
-                diff = mid - (sm[i] + x);
-                minCheck = 1;
-                pos = i;
-            }else if(abs(mid - (sm[i] + x))  < diff1){
-                diff1 = abs(mid - (sm[i] + x));
-                pos1 = i;
-            }
-
-        }
-        if(!had){
-            if(minCheck)sm[pos] += x;
-            else sm[pos1] += x;
-        }
+void solve(){
+    ll n, q;
+    cin >> n >> q;
+    
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+        pre[i] = pre[i - 1] + a[i];
     }
-    ll ans = 0;
-    for(int i = 1; i <= k; i ++)ans = max(ans, sm[i]);
-    return ans;
+    
+
 }
 signed main(){
     fast; 
-    ll n;
-    cin >> n;
-    vector<ll> a(n);
-    for(auto &q : a)cin >> q;
-    ll x;
-    cin >> x;
-    ll mid = 0, l = 0, r = n;
-    while(l < r){
-        mid = l + (r - l) / 2LL;
-        //cout << l << " " << r << ' ' << mid << ' ' << a[mid] << '\n';
-        if(a[mid] >= x)r = mid;
-        else l = mid + 1; 
+    long long k;
+    cin >> k;
+    k ++;
+    bool checkFirstBit = 0;
+    for(long long i = 63; i >= 0; i --){
+        if(k & (1LL << i)){
+            if(checkFirstBit == 0){
+                checkFirstBit = 1;
+                continue;
+            }
+            cout << 8;
+        }else if(checkFirstBit == 1){
+            cout << 5;
+        }
     }
-    if(l < n && a[l] < x)l ++;
-    cout << l;
 }
