@@ -29,74 +29,97 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-ll a[maxN], n;
-vector<ll> c(maxN, 0);
-ll cnt = 0;
-void bt(ll q){
-    if(q == n + 1 || q == n){
-        bt(q + 1);
-        return ;
-    }
-    for(int i = 2; i < 2 * n; i ++){
-        if(!c[i]){
-            a[q] = i;
-            c[i] = 1;
-            if(q == 2 * n){
-                bool check = false;
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] > a[j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[n + j] > a[n + j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] < a[j + n]){
-                        check = true;
-                        break;
-                    }
-                }
-                for(int j = 1; j <= n - 1; j ++){
-                    if(a[j] > a[j + 1]){
-                        check = true;
-                        break;
-                    }
-                }
-                
-                if(!check){
-                    cnt ++;
-                    for(int j = 1; j <= n; j ++){
-                        cout << a[j] << ' ';
-                    }
-                    cout << '\n';
-                    for(int j = 1; j <= n; j ++){
-                        cout << a[n + j] << ' ';
-                    }
-                    cout << "\n-------------------------\n";
-                }
-            }else {
-                bt(q + 1);
+
+ll sol1(priority_queue<ll> q, ll k, ll n, ll mid){
+    vector<ll> sm(k + 1, 0);
+     ll minz = 0, maxz = 0;
+    while(!q.empty()){
+        ll x = q.top();
+        q.pop();
+        ll had = 0;
+        ll minCheck = 0;
+        ll diff = 0, pos, diff1 = infi, pos1 = 0;
+        for(int i = 1; i <= k; i ++){
+            if(sm[i] == 0){
+                sm[i] += x;
+                had = 1;
+                break;
+            }else if(mid == sm[i] + x){
+                sm[i] += x;
+                had = 1;
+                break;
+            }else if(mid > sm[i] + x && mid - (sm[i] + x)  > diff){
+                diff = mid - (sm[i] + x);
+                minCheck = 1;
+                pos = i;
+            }else if(abs(mid - (sm[i] + x))  < diff1){
+                diff1 = abs(mid - (sm[i] + x));
+                pos1 = i;
             }
-            c[i] = 0;
+
+        }
+        if(!had){
+            if(minCheck)sm[pos] += x;
+            else sm[pos1] += x;
+        }
+
+    }
+    ll ans = 0;
+    for(int i = 1; i <= k; i ++)ans = max(ans, sm[i]);
+    return ans;
+}
+ll sol2(priority_queue<ll> q, ll k, ll n, ll mid){
+    vector<ll> sm(k + 1, 0);
+     ll minz = 0, maxz = 0;
+    while(!q.empty()){
+        ll x = q.top();
+        q.pop();
+        ll had = 0;
+        ll minCheck = 0;
+        ll diff = infi, pos, diff1 = infi, pos1 = 0;
+        for(int i = 1; i <= k; i ++){
+            if(sm[i] == 0){
+                sm[i] += x;
+                had = 1;
+                break;
+            }else if(mid == sm[i] + x){
+                sm[i] += x;
+                had = 1;
+                break;
+            }else if(mid > sm[i] + x && mid - (sm[i] + x)  < diff){
+                diff = mid - (sm[i] + x);
+                minCheck = 1;
+                pos = i;
+            }else if(abs(mid - (sm[i] + x))  < diff1){
+                diff1 = abs(mid - (sm[i] + x));
+                pos1 = i;
+            }
+
+        }
+        if(!had){
+            if(minCheck)sm[pos] += x;
+            else sm[pos1] += x;
         }
     }
+    ll ans = 0;
+    for(int i = 1; i <= k; i ++)ans = max(ans, sm[i]);
+    return ans;
 }
 signed main(){
     fast; 
-   
-    cout << log(0)/log(2);
-
+    ll n;
+    cin >> n;
+    vector<ll> a(n);
+    for(auto &q : a)cin >> q;
+    ll x;
+    cin >> x;
+    ll mid = 0, l = 0, r = n;
+    while(l < r){
+        mid = l + (r - l) / 2LL;
+        //cout << l << " " << r << ' ' << mid << ' ' << a[mid] << '\n';
+        if(a[mid] >= x)r = mid;
+        else l = mid + 1; 
+    }
+    if(l < n && a[l] < x)l ++;
+    cout << l;
 }
-
-/*
-    Chia 2 TH : 
-    TH 1 : 2n và 2n - 1 chung cột. Số cách chọn sẽ là S_{n - 1}
-    TH 2 : 2n và 2n - 1 cùng hàng. 
-*/

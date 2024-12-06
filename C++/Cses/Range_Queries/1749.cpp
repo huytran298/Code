@@ -8,6 +8,7 @@
 using namespace std; 
 
 #define ll long long
+#define int long long
 #define maxN (ll) 1e6 + 5
 #define endl '\n'
 #define fi first
@@ -35,33 +36,48 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
-vector<ll> tree(maxN * 4, 0);
-void update(ll l, ll r, ll i, ll u, ll v){
-    if(l > v || r < u)return ;
-    else if(l >= u && r <= v)tree[i] ++;
-    else {
-        ll mid = (l + r) / 2LL;
-        tree[i * 2] += tree[i];
-        tree[i * 2 + 1] += tree[i];
-        tree[i] = 0;
-        update(l, mid, i * 2, u, v);
-        update(mid + 1, r, i * 2 + 1, u, v);
+int bit[maxN];
+ll n;
+int getSum(int p) {
+    int idx = p, ans = 0;
+    while (idx > 0) {
+        ans += bit[idx];
+        idx -= (idx & (-idx));
+    }
+    return ans;
+}
+void update(int u, int v) {
+    int idx = u;
+    while (idx <= n) {
+        bit[idx] += v;
+        idx += (idx & (-idx));
     }
 }
-ll get(ll l, ll r, ll i, ll k){
-    if(l > k || r < k)return infi;
-    else {
-        ll mid = (l + r) / 2LL;
-        tree[i * 2] += tree[i];
-        tree[i * 2 + 1] += tree[i];
-        tree[i] = 0;
-        return min(get(l, mid, i * 2, k), get(mid + 1, r, i * 2, k));
-    }
-}
-
 void solve(){
-    
+    //ll n;
+    cin >> n;
+    ll a[n + 1];
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+        update(i, 1);
+    }
+    vector<ll> ck(n + 1, 1);
+    for(int i = 1; i <= n; i ++){
+        ll x; cin >> x;
+        ll l = 1, r = n;
+        while(l <= r){
+            ll mid = (l + r) >> 1LL;
+            ll tmp = getSum(mid);
+            if(tmp == x && ck[mid]){
+                //while(!ck[mid])mid --;
+                cout << a[mid]  << ' ';
+                ck[mid] = 0;
+                update(mid, -1);
+                break;
+            }else if(tmp < x)l = mid + 1;
+            else r = mid - 1;
+        }
+    }
 }
 
 signed main(){
