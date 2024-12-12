@@ -44,13 +44,21 @@ void solve(){
         sum += (x - '0');
         cnt[x - '0'] ++;
     }
-    ll delta = sum % 9;
+    ll delta = 9 - (sum % 9);
+    
+    //ll cnt2 = cnt[2], cnt6 = cnt[3];
+    if(delta == 9)cout << "YES";
+    else if(delta % 2 == 0 && cnt[2] >= delta / 2)cout << "YES";
+    else if(delta == 6 && cnt[3] > 0)cout << "YES";
+    else if(delta == 8 && cnt[3] * cnt[2] > 0)cout << "YES";
+    else cout << "NO";
     
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    
     cin >> t;
     while(t --) {
         solve();
