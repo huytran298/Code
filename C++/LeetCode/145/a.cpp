@@ -36,36 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    string s;
-    cin >> s;
-    ll n = s.size();
-    vector<ll> state(n + 1, 0);
-    ll cnt = 0;
-    for(int i = 0; i < n; i ++){
-        ll maxDigit = s[i] - '0', pos = 0, cntTmp = 0;
-        for(int j = i + 1; j < n && (j - i) < 10; j ++){
-            ll tmp = s[j] - '0';
-            if(tmp - (j - i) > maxDigit){
-                maxDigit = tmp - (j - i);
-                pos = j;
-            }
-            cntTmp ++;
-        }
-        if(pos != 0){
-            cout << maxDigit;
-            while(pos > 0)swap(s[pos], s[pos - 1]), pos --;
-        }else {
-            cout << s[i];
-        }
-        //cout << endl;
        
-    }
 }
-
+int minOperations(vector<int>& nums, int k) {
+    int cnt = 0;
+    set<int> q;
+    for(auto x : nums){
+        if(x > k)q.insert(x);
+        else if(x < k)return -1;
+    }
+    return q.size();
+}
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

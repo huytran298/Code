@@ -44,8 +44,12 @@ void solve(){
         sum += (x - '0');
         cnt[x - '0'] ++;
     }
-    ll delta = sum % 9;
-    
+    for(int i = 0; i <= cnt[2]; i ++){
+        for(int j = 0; j <= cnt[3]; j ++){
+            if((sum + i * 2 + j * 6) % 9 == 0)return void (cout << "YES");
+        }
+    }
+    cout << "NO";
 }
 
 signed main(){
