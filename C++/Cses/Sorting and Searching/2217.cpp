@@ -36,13 +36,30 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void prcs(vector<ll> &pos, vector<ll> &a, ll u, ll v, ll n, ll &ans){
-    
+    ll tmp = 0;
+    for(int i = max(a[u] - 1, 1LL); i < min(a[u] + 1, n); i ++){
+        if(pos[i + 1] < pos[i])ans --;
+    }
+    //cout << ans << ' ';
+    for(int i = max(a[v] - 1, 1LL); i < min(a[v] + 1, n); i ++){
+        if(i == a[u] || i + 1 == a[u])continue;
+        if(pos[i + 1] < pos[i])ans --;
+    }
+    swap(a[u], a[v]);
+    swap(pos[a[u]], pos[a[v]]);
 
+    for(int i = max(a[u] - 1, 1LL); i < min(a[u] + 1, n); i ++){
+        if(pos[i + 1] < pos[i])ans ++;
+    }
+    for(int i = max(a[v] - 1, 1LL); i < min(a[v] + 1, n); i ++){
+        if(i == a[u] || i + 1 == a[u])continue;
+        if(pos[i + 1] < pos[i])ans ++;
+    }
 }
 void solve(){
     ll n, m;
     cin >> n >> m;
-    vector<ll> a(n + 1), pos(n + 1, 0), chk(n + 1, 0);
+    vector<ll> a(n + 1), pos(n + 1, 0);
     for(int i = 1; i <= n; i ++){
         cin >> a[i];
         pos[a[i]] = i;
@@ -50,22 +67,20 @@ void solve(){
     ll ans = 1;
     for(int i = 1; i < n; i ++){
         if(pos[i + 1] < pos[i]){
-            chk[i] = 1;
+            //chk[i] = 1;
             ans ++;
         }
     }
+   
     for(int i = 1; i <= m; i ++){
         ll u, v;
         cin >> u >> v;
-        pos[a[u]] = v;
-        pos[a[v]] = u;
-        swap(a[u], a[v]);
-        if(a[u] != n){
-            if(pos[a[u] + 1] < pos[a[u]] && !chk[a[u]])ans ++;
-        }
+        ll tmp = 0;
+        prcs(pos, a, u, v, n, ans);
         cout << ans << '\n';
     }
-    cout << ans << endl;
+    //for(int i = 1; i <= n; i ++)cout << pos[i] << ' ';
+    //cout << ans << endl;
 }
 
 signed main(){

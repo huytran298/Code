@@ -50,7 +50,11 @@ void solve(){
     cout << ans;
     
 }
-
+void solve2(){
+    ll n;
+    cin >> n;
+    
+}
 signed main(){
     fast; 
     ll t = 1;
