@@ -1,0 +1,1 @@
+{"name":"Local: binS","url":"c:\\Users\\huyhuyne\\Documents\\Code\\C++\\binS.cpp","tests":[{"id":1733072071818,"input":"5 \n1 1 2 4 5\n2","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\huyhuyne\\Documents\\Code\\C++\\binS.cpp","group":"local","local":true}
