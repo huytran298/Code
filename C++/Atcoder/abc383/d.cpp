@@ -36,27 +36,12 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    string s;
-    cin >> s;
-    vector<ll> cnt(10, 0);
-    ll sum = 0;
-    for(auto x : s){
-        sum += (x - '0');
-        cnt[x - '0'] ++;
-    }
-    for(int i = 0; i <= cnt[2]; i ++){
-        for(int j = 0; j <= cnt[3]; j ++){
-            if((sum + i * 2 + j * 6) % 9 == 0)return void (cout << "YES");
-        }
-    }
-    cout << "NO";
-
+       
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    
     cin >> t;
     while(t --) {
         solve();

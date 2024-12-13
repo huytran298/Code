@@ -35,29 +35,45 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-    string s;
-    cin >> s;
-    vector<ll> cnt(10, 0);
-    ll sum = 0;
-    for(auto x : s){
-        sum += (x - '0');
-        cnt[x - '0'] ++;
-    }
-    for(int i = 0; i <= cnt[2]; i ++){
-        for(int j = 0; j <= cnt[3]; j ++){
-            if((sum + i * 2 + j * 6) % 9 == 0)return void (cout << "YES");
+vector<ll> visited(maxN, 0);
+vector<vector<ll>> graph(maxN);
+bool is_cycle = false;
+void dfs(ll u, ll status){
+    
+    visited[u] = ((status == 1)? 2 : 1);
+    for(auto x : graph[u]){
+        if(visited[x] == 0)dfs(x, ((status == 1)? 2 : 1));
+        else if(visited[u] == visited[x]){
+            is_cycle = true;
+            return;
         }
     }
-    cout << "NO";
+}
 
+void solve(){
+    ll n, m;
+    cin >> n >> m;
+    for(int i = 1; i <= m; i ++){
+        ll u, v;
+        cin  >> u >> v;
+        graph[u].pb(v);
+        graph[v].pb(u);
+    }
+    for(int i = 1; i <= n; i ++){
+        if(!is_cycle && visited[i] == 0){
+            dfs(i, 1);
+        }   
+    }
+    if(is_cycle)cout << "IMPOSSIBLE";
+    else {
+        for(int i = 1; i <= n; i ++)cout << visited[i] << ' ';
+    }
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

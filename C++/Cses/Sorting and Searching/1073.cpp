@@ -36,28 +36,30 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    string s;
-    cin >> s;
-    vector<ll> cnt(10, 0);
-    ll sum = 0;
-    for(auto x : s){
-        sum += (x - '0');
-        cnt[x - '0'] ++;
+    ll n;
+    cin >> n;
+    deque<ll> q;
+    for(int i = 1; i <= n; i ++){
+        ll x; cin >> x;
+        q.pb(x);
     }
-    for(int i = 0; i <= cnt[2]; i ++){
-        for(int j = 0; j <= cnt[3]; j ++){
-            if((sum + i * 2 + j * 6) % 9 == 0)return void (cout << "YES");
+    sort(bend(q));
+    ll cnt = 0;
+    while(!q.empty()){
+        ll tmp = q.back();
+        q.pop_back();
+        while(tmp > q.front() && !q.empty()){
+            tmp -= q.front();
+            q.pop_front();
         }
+        cnt ++;
     }
-    cout << "NO";
-
+    cout << cnt;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    
-    cin >> t;
     while(t --) {
         solve();
         cout << endl;

@@ -36,28 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    string s;
-    cin >> s;
-    vector<ll> cnt(10, 0);
-    ll sum = 0;
-    for(auto x : s){
-        sum += (x - '0');
-        cnt[x - '0'] ++;
+    ll n;
+    cin >> n;
+    ll t[n + 1], v[n + 1];
+    for(int i = 1; i <= n; i ++)cin >> t[i] >> v[i];
+    ll liters = v[1];
+    for(int i = 2; i <= n; i ++){
+        liters = max(0LL, liters - (t[i] - t[i - 1])) + v[i];
     }
-    for(int i = 0; i <= cnt[2]; i ++){
-        for(int j = 0; j <= cnt[3]; j ++){
-            if((sum + i * 2 + j * 6) % 9 == 0)return void (cout << "YES");
-        }
-    }
-    cout << "NO";
-
+    cout << liters;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;
