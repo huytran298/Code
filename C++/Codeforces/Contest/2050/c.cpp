@@ -50,11 +50,13 @@ void solve(){
         }
     }
     cout << "NO";
+
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    
     cin >> t;
     while(t --) {
         solve();
