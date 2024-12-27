@@ -1,4 +1,4 @@
-// ACCEPTED
+// time-limit: 3000
 /*
 **********************************
  Author : Akkotsu / huyhuyne         
@@ -36,27 +36,41 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    deque<ll> q;
-    vector<ll> height;
-    for(int i = 1; i <= n; i ++){
-        ll x; cin >> x;
-        if(height.empty() || height.back() <= x){
-            height.pb(x);
-        }else {
-            ll pos = upper_bound(bend(height), x) - height.begin();
-            height[pos] = x;
-            //sort(bend(height));
+    ll h, w, x, y;
+    cin >> h >> w >> x >> y;
+    vector<vector<char>> table(h + 1, vector<char>(w + 1));
+    for(int i = 1; i <= h; i ++){
+        for(int j = 1; j <= w; j ++){
+            cin >> table[i][j];
         }
     }
-    cout << height.size();
+    string t;
+    cin >> t;
+    vector<pair<ll, ll>> move(300);
+    move['U'] = {-1, 0};
+    move['L'] = {0, -1};
+    move['D'] = {1, 0};
+    move['R'] = {0, 1};
+    vector vis(h + 1, vector(w + 1, 0));
+    vis[x][y] = 1;
+    ll cnt = 0;
     
+    for(auto q : t){
+        auto [u, v] = move[q];
+        if(table[x + u][y + v] != '#'){
+            x += u;
+            y += v;
+        }
+        if(!vis[x][y] && table[x][y] == '@')cnt ++;
+        vis[x][y] = 1;
+    }
+    cout << x << ' ' << y << ' ' << cnt;
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

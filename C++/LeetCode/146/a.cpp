@@ -1,4 +1,4 @@
-// ACCEPTED
+// time-limit: 3000
 /*
 **********************************
  Author : Akkotsu / huyhuyne         
@@ -35,28 +35,21 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-    ll n;
-    cin >> n;
-    deque<ll> q;
-    vector<ll> height;
-    for(int i = 1; i <= n; i ++){
-        ll x; cin >> x;
-        if(height.empty() || height.back() <= x){
-            height.pb(x);
-        }else {
-            ll pos = upper_bound(bend(height), x) - height.begin();
-            height[pos] = x;
-            //sort(bend(height));
-        }
+int countSubarrays(vector<int>& nums) {
+    int n = nums.size(), cnt = 0;
+    for(int i = 1; i < n - 1; i ++){
+        if((nums[i - 1] + nums[i + 1]) * 2 == nums[i])cnt ++;
     }
-    cout << height.size();
-    
+    return cnt;
+}
+void solve(){
+       
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    cin >> t;
     while(t --) {
         solve();
         cout << endl;

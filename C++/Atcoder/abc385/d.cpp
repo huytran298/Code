@@ -1,4 +1,4 @@
-// ACCEPTED
+// time-limit: 3000
 /*
 **********************************
  Author : Akkotsu / huyhuyne         
@@ -36,27 +36,38 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    deque<ll> q;
-    vector<ll> height;
+    ll n, m, sx, sy;
+    cin >> n >> m >> sx >> sy;
+    map<ll, vector<ll>> e;
+    set<ll> x;
     for(int i = 1; i <= n; i ++){
-        ll x; cin >> x;
-        if(height.empty() || height.back() <= x){
-            height.pb(x);
-        }else {
-            ll pos = upper_bound(bend(height), x) - height.begin();
-            height[pos] = x;
-            //sort(bend(height));
+        ll u, v;
+        cin >> u >> v;
+        e[u].pb(v);
+        x.insert(u);
+    }
+    for(auto q : x)sort(bend(e[q]));
+    set<pair<ll, ll>> vis;
+    vector<pair<ll, ll>> move;
+    for(int i = 1; i <= m; i ++){
+        char u;
+        ll v;
+        cin >> u >> v;
+        move.pb({u, v});
+    }
+    for(auto q : move){
+        for(int i = 1; i <= q.second; i ++){
+            
         }
     }
-    cout << height.size();
+    
     
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;
