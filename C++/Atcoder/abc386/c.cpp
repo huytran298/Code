@@ -36,34 +36,41 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m, k;
-    cin >> n >> m >> k;
-    vector a(m + 1, 0LL), q(k + 1, 0LL), check(n + 1, 0LL);
-    for(int i = 1; i <= m; i ++){
-        cin >> a[i];
-        check[a[i]] = 1;
+    ll k;
+    string s, t;
+    cin >> k >> s >> t;
+    ll n = s.size(), m = t.size();
+    ll pos = 0;
+    ll cnt = 0;
+    if(abs(n - m) > k)return void (cout << "No");
+    for(int i = 0; i < s.size(); i ++){
+        if(pos > m){
+            cnt += n - i + 1;
+            break;
+        }
+        if(s[i] == t[pos])pos ++;
+        else {
+            if(n < m){ //insert
+                n ++;
+                cnt ++;
+                pos ++;
+                i --;
+            }else if(n == m){ //replace
+                cnt ++;
+                pos ++;
+            }else { //delete
+                cnt ++;
+            }
+        }
     }
-    for(int i = 1; i <= k; i ++){
-        cin >> q[i];
-        check[q[i]] = 0;
-    }
-    if(n - k > 1){
-        for(int i = 1; i <= m; i ++)cout << 0;
-        return;
-    }else if(k == n){
-        for(int i = 1; i <= m; i ++)cout << 1;
-        return;
-    }
-    for(int i = 1; i <= m; i ++){
-        cout << check[a[i]];
-    }
-    
+    if(cnt <= k)cout << "Yes";
+    else cout << "No";
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

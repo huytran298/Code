@@ -36,34 +36,42 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m, k;
-    cin >> n >> m >> k;
-    vector a(m + 1, 0LL), q(k + 1, 0LL), check(n + 1, 0LL);
+    ll n, m;
+    cin >> n >> m;
+    map<pair<ll, ll>, ll> q;
+    vector<pair<ll, ll>> a;
+    map<ll, pair<ll, ll>> r, c;
+    bool check = false;
     for(int i = 1; i <= m; i ++){
-        cin >> a[i];
-        check[a[i]] = 1;
-    }
-    for(int i = 1; i <= k; i ++){
-        cin >> q[i];
-        check[q[i]] = 0;
-    }
-    if(n - k > 1){
-        for(int i = 1; i <= m; i ++)cout << 0;
-        return;
-    }else if(k == n){
-        for(int i = 1; i <= m; i ++)cout << 1;
-        return;
+        ll x, y, color;
+        cin >> x >> y >> color;
+        q[{x, y}] = color;
+        a.pb({x, y});
     }
     for(int i = 1; i <= m; i ++){
-        cout << check[a[i]];
+        if(check) continue;
+        auto [x, y] = a[i - 1];
+        ll color = q[{x, y}];
+        if(r[x].first == 0)r[x] = {y, color};
+        else {
+            if(r[x].first > y)r[x] = {y, color};
+            else if(r[x].second != color) check = 1;
+        }
+        if(check) continue;
+        if(c[y].first == 0)c[y] = {x, color};
+        else {
+            if(c[y].first > y)c[y] = {x, color};
+            else if(c[y].second != color) check = 1;
+        }
     }
-    
+    if(check)cout << "No";
+    else cout << "Yes";
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

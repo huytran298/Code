@@ -36,34 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m, k;
-    cin >> n >> m >> k;
-    vector a(m + 1, 0LL), q(k + 1, 0LL), check(n + 1, 0LL);
-    for(int i = 1; i <= m; i ++){
-        cin >> a[i];
-        check[a[i]] = 1;
-    }
-    for(int i = 1; i <= k; i ++){
-        cin >> q[i];
-        check[q[i]] = 0;
-    }
-    if(n - k > 1){
-        for(int i = 1; i <= m; i ++)cout << 0;
-        return;
-    }else if(k == n){
-        for(int i = 1; i <= m; i ++)cout << 1;
-        return;
-    }
-    for(int i = 1; i <= m; i ++){
-        cout << check[a[i]];
-    }
-    
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    set<ll> q;
+    q.insert(a);
+    q.insert(b);
+    q.insert(c);
+    q.insert(d);
+    if(q.size() == 2)cout << "Yes";
+    else cout << "No";
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

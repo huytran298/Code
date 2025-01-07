@@ -4,10 +4,11 @@
  Author : Akkotsu / huyhuyne         
 **********************************
 */
-#include<bits/stdc++.h>
-using namespace std; 
-
+#include <bits/stdc++.h>
+using namespace std;
+ 
 #define ll long long
+#define int long long
 #define maxN (ll) 1e6 + 5
 #define endl '\n'
 #define fi first
@@ -35,10 +36,40 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-       
-}
 
+
+ll countPairSum(ll arr[], ll L, ll R, ll N){
+    sort(arr, arr + N);
+    ll right = N - 1, count = 0;
+    while (right > 0) {
+        ll start = lower_bound(arr, arr + N, L - arr[right]) - arr;
+        auto it2 = upper_bound(arr, arr + N, R - arr[right]);
+        --it2;
+        ll end = it2 - arr;
+        end = min(end, right - 1);
+        if (end - start >= 0) {
+            count += (end - start + 1);
+        }
+        right--;
+    }
+    return count;
+}
+void solve(){
+    ll n, x, y;
+    cin >> n >> x >> y;
+    ll a[n];
+    ll sum = 0;
+    for(int i = 0; i < n; i ++){
+        cin >> a[i];
+        sum += a[i];
+    }
+    cout << countPairSum(a, sum - y, sum - x, n);
+}
+/*
+x <= s - ai - aj <= y
+s - x >= ai + aj >= y + s
+
+*/
 signed main(){
     fast; 
     ll t = 1;
