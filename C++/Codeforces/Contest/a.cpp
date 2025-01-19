@@ -36,7 +36,17 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-       
+    ll n;
+    cin >> n;
+    vector a(n + 1, 0LL);
+    vector b(n + 1, 0LL);
+    for(int i = 1; i <= n; i ++)cin >> a[i];
+    for(int i = 1; i <= n; i ++)cin >> b[i];
+    ll ans = a[n];
+    for(int i = 1; i < n; i ++){
+        if(a[i] > b[i + 1])ans += (a[i] - b[i + 1]);
+    }
+    cout << ans;
 }
 
 signed main(){
