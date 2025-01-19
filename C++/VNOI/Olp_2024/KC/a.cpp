@@ -35,47 +35,59 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-ll bit[maxN];
-ll n;
-ll getSum(ll p) {
-    ll idx = p, ans = 0;
-    while (idx > 0) {
-        ans += bit[idx];
-        idx -= (idx & (-idx));
+
+
+bool check1(string s){
+    ll n = s.size();
+    string s1 = s.substr(0, (n - 1) / 2);
+    ll end = n - 1;
+    ll pos = 0;
+    for(int i = (n - 1) / 2; i < end; i ++){
+        if(s[i] != s1[pos])end = min(end + 1, n);
+        else pos ++;
     }
-    return ans;
-}
-void update(ll u, ll v) {
-    ll idx = u;
-    while (idx <= n) {
-        bit[idx] += v;
-        idx += (idx & (-idx));
-    }
+    //cout << "pos : " << pos << endl;
+    return pos == (n - 1) / 2;
+
 }
 void solve(){
-    ll q;
-    cin >> n >> q;
-    for(int i = 0; i < n; i ++)cin >> bit[i];
-    while(q -- ){
-        ll t;
-        cin >> t;
-        if(t == 1){
-            ll k, u;
-            cin >> k >> u;
-            update(k - 1, u);
-        }else {
-            ll a, b;
-            cin >> a >> b;
-            cout << getSum(b - 1) - getSum(max(a - 2, 0LL)) << endl;
+    string s;
+    ll n;
+    cin >> n >> s;
+    if(n < 3 && n % 2 == 0)return void (cout << "No Solution");
+    vector cnt('Z' + 1, 0LL);
+    for(auto x : s)cnt[x] ++;
+    ll check = 0, tmp = 0;
+    for(int i = 'A'; i <= 'Z'; i ++){
+        if(cnt[i] == 0)continue;
+        if(cnt[i] % 2 != 0){
+            check ++;
+            tmp = cnt[i];
         }
+        
+    }
+    if(check == 1){
+        //ll tmp = 0;
+        string t = s;
+        reverse(bend(t));
+        bool t1 = check1(s), t2 = check1(t);
+        //cout << t1 << ' ' << t2;
+        string s1 = s.substr(0, (n - 1) / 2), s2 = s.substr(n - ((n - 1) / 2), (n - 1) / 2);
+        if(t1 && t2 & (s1 != s2))cout << "Multiple Solutions";
+        else if(t1){
+            cout << s.substr(0, (n - 1) / 2);
+        }else if(t2) cout << s.substr(n - ((n - 1) / 2), (n - 1) / 2);
+        else cout << "No Solution";
 
     }
+    else cout << "No Solution";
+    
 }
 
 signed main(){
     fast; 
     ll t = 1;
-//    cin >> t;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;

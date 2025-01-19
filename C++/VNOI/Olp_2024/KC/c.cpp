@@ -1,4 +1,4 @@
-// ACCEPTED
+// time-limit: 3000
 /*
 **********************************
  Author : Akkotsu / huyhuyne         
@@ -36,25 +36,45 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n;
-    cin >> n;
-    vector<ll> height;
-    for(int i = 1; i <= n; i ++){
-        ll x; cin >> x;
-        if(height.empty() || height.back() <= x){
-            height.pb(x);
-        }else {
-            ll pos = upper_bound(bend(height), x) - height.begin();
-            height[pos] = x;
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> lstPrime(1e6, 1LL);
+    lstPrime[2] = 1;
+    for(ll i = 2; i * i <= 1e6; i ++){
+        if(lstPrime[i]){
+            for(int j = i * i; j <= 1e6; j += i){
+                lstPrime[j] = 0;
+            }
         }
     }
-    cout << height.size();
+    vector<ll> prime;
+    for(int i = 2; i < 1e6; i ++){
+        if(lstPrime[i])prime.pb(i);
+    }
+    ll ans = 0;
+    for(int i = prime.size() - 1; i >= 2; i --){
+        if(prime[i] * prime[i - 1] * prime[i - 2] > n)continue;
+        bool check = 0;
+        for(ll a = 2; a <= k; a ++){
+            for(ll b = 2; b <= k; b ++){
+                if(a + b >= k)break;
+                if(k % a != 0 || k % b != 0)continue;
+                ll sA = pow(prime[i], a - 1), sB = pow(prime[i - 1], b - 1), sC = pow(prime[i - 2], k/(a * b) - 1);
+                if(sA * sB * sC <= n){
+                    ans = max(ans, sA * sB * sC);
+                    check = 1;
+                }
+            }
+        }
+    }
+    cout << ans;
     
 }
 
 signed main(){
     fast; 
     ll t = 1;
+    //cin >> t;
     while(t --) {
         solve();
         cout << endl;
