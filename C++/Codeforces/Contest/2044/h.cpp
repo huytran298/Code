@@ -39,30 +39,30 @@ void solve(){
     ll n, q;
     cin >> n >> q;
     ll tbl[n + 1][n + 1];
-    vector<vector<ll>> pre1(n + 1, vector<ll>(n + 1, 0)), a(n + 1, vector<ll>(n + 1, 0)), pre2(n + 1, vector<ll>(n + 1, 0));
-    ll h = 1;
+
+    vector<vector<ll>> pre1(n + 1, vector<ll>(n + 1, 0)), pre2(n + 1, vector<ll>(n + 1, 0));
     for(int i = 1; i <= n; i ++){
-        ll sum = 0;
         for(int j = 1; j <= n; j ++){
             ll x;
             cin >> x;
-            sum +=  x * h;    
-            a[i][j] = h;      
+            pre1[i][j] = pre1[i][j - 1] + x * j;
             pre2[i][j] = pre2[i][j - 1] + x;
-            pre1[i][j] = pre1[i - 1][j] + sum;
-            h ++;
         }
     }
-    while(q -- ){
+    while(q --){
         ll x1, y1, x2, y2, ans = 0;
         cin >> x1 >> y1 >> x2 >> y2;
-        ll delta = a[x1][y1] - 1;
+        ll tmp = 1;
         for(int i = x1; i <= x2; i ++){
-            //ll tmp = pre1[x2][y2] - pre1[x1 - 1][y2] - pre1[x2][y1 - 1];
-            ans += delta * (pre2[i][y2] - pre2[i][y1 - 1]);
-            delta += n - (y2 - y1 + 1);
+            if(y1 < tmp){
+                ans += (pre1[i][y2] - pre1[i][y1 - 1]) + abs(tmp - y1)*(pre2[i][y2] - pre2[i][y1 - 1]);
+            }else {
+                ans += (pre1[i][y2] - pre1[i][y1 - 1]) - abs(tmp - y1)*(pre2[i][y2] - pre2[i][y1 - 1]);
+            }
+            //cout << tmp << endl;
+            tmp += y2 - y1 + 1;
         }
-        cout << pre1[x2][y2] - pre1[x1 - 1][y2] - pre1[x2][y1 - 1] + pre1[x1 - 1][y1 - 1] - ans << ' ';
+        cout << ans << ' ';
     }
 }
 
