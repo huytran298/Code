@@ -36,14 +36,21 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll r;
-    cin >> r;
-    ll sum = 0;
-    for(ll i = 1LL; i <= r; i ++){
-        sum += floor(sqrt(r*r - i*i));
+    ll n, m;
+    cin >> n >> m;
+    vector check(n + 1, 0);
+    ll c = 0;
+    for(int i = 1; i <= m; i ++){
+        ll x;
+        cin >> x;
+        
+        check[x] = 1;
     }
-    sum *= 4;
-    cout << sum;
+    for(int i = 1; i <= n; i ++)if(!check[i]) c++;      
+    cout << c << endl;
+    for(int i = 1; i <= n; i ++){
+        if(!check[i])cout << i << ' ';
+    }
 }
 
 signed main(){

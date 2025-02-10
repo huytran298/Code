@@ -36,14 +36,30 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll r;
-    cin >> r;
-    ll sum = 0;
-    for(ll i = 1LL; i <= r; i ++){
-        sum += floor(sqrt(r*r - i*i));
+    ll h, w;
+    cin >> h >> w;
+    vector<pair<ll, ll>> unstand;
+    char tbl [h + 1][w + 1];
+    ll a = infi , b = infi, u = 0, v = 0;
+    for(ll i = 1; i <= h; i ++){
+        for(ll j = 1; j <= w; j ++){
+            cin >> tbl[i][j];
+            if(tbl[i][j] == '#'){
+                a = min(a, i);
+                b = min(b, j);
+                u = max(u, i);
+                v = max(v, j);
+            }
+        }
     }
-    sum *= 4;
-    cout << sum;
+    for(int i = a; i <= u; i ++){
+        for(int j = b; j <= v; j ++){
+            if(tbl[i][j] == '.')return void (cout << "No");
+        }
+    }
+    cout << "Yes";
+    
+
 }
 
 signed main(){

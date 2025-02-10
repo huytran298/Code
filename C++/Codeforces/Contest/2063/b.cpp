@@ -12,7 +12,7 @@ using namespace std;
 #define endl '\n'
 #define fi first
 #define se second
-#define infi (int)(1e18)
+#define infi (ll)(1e18)
 #define bend(a) (a).begin(), (a).end()
 #define rbend(a) (a).rbegin(), (a).rend()
 #define gcd(a, b) __gcd(a, b)
@@ -36,20 +36,28 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll r;
-    cin >> r;
-    ll sum = 0;
-    for(ll i = 1LL; i <= r; i ++){
-        sum += floor(sqrt(r*r - i*i));
+    ll n, l, r;
+    cin >> n >> l >> r;
+    vector<ll> ls, rs, a(n);
+    for(int i = 0; i < n; i ++)cin >> a[i];
+    for(int i = 0; i < r; i ++)rs.pb(a[i]);
+    for(int i = l - 1; i < n; i ++)ls.pb(a[i]);
+    sort(bend(ls));
+    sort(bend(rs));
+    ll R, L;
+    R = L = 0;
+    for(int i = 0; i <= r - l; i ++){
+        L += ls[i];
+        R += rs[i];
     }
-    sum *= 4;
-    cout << sum;
+    cout << min(R, L);
+    
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    //cin >> t;
+    cin >> t;
     while(t --) {
         solve();
         cout << endl;

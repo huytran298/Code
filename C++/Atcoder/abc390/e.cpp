@@ -36,20 +36,25 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll r;
-    cin >> r;
-    ll sum = 0;
-    for(ll i = 1LL; i <= r; i ++){
-        sum += floor(sqrt(r*r - i*i));
+    ll n, x;
+    cin >> n >> x;
+    vector<vector<pair<ll, ll>>> vtm(4);
+    vector<ll> totl(4, 0LL);
+    for(int i = 1; i <= n; i ++){
+        ll v, a, c;
+        cin >> v >> a >> c;
+        vtm[v].pb({a, c});
+        totl[v] += a;
     }
-    sum *= 4;
-    cout << sum;
+    
+    
+
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    //cin >> t;
+    cin >> t;
     while(t --) {
         solve();
         cout << endl;

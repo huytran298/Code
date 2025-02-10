@@ -36,14 +36,32 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll r;
-    cin >> r;
-    ll sum = 0;
-    for(ll i = 1LL; i <= r; i ++){
-        sum += floor(sqrt(r*r - i*i));
+    vector num(maxN, pair<double, double>(0, 0));
+    ll n;
+    cin >> n;
+    for(int i = 1; i <= n; i ++){
+        ll k;
+        cin >> k;
+        map<ll, double> cnt;
+        set<ll> numFace;
+        for(int i = 1; i <= k; i ++){
+            ll x;
+            cin >> x;
+            cnt[x] ++;
+            numFace.insert(x);
+        }
+        for(double x : numFace){
+            double prob = cnt[x] / (double)k;
+            if(num[x].second < prob && num[x].first != infi)num[x].second = prob;
+            else if(num[x].first < prob)num[x].first = prob;
+        }
     }
-    sum *= 4;
-    cout << sum;
+    double ans = 0.0;
+    for(int i = 1; i <= maxN; i ++){
+        maxSelf(ans, num[i].first * num[i].second);
+    }
+    cout << fixed << setprecision(7) << ans;
+
 }
 
 signed main(){
