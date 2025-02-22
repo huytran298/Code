@@ -1,7 +1,14 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
 #define ll long long
+#define int long long
 #define maxN (ll) 1e6 + 5
 #define endl '\n'
 #define fi first
@@ -20,7 +27,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -30,32 +37,50 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll tbl[n + 1][m + 1];
+    ll n;   
+    cin >> n;
+    string s;
+    cin >> s;
+    vector<ll> num;
+    ll state = -1;
     for(int i = 0; i < n; i ++){
-        for(int j = 0; j < m; j ++){
-            cin >> tbl[i][j];
+        if(s[i] == '1'){
+            if(state == -1){
+                state = i;
+                num.pb(0);
+            }
+            else {
+                num.pb(i - state - 1);
+                state = i;
+            }
         }
     }
-    ll q;
-    cin >> q;
-    vector<vector<ll>> p(n + 1, vector<ll> (m + 1, 0));
-    ll a[q + 1], b[q + 1], c[q + 1], d[n + 1];
-
-    for(int i = 1; i <= q; i ++){
-        ll k;
-        cin >> a[i] >> b[i] >> c[i] >> d[i] >> k;
-        p[a[i]][b[i]] += k;
-        p[a[i]][b[i] + 1] 
+    
+    ll l = 0, r = 0;
+    ll tmp = 0;
+    for(int i = 1; i < num.size(); i ++){
+        tmp += num[i];
+        r += tmp;
     }
+    
+    ll ans = infi;
+    for(ll i = 0; i < num.size(); i ++){
+        r -= num[i] * (num.size() - i);
+        l += num[i] * (i);
+        ans = min(ans, l + r);
+        //cout << l << ' ' << r << endl;
+        //if(i == 2) return; 
+    }
+    if(ans == infi)ans = 0;
+    cout << ans;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
-    while(t --){
+    //cin >> t;
+    while(t --) {
         solve();
+        cout << endl;
     }
 }

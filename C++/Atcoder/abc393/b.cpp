@@ -1,3 +1,9 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
@@ -20,7 +26,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -30,32 +36,26 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll tbl[n + 1][m + 1];
+    string s;
+    cin >> s;
+    ll n = s.size();
+    ll cnt = 0;
     for(int i = 0; i < n; i ++){
-        for(int j = 0; j < m; j ++){
-            cin >> tbl[i][j];
+        if(s[i] == 'A'){
+            for(int j = i + 1; 2 * j - i < n; j ++){
+                if(s[j] == 'B' && s[2 * j - i] == 'C')cnt ++;
+            }
         }
     }
-    ll q;
-    cin >> q;
-    vector<vector<ll>> p(n + 1, vector<ll> (m + 1, 0));
-    ll a[q + 1], b[q + 1], c[q + 1], d[n + 1];
-
-    for(int i = 1; i <= q; i ++){
-        ll k;
-        cin >> a[i] >> b[i] >> c[i] >> d[i] >> k;
-        p[a[i]][b[i]] += k;
-        p[a[i]][b[i] + 1] 
-    }
+    cout << cnt;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
-    while(t --){
+   // cin >> t;
+    while(t --) {
         solve();
+        cout << endl;
     }
 }

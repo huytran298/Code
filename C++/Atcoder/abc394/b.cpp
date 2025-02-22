@@ -1,3 +1,9 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
@@ -20,7 +26,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -29,33 +35,28 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
+bool cmp(string &a, string &b){
+    return a.size() < b.size();
+}
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll tbl[n + 1][m + 1];
+    ll n;
+    cin >> n;
+    vector<string> arr;
     for(int i = 0; i < n; i ++){
-        for(int j = 0; j < m; j ++){
-            cin >> tbl[i][j];
-        }
+        string s;
+        cin >> s;
+        arr.pb(s);
     }
-    ll q;
-    cin >> q;
-    vector<vector<ll>> p(n + 1, vector<ll> (m + 1, 0));
-    ll a[q + 1], b[q + 1], c[q + 1], d[n + 1];
-
-    for(int i = 1; i <= q; i ++){
-        ll k;
-        cin >> a[i] >> b[i] >> c[i] >> d[i] >> k;
-        p[a[i]][b[i]] += k;
-        p[a[i]][b[i] + 1] 
-    }
+    sort(bend(arr), cmp);
+    for(auto x : arr)cout << x;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
-    while(t --){
+    //cin >> t;
+    while(t --) {
         solve();
+        cout << endl;
     }
 }

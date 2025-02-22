@@ -1,3 +1,9 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
@@ -20,7 +26,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -30,32 +36,33 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll tbl[n + 1][m + 1];
+    string s;
+    cin >> s;
+    ll l = -1, r = -1;
+    ll n = s.size();
     for(int i = 0; i < n; i ++){
-        for(int j = 0; j < m; j ++){
-            cin >> tbl[i][j];
-        }
-    }
-    ll q;
-    cin >> q;
-    vector<vector<ll>> p(n + 1, vector<ll> (m + 1, 0));
-    ll a[q + 1], b[q + 1], c[q + 1], d[n + 1];
+        if(s[i] == 'W' && l == -1){
+            l = i;
 
-    for(int i = 1; i <= q; i ++){
-        ll k;
-        cin >> a[i] >> b[i] >> c[i] >> d[i] >> k;
-        p[a[i]][b[i]] += k;
-        p[a[i]][b[i] + 1] 
+        }else if(s[i] == 'A' && l != -1){
+            s[l] = 'A';
+            l ++;
+            while(l <= i){
+                s[l] = 'C';
+                l ++;
+            }
+            l = -1;
+        }else if(s[i] != 'W')l = -1;
     }
+    cout << s;
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
-    while(t --){
+    //cin >> t;
+    while(t --) {
         solve();
+        cout << endl;
     }
 }
