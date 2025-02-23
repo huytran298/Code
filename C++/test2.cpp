@@ -29,26 +29,70 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-    ll n, m;
-    cin >> n >> m;
-    ll tbl[n + 1][m + 1];
-    for(int i = 0; i < n; i ++){
-        for(int j = 0; j < m; j ++){
-            cin >> tbl[i][j];
+vector<vector<ll>> graph;
+vector<ll> visited;
+set<ll> removeEdge;
+map<pair<ll, ll>, ll> indexEdge;
+void dfs(ll u, ll v){
+    if(u != -1)visited[v] = visited[u];
+    for(auto x : graph[v]){
+        if(u != x && !visited[x]){
+            dfs(v, x);
+        }else if(u != x && visited[x]){
+            removeEdge.insert(indexEdge[{min(x, v), max(x, v)}]);
         }
     }
-    ll q;
-    cin >> q;
-    vector<vector<ll>> p(n + 1, vector<ll> (m + 1, 0));
-    ll a[q + 1], b[q + 1], c[q + 1], d[n + 1];
+}
 
-    for(int i = 1; i <= q; i ++){
-        ll k;
-        cin >> a[i] >> b[i] >> c[i] >> d[i] >> k;
-        p[a[i]][b[i]] += k;
-        p[a[i]][b[i] + 1] 
+void solve(){
+    
+    ll n, m;
+    set<pair<ll, ll>> distinct;
+    
+    vector<pair<ll, ll>> addEdge;
+    
+    cin >> n >> m;
+    visited = vector<ll>(n + 10);
+    graph = vector<vector<ll>> (n + 10);
+
+    for(ll i = 1; i <= m; i ++){
+        ll u, v;
+        cin >> u >> v;
+        if(u == v){
+            removeEdge.insert(i);
+            continue;
+        }
+
+        ll sizeofPath = distinct.size();
+        distinct.insert({min(u, v), max(u, v)});
+
+        if(sizeofPath == distinct.size()){
+            removeEdge.insert(i);
+        }
+        else {
+            indexEdge[{min(u, v), max(u, v)}] = i;
+            graph[u].pb(v);
+            graph[v].pb(u);
+        }
     }
+    visited[1] = 1;
+    dfs(-1, 1);
+    for(ll i = 2; i <= n; i ++){
+        if(!visited[i]){
+            visited[i] = visited[i - 1];
+            dfs(-1, i);
+            addEdge.pb({visited[i - 1], i});
+        }
+    }
+    cout << removeEdge.size() << endl;
+    for(auto x : removeEdge) {
+        cout << x << endl;
+    }
+    cout << addEdge.size() << endl;
+    for(auto x : addEdge){
+        cout << x.first << ' ' << x.second << endl;
+    }
+    
 }
 
 signed main(){
@@ -57,5 +101,8 @@ signed main(){
     cin >> t;
     while(t --){
         solve();
+        visited.clear();
+        graph.clear();
+        removeEdge.clear();
     }
 }
