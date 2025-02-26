@@ -29,70 +29,25 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-vector<vector<ll>> graph;
-vector<ll> visited;
-set<ll> removeEdge;
-map<pair<ll, ll>, ll> indexEdge;
-void dfs(ll u, ll v){
-    if(u != -1)visited[v] = visited[u];
-    for(auto x : graph[v]){
-        if(u != x && !visited[x]){
-            dfs(v, x);
-        }else if(u != x && visited[x]){
-            removeEdge.insert(indexEdge[{min(x, v), max(x, v)}]);
-        }
-    }
-}
 
 void solve(){
-    
-    ll n, m;
-    set<pair<ll, ll>> distinct;
-    
-    vector<pair<ll, ll>> addEdge;
-    
-    cin >> n >> m;
-    visited = vector<ll>(n + 10);
-    graph = vector<vector<ll>> (n + 10);
-
-    for(ll i = 1; i <= m; i ++){
-        ll u, v;
-        cin >> u >> v;
-        if(u == v){
-            removeEdge.insert(i);
-            continue;
-        }
-
-        ll sizeofPath = distinct.size();
-        distinct.insert({min(u, v), max(u, v)});
-
-        if(sizeofPath == distinct.size()){
-            removeEdge.insert(i);
-        }
-        else {
-            indexEdge[{min(u, v), max(u, v)}] = i;
-            graph[u].pb(v);
-            graph[v].pb(u);
+    ll n;
+    cin >> n;
+    ll cnt2 = 0, cnt5 = 0;
+    for(int i = 0; i < n; i ++){
+        ll x;
+        cin >> x;
+        while(x > 1){
+            if(x % 2 == 0){
+                x /= 2;
+                cnt2 ++;
+            }else if(x % 5 == 0){
+                x/= 5;
+                cnt5 ++;
+            }else break;
         }
     }
-    visited[1] = 1;
-    dfs(-1, 1);
-    for(ll i = 2; i <= n; i ++){
-        if(!visited[i]){
-            visited[i] = visited[i - 1];
-            dfs(-1, i);
-            addEdge.pb({visited[i - 1], i});
-        }
-    }
-    cout << removeEdge.size() << endl;
-    for(auto x : removeEdge) {
-        cout << x << endl;
-    }
-    cout << addEdge.size() << endl;
-    for(auto x : addEdge){
-        cout << x.first << ' ' << x.second << endl;
-    }
-    
+    cout << min(cnt2, cnt5);
 }
 
 signed main(){
@@ -101,8 +56,6 @@ signed main(){
     cin >> t;
     while(t --){
         solve();
-        visited.clear();
-        graph.clear();
-        removeEdge.clear();
+        cout << endl;
     }
 }
