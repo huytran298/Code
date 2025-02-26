@@ -29,80 +29,55 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-vector<vector<ll>> graph;
-vector<ll> visited;
-set<ll> removeEdge;
-map<pair<ll, ll>, ll> indexEdge;
-void dfs(ll u, ll v){
-    if(u != -1)visited[v] = visited[u];
-    for(auto x : graph[v]){
-        if(u != x && !visited[x]){
-            dfs(v, x);
-        }else if(u != x && visited[x]){
-            removeEdge.insert(indexEdge[{min(x, v), max(x, v)}]);
-        }
-    }
-}
-
 void solve(){
-    
-    ll n, m;
-    set<pair<ll, ll>> distinct;
-    
-    vector<pair<ll, ll>> addEdge;
-    
-    cin >> n >> m;
-    visited = vector<ll>(n + 10);
-    graph = vector<vector<ll>> (n + 10);
+    ll n, k;
+    cin >> n >> k;
+    long double p[n + 1];
+    long double a[n + 1], b[n + 1];
+    long double expected[n + 1];
 
-    for(ll i = 1; i <= m; i ++){
-        ll u, v;
-        cin >> u >> v;
-        if(u == v){
-            removeEdge.insert(i);
-            continue;
-        }
+    for(int i = 1; i <= n; i ++){
+        cin >> p[i];
+    }
 
-        ll sizeofPath = distinct.size();
-        distinct.insert({min(u, v), max(u, v)});
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+    }
 
-        if(sizeofPath == distinct.size()){
-            removeEdge.insert(i);
+    for(int i = 1; i <= n; i ++){
+        cin >> b[i];
+        expected[i] = a[i] * p[i] - b[i] * (1 - p[i]);
+        
+    }
+
+    vector<vector<long double>> dp(n + 1, vector<long double>(k + 5));
+    dp[0][0] = dp[0][1] = 0;
+    for(ll i = 1; i <= n; i ++){
+        dp[i][0] = 0;
+        for(ll j = 1; j <= min(i, k + 1); j ++){
+            if(j == k + 1){
+                dp[i][j] = max(dp[i - 1][j], dp[i - 2][j - 2] + expected[i - 1] + (a[i] * 2) * p[i] - b[i] * (1 - p[i])); // a*p - 2*a*p = -a*p
+            }else {
+                if(j > i - 1)dp[i][j] = dp[i - 1][j - 1] + expected[i];
+                else dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] + expected[i]);
+            }
         }
-        else {
-            indexEdge[{min(u, v), max(u, v)}] = i;
-            graph[u].pb(v);
-            graph[v].pb(u);
-        }
     }
-    visited[1] = 1;
-    dfs(-1, 1);
-    for(ll i = 2; i <= n; i ++){
-        if(!visited[i]){
-            visited[i] = visited[i - 1];
-            dfs(-1, i);
-            addEdge.pb({visited[i - 1], i});
-        }
+    long double ans = 0;
+    for(int i = 1; i <= k + 1; i ++){
+        ans = max(ans, dp[n][i]);
+        //cout << dp[n][i] << ' ';
     }
-    cout << removeEdge.size() << endl;
-    for(auto x : removeEdge) {
-        cout << x << endl;
-    }
-    cout << addEdge.size() << endl;
-    for(auto x : addEdge){
-        cout << x.first << ' ' << x.second << endl;
-    }
+    cout << ans;
     
 }
 
 signed main(){
     fast; 
     ll t = 1;
-    cin >> t;
+    //cin >> t;
     while(t --){
         solve();
-        visited.clear();
-        graph.clear();
-        removeEdge.clear();
+        
     }
 }
