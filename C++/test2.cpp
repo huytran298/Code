@@ -29,47 +29,25 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
+
 void solve(){
-    ll n, k;
-    cin >> n >> k;
-    long double p[n + 1];
-    long double a[n + 1], b[n + 1];
-    long double expected[n + 1];
-
-    for(int i = 1; i <= n; i ++){
-        cin >> p[i];
-    }
-
-    for(int i = 1; i <= n; i ++){
-        cin >> a[i];
-    }
-
-    for(int i = 1; i <= n; i ++){
-        cin >> b[i];
-        expected[i] = a[i] * p[i] - b[i] * (1 - p[i]);
-        
-    }
-
-    vector<vector<long double>> dp(n + 1, vector<long double>(k + 5));
-    dp[0][0] = dp[0][1] = 0;
-    for(ll i = 1; i <= n; i ++){
-        dp[i][0] = 0;
-        for(ll j = 1; j <= min(i, k + 1); j ++){
-            if(j == k + 1){
-                dp[i][j] = max(dp[i - 1][j], dp[i - 2][j - 2] + expected[i - 1] + (a[i] * 2) * p[i] - b[i] * (1 - p[i])); // a*p - 2*a*p = -a*p
-            }else {
-                if(j > i - 1)dp[i][j] = dp[i - 1][j - 1] + expected[i];
-                else dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] + expected[i]);
-            }
+    ll n;
+    cin >> n;
+    ll cnt2 = 0, cnt5 = 0;
+    for(int i = 0; i < n; i ++){
+        ll x;
+        cin >> x;
+        while(x > 1){
+            if(x % 2 == 0){
+                x /= 2;
+                cnt2 ++;
+            }else if(x % 5 == 0){
+                x/= 5;
+                cnt5 ++;
+            }else break;
         }
     }
-    long double ans = 0;
-    for(int i = 1; i <= k + 1; i ++){
-        ans = max(ans, dp[n][i]);
-        //cout << dp[n][i] << ' ';
-    }
-    cout << ans;
-    
+    cout << min(cnt2, cnt5);
 }
 
 signed main(){
@@ -78,6 +56,6 @@ signed main(){
     //cin >> t;
     while(t --){
         solve();
-        
+        cout << endl;
     }
 }
