@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plot 
 
 # It's should be your full path 
-fileCsv = 'C:\\Users\\as\Documents\\Code\\Python\\Hardware_camp\\SDS00001.csv'
+fileCsv = '/home/huyhuy/Documents/Code-1/Python/Hardware_camp/SDS00001.csv'
 dataCsv = pd.read_csv(fileCsv)
 
 # Get the time for the X-labels 
