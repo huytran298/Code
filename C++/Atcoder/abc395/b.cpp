@@ -1,3 +1,9 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
@@ -20,7 +26,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -29,33 +35,34 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
 void solve(){
     ll n;
     cin >> n;
-    ll cnt2 = 0, cnt5 = 0;
-    for(int i = 0; i < n; i ++){
-        ll x;
-        cin >> x;
-        while(x > 1){
-            if(x % 2 == 0){
-                x /= 2;
-                cnt2 ++;
-            }else if(x % 5 == 0){
-                x/= 5;
-                cnt5 ++;
-            }else break;
+    vector<vector<char>> tbl(n + 1, vector<char> (n + 1, '.'));
+    ll cnt = 0, c = 1;
+    for(int i = 1; i <= n; i ++){
+        for(int j = 1; j < c; j += 2)tbl[n - i + 1][j] = tbl[n - i + 1][n - j + 1] = tbl[i][j] = tbl[i][n - j + 1] = '#';
+        if(i % 2 != 0){
+            for(int j = i; j <= n - i + 1; j ++)tbl[n - i + 1][j] = tbl[i][j] = '#';
         }
+        if(i > n / 2)c --;
+        else c ++;
     }
-    cout << min(cnt2, cnt5);
+    
+    for(int i = 1; i <= n; i ++){
+        for(int j = 1; j <= n; j ++){
+            cout << tbl[i][j];
+        }
+        cout << endl;
+    }
 }
 
 signed main(){
     fast; 
     ll t = 1;
     //cin >> t;
-    while(t --){
+    while(t --) {
         solve();
-        cout << endl;
+       // cout << endl;
     }
 }

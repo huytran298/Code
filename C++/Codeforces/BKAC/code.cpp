@@ -1,3 +1,9 @@
+// time-limit: 3000
+/*
+**********************************
+ Author : Akkotsu / huyhuyne         
+**********************************
+*/
 #include<bits/stdc++.h>
 using namespace std; 
 
@@ -20,7 +26,7 @@ using namespace std;
 #define FORj(a, b, c) for(int j = a; j <= b; j += c)
 #define foreach(a) for(auto x : a)
 #define pb push_back
-#define mod 998244353
+#define mod 1000000007
 int nxt(){ int n; cin >> n; return n;}
 /*
  _  _             _____              
@@ -29,33 +35,14 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-
 void solve(){
-    ll n;
-    cin >> n;
-    ll cnt2 = 0, cnt5 = 0;
-    for(int i = 0; i < n; i ++){
-        ll x;
-        cin >> x;
-        while(x > 1){
-            if(x % 2 == 0){
-                x /= 2;
-                cnt2 ++;
-            }else if(x % 5 == 0){
-                x/= 5;
-                cnt5 ++;
-            }else break;
-        }
-    }
-    cout << min(cnt2, cnt5);
+    
+
 }
 
 signed main(){
     fast; 
-    ll t = 1;
-    //cin >> t;
-    while(t --){
-        solve();
-        cout << endl;
-    }
+    ll n, k;
+    cin >> n >> k;
+    ll p[n + 1];
 }
