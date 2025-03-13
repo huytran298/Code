@@ -8,6 +8,7 @@
 using namespace std; 
 
 #define ll long long
+#define int long long
 #define maxN (ll) 1e6 + 5
 #define endl '\n'
 #define fi first
@@ -38,32 +39,37 @@ int nxt(){ int n; cin >> n; return n;}
 void solve(){
     ll r, c, n, p;
     cin >> r >> c >> n >> p;
-    deque<pair<ll, ll>> lst;
+    // gọi lst là tập hợp các điểm có giá trị từ 1 -> p (có thể sử dụng 2 vector để lưu giá trị của các điểm)
+    vector<pair<ll, ll>> lst;
+
     ll tbl[r + 1][c + 1];
     for(int i = 1; i <= r; i ++){
         for(int j = 1; j <= c; j ++){
             ll x;
             cin >> x;
             tbl[i][j] = x;
-            if(x != 0 && x <= p)lst.pb({i, j});
+            // lấy vị trí các điểm có giá trị từ 1 -> p
+            if(x > 0 && x <= p)lst.pb({i, j});
         }
     }
+    // gọi meet là tập hợp các giá trị mà có thể gặp được 
     set<ll> meet;
-    for(int i = 0; i < p; i ++){
-        auto [u, v] = lst[i];
-        ll arr[] = {-1, 1};
-        for(int j = 0; j < 2; j ++){
-            if(u + arr[j] <= 0 && u + arr[j] > r)continue;
-            if(tbl[u + arr[j]][v] <= i || tbl[u + arr[j]][v] > n - i)continue;
-            meet.insert(tbl[u + arr[j]][v] + i);
-        }
-        for(int j = 0; j < 2; j ++){
-            if(v + arr[j] <= 0 && v + arr[j] > c)continue;
-            if(tbl[u][v + arr[j]] <= i || tbl[u][v + arr[j]] > n - i)continue;
-            meet.insert(tbl[u][v + arr[j]] + i);
+    ll dx[] = {1,0 , -1, 0};
+    ll dy[] = {0, 1, 0, -1};
+    for(auto [u, v] : lst){
+        // delta là sự chênh lệch giữa giá trị của điểm hiện tại và giá trị của p
+        ll delta = p - tbl[u][v];
+        //duyệt qua 4 cạnh liền kề của điểm hiện tại
+        for(int i = 0; i < 4; i ++){
+            ll x = u + dx[i];
+            ll y = v + dy[i];
+            // nếu điểm đó nằm trong bảng và giá trị của điểm đó + delta <= n và giá trị của điểm đó > 0 thì thêm giá trị đó vào tập hợp meet
+            if(x > 0 && x <= r && y > 0 && y <= c){
+                if(tbl[x][y] + delta <= n && tbl[x][y] > 0)meet.insert(tbl[x][y] + delta);
+            }
         }
     }
-    for(auto x : meet)cout << x << ' ';
+    // in ra kết quả
     cout << meet.size() << '/' << n - 1;
 }
 
@@ -73,6 +79,6 @@ signed main(){
    // cin >> t;
     while(t --) {
         solve();
-        cout << endl;
+        //cout << endl;
     }
 }
