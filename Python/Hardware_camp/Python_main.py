@@ -4,15 +4,15 @@ import sys
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
+'''
+ install library:
+ python get-pip.py
+ pip install pyvisa 
+ pip install pyvisa pyvisa-py
+ pip install pandas
+ pip install matplotlib
 
-# install library:
-# python get-pip.py
-# pip install pyvisa 
-# pip install pyvisa pyvisa-py
-# pip install pandas
-# pip install matplotlib
-
-
+'''
 REMOTE_IP = "192.168.1.160"
 PORT = 5025
 
