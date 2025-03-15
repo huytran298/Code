@@ -36,32 +36,25 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    vector<ll> a(n), b(m);
-    for(auto &x : a) cin >> x;
-    for(auto &x : b) cin >> x;
-    sort(rbend(a));
-    sort(rbend(b));
-    ll sum = 0;
-    ll cntA = 0, cntB = 0;
-    for(int i = 0; i < min(n, m); i ++){
-        if(a[i] >= 0){
-            sum += a[i];
-            cntA ++;
-        }
-        if(b[i] >= 0){
-            if(cntB == cntA && b[i] + a[i] >= 0){
-                sum += a[i] + b[i];
-                cntB ++;
-                cntA ++;
-            }else if(cntB < cntA){
-                sum += b[i];
-                cntB ++;
-            }
-        }
+    ll n;
+    cin >> n;
+    set<ll> cnt;
+    ll a[n + 1];
+    vector<ll> freq(n + 1, 0);
+    ll r = 0;
+    for(int i = 1; i <= n; i ++){
+        cin >> a[i];
+        if(freq[a[i]] == 0) r ++;
+        freq[a[i]] ++;
     }
-    cout << sum;
+    ll ans = 0;
+    for(int i = 1; i <= n; i ++){
+        freq[a[i]] --;
+        if(freq[a[i]] == 0) r --;
+        cnt.insert(a[i]);
+        ans = max(ans, (ll)cnt.size() + r);
+    }
+    cout << ans;
 }
 
 signed main(){

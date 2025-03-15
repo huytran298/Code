@@ -36,32 +36,24 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 void solve(){
-    ll n, m;
-    cin >> n >> m;
-    vector<ll> a(n), b(m);
-    for(auto &x : a) cin >> x;
-    for(auto &x : b) cin >> x;
-    sort(rbend(a));
-    sort(rbend(b));
-    ll sum = 0;
-    ll cntA = 0, cntB = 0;
-    for(int i = 0; i < min(n, m); i ++){
-        if(a[i] >= 0){
-            sum += a[i];
-            cntA ++;
-        }
-        if(b[i] >= 0){
-            if(cntB == cntA && b[i] + a[i] >= 0){
-                sum += a[i] + b[i];
-                cntB ++;
-                cntA ++;
-            }else if(cntB < cntA){
-                sum += b[i];
-                cntB ++;
-            }
-        }
+    ll n;
+    cin >> n;
+    //find pair (a, b) that x^3 - y^3 = n in O(1)
+    // x^3 - y^3 = (x - y)(x^2 + xy + y^2) = n
+    // x - y = 1, x^2 + xy + y^2 = n
+    // x = (1 + sqrt(1 + 4n)) / 2
+    // y = (1 - sqrt(1 + 4n)) / 2
+    
+    
+
+
+    ll x = (1 + sqrt(1 + 4 * n)) / 2;
+    ll y = (1 - sqrt(1 + 4 * n)) / 2;
+    if (x * x * x - y * y * y == n) {
+        cout << x << " " << y;
+    } else {
+        cout << "No solution";
     }
-    cout << sum;
 }
 
 signed main(){
