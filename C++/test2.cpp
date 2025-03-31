@@ -30,24 +30,26 @@ int nxt(){ int n; cin >> n; return n;}
            |__/                      
 */
 
+double functionS(double x){
+    return ((1 / (x * x)) + 4 * x);
+}
 void solve(){
-    ll n;
-    cin >> n;
-    ll cnt2 = 0, cnt5 = 0;
-    for(int i = 0; i < n; i ++){
-        ll x;
-        cin >> x;
-        while(x > 1){
-            if(x % 2 == 0){
-                x /= 2;
-                cnt2 ++;
-            }else if(x % 5 == 0){
-                x/= 5;
-                cnt5 ++;
-            }else break;
-        }
+    double begin, end, step;
+    cin >> begin >> end >> step;
+    double simpson13, simpson38;
+    simpson13 = simpson38 =  functionS(begin);
+    ll cnt = 1;
+    while(begin < end){
+        begin += step;
+        double value = functionS(begin);
+        simpson13 +=  (double)((cnt % 2)? 4 : 2) * value;
+        simpson38 += 
+        //cout << (double)((cnt % 2)? 4 : 2) << ' ' << begin << endl; 
+        cnt ++;
     }
-    cout << min(cnt2, cnt5);
+    //cout << simpson13 << endl;
+    simpson13 = (step / 3 ) * simpson13;
+    cout << fixed << setprecision(4) << simpson13;
 }
 
 signed main(){

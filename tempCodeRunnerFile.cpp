@@ -1,14 +1,8 @@
-// time-limit: 3000
-/*
-**********************************
- Author : Akkotsu / huyhuyne         
-**********************************
-*/
 #include<bits/stdc++.h>
 using namespace std; 
 
 #define ll long long
-#define maxN (ll) 1e6 + 5
+#define maxN (long long) 1e6 + 5
 #define endl '\n'
 #define fi first
 #define se second
@@ -35,27 +29,35 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-void solve(){
-    ll n;
-    cin >> n;
-    //find pair (a, b) that x^3 + y^3 = n
-    // x^3 + y^3 = (x + y)(x^2 - xy + y^2) = n
-    // x + y = a
-    // x^2 - xy + y^2 = b
-    // x^2 + y^2 = a^2 - 2xy
-    // b = a^2 - 3xy
-    
-    
-
-
-}
 
 signed main(){
     fast; 
-    ll t = 1;
-    //cin >> t;
-    while(t --) {
-        solve();
-        cout << endl;
+    ll n, r, c;
+    cin >> n >> r >> c;
+    string s;
+    cin >> s;
+    map<pair<ll, ll>, ll> mp;
+    cout << s;
+    return 0;
+    ll posX, posY;
+    posX = posY = 0;
+    for(char x : s){
+        mp[{posX, posY}] = 1;
+        if(x == 'N'){
+            posY ++;
+            r ++;
+        }else if(x == 'S'){
+            posY --;
+            r --;
+        }else if(x == 'E'){
+            posX --;
+            c --;
+        }else{
+            posX --;
+            c --;
+        }
+        if(mp[{c, r}]){
+            cout << 1;
+        }else cout << 0;
     }
 }

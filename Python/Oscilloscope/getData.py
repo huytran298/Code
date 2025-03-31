@@ -5,6 +5,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import time
 '''
     install library:
     python get-pip.py
@@ -15,7 +16,7 @@ import pandas as pd
     pip install pandas
 '''
 
-REMOTE_IP = '192.168.1.93'
+REMOTE_IP = '192.168.0.100'
 PORT = 4884
 oscilloscope = None
 def printIntroducing():
@@ -106,7 +107,8 @@ print("Choose option you want to do:")
 print('1. Plot data from oscilloscope')
 print('2. Plot all data from oscilloscope')
 print('3. Save data to file')
-print('4. Exit')
+print('4. Trigger data')
+print('5. Exit')
 option = input("Enter the option: ")
 if option == '1':
         #set channel
@@ -140,7 +142,7 @@ elif option == '2':
         y_reference = float(oscilloscope.query(":WAV:YREF?"))
 
         #  Calculate the time and voltage values (change to offset)
-        voltage = (waveform - y_reference)  # * y_increment + y_origin
+        voltage = (waveform - y_reference)  * y_increment + y_origin
         times = np.arange(len(voltage)) * x_increment + x_origin
 
         #  Plot the waveform
@@ -173,8 +175,8 @@ elif option == '3':
         for i in range(1,5):
             read_data = read_data_byChannel(oscilloscope, i)
             
-            read_data = read_data_byChannel(oscilloscope, i)
-            header_len = 2 + int(read_data[1:2].decode())  # e.g., b'#80001200...'
+            #read_data = read_data_byChannel(oscilloscope, i)
+            header_len = 2 + int(read_data[1:2].decode())  
             data_start = header_len
             waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
 
@@ -205,8 +207,56 @@ elif option == '3':
         df = pd.DataFrame(data)
         df.to_csv(originPath, index=False)
         print(f"Save data to {originPath}")
-        
 elif option == '4':
+    print('Select channel to trigger (1 to select, 1 to remove):')
+    channels = []
+    for i in range(1, 5):
+        inp = input(f'{i}. Channel {i}: ')
+        if(inp == '1'):
+            channels.append(i)
+        else :
+            if inp != '0':
+                print('Invalid input')
+                #i = i - 1
+    # Input trigger value
+    triggerChannel = []
+    for i in channels:
+        inp = input(f'Input trigger value for channel {i}: ')
+        triggerChannel.append(float(inp))
+    #create file first
+    originPath = os.getcwd()
+    for i in channels:
+        #originPath += 
+        
+        df.to_csv(originPath + '/' + f'triggerChannel_{i}.csv', index=False)
+    while ():
+        for i in range(0, len(channels)):
+            try:
+                read_data = read_data_byChannel(oscilloscope, channels[i])
+                header_len = 2 + int(read_data[1:2].decode())  # e.g., b'#80001200...'
+                data_start = header_len
+                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
+
+                #  Get the waveform parameters
+                x_increment = float(oscilloscope.query(":WAV:XINC?"))
+                x_origin = float(oscilloscope.query(":WAV:XOR?"))
+                y_increment = float(oscilloscope.query(":WAV:YINC?"))
+                y_origin = float(oscilloscope.query(":WAV:YOR?"))
+                y_reference = float(oscilloscope.query(":WAV:YREF?"))
+
+                #  Calculate the time and voltage values (change to offset)
+                voltage = (waveform - y_reference)# * y_increment + y_origin
+                v = min(voltage)
+                if min(voltage) < float(triggerChannel[i]) :
+                    #read file 
+                    df = pd.read_csv(originPath + '/' + f'triggerChannel_{channels[i]}.csv')
+                    #add data to file
+                    df['CH{channels[i]}'] = voltage
+                
+            except:
+                print('passed')
+            
+elif option == '5':
     sys.exit(1)
 
 
