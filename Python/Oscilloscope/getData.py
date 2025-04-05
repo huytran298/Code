@@ -22,7 +22,7 @@ def printIntroducing():
     print("\nThis is a program to process oscilloscope by \nRABBIT CAVE NUCLEAR ELECTRONICS TEAM\n")
 
 
-def visaConnect():
+def visa_connect():
     try:
         # Connect to the oscilloscope
         rm = pyvisa.ResourceManager('@py')
@@ -35,27 +35,27 @@ def visaConnect():
         print(f'Failed to connect to oscilloscope: {e}')
         return None
         #sys.exit(1)
-def visaWrite(oscilloscope, command):
+def visa_write(oscilloscope, command):
     try:
-        read = oscilloscope.write(command)
-        times.sleep(0.01)
+        oscilloscope.write(command)
+        #times.sleep(0.01)
     except Exception as e:
         print(f'Failed to write command: {e}')
         
-def visaQuery(oscilloscope, command):
+def visa_query(oscilloscope, command):
     try:
         query = oscilloscope.query(command)
-        times.sleep(0.01)
+        #times.sleep(0.01)
         return query
     except Exception as e:
         print(f'Failed to query command: {e}')
 
 def read_data_byChannel(oscilloscope, channelInp):
     try :
-        visaWrite(oscilloscope, f':WAVeform:SOURce CHANnel{channelInp}')
-        visaWrite(oscilloscope, ":WAVeform:POINts:MODE NORMal")
-        visaWrite(oscilloscope, ":WAVeform:FORMat BYTE")
-        visaWrite(oscilloscope, ":WAVeform:DATA?")
+        visa_write(oscilloscope, f':WAVeform:SOURce CHANnel{channelInp}')
+        visa_write(oscilloscope, ":WAVeform:POINts:MODE NORMal")
+        visa_write(oscilloscope, ":WAVeform:FORMat BYTE")
+        visa_write(oscilloscope, ":WAVeform:DATA?")
         return oscilloscope.read_raw()
     except Exception as e:
         print(f'Failed to read data: {e}')
@@ -89,14 +89,51 @@ def plot_data(read_data, channelInp):
     plt.tight_layout()
     plt.show()
 
+def auto_trigger(oscilloscope, channelInp, minThreshold, maxThreshold, stepThreshold, frequency, intervalTime):
+    print(f'------Ready to run trigger threshold channel {channelInp}------')
+    while(abs(minThreshold) < abs(maxThreshold)):
+        visa_write(oscilloscope, f':TRIGger:LEVel {minThreshold} ,CHANnel{channelInp}')
+        countSignal = 0
+        #times.sleep(0.01)
+        timebefore = times.time()
+        isRun = 1
+        while times.time() - timebefore < float(intervalTime):
+            if isRun == 1:
+                visa_write(oscilloscope, ':SINGle')
+                isRun = 0
+            #times.sleep(0.001)
+            if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
+                #print('is calculate')
+                read_data = read_data_byChannel(oscilloscope, channelInp)
+                header_len = 2 + int(read_data[1:2].decode())
+                data_start = header_len
+                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
+                #  Get the waveform parameters
+                x_increment = float(oscilloscope.query(":WAV:XINC?"))
+                x_origin = float(oscilloscope.query(":WAV:XOR?"))
+                y_increment = float(oscilloscope.query(":WAV:YINC?"))
+                y_origin = float(oscilloscope.query(":WAV:YOR?"))
+                y_reference = float(oscilloscope.query(":WAV:YREF?"))
+                #  Calculate the time and voltage values (change to offset)
+                voltage = (waveform - y_reference) * y_increment + y_origin
+                #time = np.arange(len(voltage)) * x_increment + x_origin
+                isRun = 1
+                if min(voltage) <= minThreshold :
+                    countSignal += 1
+        print('Frequency is', round(countSignal / intervalTime, 3))
+        print('Count is ', countSignal)
+        minThreshold += stepThreshold
+        if countSignal / int(intervalTime) < frequency:
+            break
+    return round(countSignal / intervalTime, 3), countSignal
 
 
 printIntroducing()
-oscilloscope = visaConnect()
+oscilloscope = visa_connect()
 
 while oscilloscope is None:
     REMOTE_IP = input('Enter the IP address of the oscilloscope: ')
-    oscilloscope = visaConnect()
+    oscilloscope = visa_connect()
     
     if oscilloscope is None:
         REMOTE_IP = None
@@ -166,8 +203,8 @@ elif option == '3':
     counter = 1
     subcounter = 0
     while (True):
-        visaWrite(oscilloscope, ':SINGle')
-        while(visaQuery(oscilloscope, ':TRIGger:SWEep?') == "NORM\n"):
+        visa_write(oscilloscope, ':SINGle')
+        while(visa_query(oscilloscope, ':TRIGger:SWEep?') == "NORM\n"):
             #print('Is waiting for trigger')
             times.sleep(0.01)
         #continue
@@ -269,9 +306,9 @@ elif option == '5':
             # if ready == 'N' or ready == 'n':
             #     print("Please wait for data to be ready")
             #     break
-        visaWrite(oscilloscope, ':SINGle')
+        visa_write(oscilloscope, ':SINGle')
         times.sleep(0.0001)
-        while(visaQuery(oscilloscope, ':TRIGger:SWEep?') == "NORM\n"):
+        while(visa_query(oscilloscope, ':TRIGger:SWEep?') == "NORM\n"):
             continue
         read_data = read_data_byChannel(oscilloscope, channelInp)
         header_len = 2 + int(read_data[1:2].decode())
@@ -297,56 +334,41 @@ elif option == '5':
             gain = gain * 10 ** (-6)
             print(f"Gain: {gain} V")     
 elif option == '6':
-    print("Choose channel you want to get data:")
-    print("1. Channel 1")
-    print("2. Channel 2")
-    print("3. Channel 3")
-    print("4. Channel 4")
-    channelInp = input("Enter the channel: ")
+    
+    channelInp = [int(x) for x in input("Enter the channel: ").split(' ')]
     #check channel is valid
-    if channelInp not in ['1','2','3','4']:
-        print("Invalid channel")
-        sys.exit(1)
-    minThreshold = float(input("Enter the min threshold (Volt): "))
-    maxThreshold = float(input("Enter the max threshold (Volt): "))
-    stepThreshold = float(input("Enter the step threshold (Volt): "))
-    intervalTime = int(input("Enter the interval time (second(s)): "))
-    frequency = int(input("Enter the frequency (Hz): "))
-    while(abs(minThreshold) < abs(maxThreshold)):
-        visaWrite(oscilloscope, f':TRIGger:LEVel {minThreshold} ,CHANnel{channelInp}')
-        
-        countSignal = 0
-        times.sleep(0.01)
-        timebefore = times.time()
-        isRun = 1
-        while times.time() - timebefore < float(intervalTime):
-            if isRun == 1:
-                visaWrite(oscilloscope, ':SINGle')
-                isRun = 0
-            times.sleep(0.001)
-            if visaQuery(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
-                #print('is calculate')
-                read_data = read_data_byChannel(oscilloscope, channelInp)
-                header_len = 2 + int(read_data[1:2].decode())
-                data_start = header_len
-                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
-                #  Get the waveform parameters
-                x_increment = float(oscilloscope.query(":WAV:XINC?"))
-                x_origin = float(oscilloscope.query(":WAV:XOR?"))
-                y_increment = float(oscilloscope.query(":WAV:YINC?"))
-                y_origin = float(oscilloscope.query(":WAV:YOR?"))
-                y_reference = float(oscilloscope.query(":WAV:YREF?"))
-                #  Calculate the time and voltage values (change to offset)
-                voltage = (waveform - y_reference) * y_increment + y_origin
-                #time = np.arange(len(voltage)) * x_increment + x_origin
-                isRun = 1
-                if min(voltage) <= minThreshold :
-                    countSignal += 1
-        if countSignal / int(intervalTime) < frequency:
-            break
-        minThreshold += stepThreshold
-    print('frequency is', round(countSignal / intervalTime, 3))
-    print('count is ', countSignal)
+    for i in channelInp:
+        if i > 4 and i < 1:
+            print('Channel(s) input is invalid')
+            sys.exit(1)
+    minThreshold = []
+    maxThreshold = []
+    stepThreshold = []
+    for i in channelInp :
+        minThreshold.append(float(input(f"Enter the min threshold for channel {i} (Volt): ")))
+        maxThreshold.append(float(input(f"Enter the max threshold for channel {i} (Volt): ")))
+        stepThreshold.append(float(input(f"Enter the step threshold channel {i} (Volt): ")))
+    frequency = int(input("Enter the frequency (Hz) (it for all channel(s)): "))
+    intervalTime = int(input("Enter the interval time (second(s))  (it is for all channel(s)): "))
+    for i in range(1, 5):
+        visa_write(oscilloscope, f':BLANK CHANnel{i}')
+    frequencies = []
+    counts = []
+    visa_write(oscilloscope, ':TRIGger:SWEep AUTO')
+    for i in channelInp :
+        visa_write(oscilloscope, f':VIEW CHANnel{i}')
+        visa_write(oscilloscope, f':TRIGger:SOURce CHANnel{i}')
+        f, c = auto_trigger(oscilloscope, i, minThreshold[i - 1], maxThreshold[i - 1], stepThreshold[i - 1], frequency, intervalTime)
+        frequencies.append(f)
+        counts.append(c)
+        visa_write(oscilloscope, f':BLANK CHANnel{i}')
+    for i in range(0, len(channelInp)):
+        print(f'Frequency channels {channelInp[i]} is : {frequencies[i]}')
+        print(f'Counts channels {channelInp[i]} is : {counts[i]}')
+
+
+    
+    
 elif option == '7':
     sys.exit(1)
 
