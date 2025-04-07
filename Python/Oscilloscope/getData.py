@@ -1,3 +1,4 @@
+
 import pyvisa 
 import sys 
 import os
@@ -186,7 +187,7 @@ elif option == '2':
         #  Plot the waveform
         
         plt.plot(times, voltage, label=f'CH{i}')
-        time.sleep(0.1)
+        times.sleep(0.1)
         
     plt.xlabel("Time (s)")
     plt.ylabel("Voltage (V)")   
@@ -365,13 +366,57 @@ elif option == '6':
     for i in range(0, len(channelInp)):
         print(f'Frequency channels {channelInp[i]} is : {frequencies[i]}')
         print(f'Counts channels {channelInp[i]} is : {counts[i]}')
-
-
-    
-    
 elif option == '7':
+    channelInp = [int(x) for x in input("Enter the channel: ").split(' ')]
+    #check channel is valid
+    for i in channelInp:
+        if i > 4 and i < 1:
+            print('Channel(s) input is invalid')
+            sys.exit(1)
+    threshold = []
+    for i in channelInp :
+        threshold.append(float(input(f"Enter the threshold for channel {i} (Volt): ")))
+    intervalTime = int(input("Enter the interval time (second(s))  (it is for all channel(s)): "))
+    for i in range(1, 5):
+        visa_write(oscilloscope, f':BLANK CHANnel{i}')
+    counts = []
+    for i in channelInp :
+        visa_write(oscilloscope, f':VIEW CHANnel{i}')
+        visa_write(oscilloscope, f':TRIGger:SOURce CHANnel{i}')
+        countSignal = 0
+        #times.sleep(0.01)
+        timebefore = times.time()
+        isRun = 1
+        while times.time() - timebefore < float(intervalTime):
+            if isRun == 1:
+                visa_write(oscilloscope, ':SINGle')
+                isRun = 0
+            #times.sleep(0.001)
+            if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
+                #print('is calculate')
+                read_data = read_data_byChannel(oscilloscope, i)
+                header_len = 2 + int(read_data[1:2].decode())
+                data_start = header_len
+                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
+                #  Get the waveform parameters
+                x_increment = float(oscilloscope.query(":WAV:XINC?"))
+                x_origin = float(oscilloscope.query(":WAV:XOR?"))
+                y_increment = float(oscilloscope.query(":WAV:YINC?"))
+                y_origin = float(oscilloscope.query(":WAV:YOR?"))
+                y_reference = float(oscilloscope.query(":WAV:YREF?"))
+                #  Calculate the time and voltage values (change to offset)
+
+                voltage = (waveform - y_reference) * y_increment + y_origin
+                time = np.arange(len(voltage)) * x_increment + x_origin
+                isRun = 1
+                if min(voltage) <= threshold[i - 1] :
+                    countSignal += 1
+        visa_write(oscilloscope, f':BLANK CHANnel{i}')
+        print(f'Counts channels {channelInp[i - 1]} is : {countSignal}')
+        counts.append(countSignal)
+    
+elif option == '8':
     sys.exit(1)
 
 
 
->>>>>>> 87866cd8c2878a322f8854be7e481e6d4effbdef
