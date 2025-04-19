@@ -1,0 +1,2 @@
+signed main();
+#pragma once
