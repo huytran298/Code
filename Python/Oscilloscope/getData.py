@@ -412,7 +412,7 @@ elif option == '7':
                 if min(voltage) <= threshold[i - 1] :
                     countSignal += 1
         visa_write(oscilloscope, f':BLANK CHANnel{i}')
-        print(f'Counts channels {channelInp[i - 1]} is : {countSignalx  }')
+        print(f'Counts channels {channelInp[i - 1]} is : {countSignal}')
         counts.append(countSignal)
     
 elif option == '8':
