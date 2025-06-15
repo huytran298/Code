@@ -6,6 +6,7 @@ import time as times
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import shutil
 '''
     install library:
     python get-pip.py
@@ -16,9 +17,11 @@ import pandas as pd
     pip install pandas
 '''
 
-REMOTE_IP = '192.168.0.104'
+# Configure 
+REMOTE_IP = '192.168.0.113'
 PORT = 4884
 oscilloscope = None
+
 def printIntroducing():
     print("\nThis is a program to process oscilloscope by \nRABBIT CAVE NUCLEAR ELECTRONICS TEAM\n")
 
@@ -42,7 +45,7 @@ def visa_write(oscilloscope, command):
         #times.sleep(0.01)
     except Exception as e:
         print(f'Failed to write command: {e}')
-        
+      
 def visa_query(oscilloscope, command):
     try:
         query = oscilloscope.query(command)
@@ -94,39 +97,49 @@ def auto_trigger(oscilloscope, channelInp, minThreshold, maxThreshold, stepThres
     print(f'------Ready to run trigger threshold channel {channelInp}------')
     while(abs(minThreshold) < abs(maxThreshold)):
         visa_write(oscilloscope, f':TRIGger:LEVel {minThreshold} ,CHANnel{channelInp}')
+        print(f'Write {minThreshold} for channel {channelInp}')
         countSignal = 0
         #times.sleep(0.01)
         timebefore = times.time()
         isRun = 1
+        lastfreq = 0
         while times.time() - timebefore < float(intervalTime):
-            if isRun == 1:
-                visa_write(oscilloscope, ':SINGle')
-                isRun = 0
-            #times.sleep(0.001)
-            if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
-                #print('is calculate')
-                read_data = read_data_byChannel(oscilloscope, channelInp)
-                header_len = 2 + int(read_data[1:2].decode())
-                data_start = header_len
-                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
-                #  Get the waveform parameters
-                x_increment = float(oscilloscope.query(":WAV:XINC?"))
-                x_origin = float(oscilloscope.query(":WAV:XOR?"))
-                y_increment = float(oscilloscope.query(":WAV:YINC?"))
-                y_origin = float(oscilloscope.query(":WAV:YOR?"))
-                y_reference = float(oscilloscope.query(":WAV:YREF?"))
-                #  Calculate the time and voltage values (change to offset)
-                voltage = (waveform - y_reference) * y_increment + y_origin
-                #time = np.arange(len(voltage)) * x_increment + x_origin
-                isRun = 1
-                if min(voltage) <= minThreshold :
-                    countSignal += 1
+            try : 
+                if isRun == 1:
+                    visa_write(oscilloscope, ':SINGle')
+                    isRun = 0
+                #times.sleep(0.001)
+                if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
+                    #print('is calculate')
+                    read_data = read_data_byChannel(oscilloscope, channelInp)
+                    header_len = 2 + int(read_data[1:2].decode())
+                    data_start = header_len
+                    waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
+                    #  Get the waveform parameters
+                    x_increment = float(oscilloscope.query(":WAV:XINC?"))
+                    x_origin = float(oscilloscope.query(":WAV:XOR?"))
+                    y_increment = float(oscilloscope.query(":WAV:YINC?"))
+                    y_origin = float(oscilloscope.query(":WAV:YOR?"))
+                    y_reference = float(oscilloscope.query(":WAV:YREF?"))
+                    #  Calculate the time and voltage values (change to offset)
+                    voltage = (waveform - y_reference) * y_increment + y_origin
+                    #time = np.arange(len(voltage)) * x_increment + x_origin
+                    isRun = 1
+                    if min(voltage) <= minThreshold :
+                        countSignal += 1
+            except Exception as e:
+                print(f"smt error {e}")
+                continue
+                
         print('Frequency is', round(countSignal / intervalTime, 3))
         print('Count is ', countSignal)
         minThreshold += stepThreshold
-        if countSignal / int(intervalTime) < frequency:
+        lastfreq = countSignal/int(intervalTime)
+        if lastfreq < frequency:
             break
-    return round(countSignal / intervalTime, 3), countSignal
+        
+        
+    return round(countSignal / intervalTime, 3), countSignal, minThreshold
 
 
 printIntroducing()
@@ -138,7 +151,7 @@ while oscilloscope is None:
     
     if oscilloscope is None:
         REMOTE_IP = None
-options = [1, 2, 3, 4]
+
 print('Connected to oscilloscope')
 print("Choose option you want to do:")
 print('1. Plot data from oscilloscope')
@@ -146,8 +159,9 @@ print('2. Plot all data from oscilloscope')
 print('3. Save data to file')
 print('4. Trigger data')
 print('5. Calculate Gain')
-print('6. Calculate freequency')
-print('7. Exit')
+print('6. Calculate frequency')
+print('7. Measuring')
+print('8. Exit')
 option = input("Enter the option: ")
 if option == '1':
         #set channel
@@ -243,6 +257,8 @@ elif option == '3':
         df.to_csv(originPath, index=False)
         print(f"Save data to {originPath}")
 elif option == '4':
+    print('still develop')
+    exit(0)
     print('Select channel to trigger (1 to select, 1 to remove):')
     channels = []
     for i in range(1, 5):
@@ -349,23 +365,29 @@ elif option == '6':
         minThreshold.append(float(input(f"Enter the min threshold for channel {i} (Volt): ")))
         maxThreshold.append(float(input(f"Enter the max threshold for channel {i} (Volt): ")))
         stepThreshold.append(float(input(f"Enter the step threshold channel {i} (Volt): ")))
-    frequency = int(input("Enter the frequency (Hz) (it for all channel(s)): "))
+    frequency = int(input("Enter the frequency (Hz) (it is for all channel(s)): "))
     intervalTime = int(input("Enter the interval time (second(s))  (it is for all channel(s)): "))
     for i in range(1, 5):
         visa_write(oscilloscope, f':BLANK CHANnel{i}')
     frequencies = []
     counts = []
+    triggerValues = []
     visa_write(oscilloscope, ':TRIGger:SWEep AUTO')
+    indexChn = 0
     for i in channelInp :
         visa_write(oscilloscope, f':VIEW CHANnel{i}')
         visa_write(oscilloscope, f':TRIGger:SOURce CHANnel{i}')
-        f, c = auto_trigger(oscilloscope, i, minThreshold[i - 1], maxThreshold[i - 1], stepThreshold[i - 1], frequency, intervalTime)
+        f, c, triggerValue = auto_trigger(oscilloscope, i, minThreshold[indexChn], maxThreshold[indexChn], stepThreshold[indexChn], frequency, intervalTime)
         frequencies.append(f)
         counts.append(c)
+        triggerValues.append(triggerValue)
         visa_write(oscilloscope, f':BLANK CHANnel{i}')
+        indexChn += 1
+    print(10*'-')
     for i in range(0, len(channelInp)):
         print(f'Frequency channels {channelInp[i]} is : {frequencies[i]}')
         print(f'Counts channels {channelInp[i]} is : {counts[i]}')
+        print(f'Trigger values of channel {i} is {triggerValues[i]}')
 elif option == '7':
     channelInp = [int(x) for x in input("Enter the channel: ").split(' ')]
     #check channel is valid
@@ -380,6 +402,10 @@ elif option == '7':
     for i in range(1, 5):
         visa_write(oscilloscope, f':BLANK CHANnel{i}')
     counts = []
+    indexChn = 0
+    folder_name = 'temporary'
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
     for i in channelInp :
         visa_write(oscilloscope, f':VIEW CHANnel{i}')
         visa_write(oscilloscope, f':TRIGger:SOURce CHANnel{i}')
@@ -387,6 +413,8 @@ elif option == '7':
         #times.sleep(0.01)
         timebefore = times.time()
         isRun = 1
+        count = 0
+        counts = []
         while times.time() - timebefore < float(intervalTime):
             if isRun == 1:
                 visa_write(oscilloscope, ':SINGle')
@@ -409,12 +437,44 @@ elif option == '7':
                 voltage = (waveform - y_reference) * y_increment + y_origin
                 time = np.arange(len(voltage)) * x_increment + x_origin
                 isRun = 1
-                if min(voltage) <= threshold[i - 1] :
+                if min(voltage) <= threshold[indexChn] :
                     countSignal += 1
+                else :
+                    continue
+
+                # Save data to file
+                originPath = os.path.join(os.getcwd(), folder_name + f'channel{i}_{count}.txt')
+                count += 1
+                # Save time and voltage to a txt file with two columns (no header)
+                with open(originPath, 'w') as f:
+                    for t, v in zip(voltage):
+                        f.write(f"{v}\n") 
+        counts.append(count)
         visa_write(oscilloscope, f':BLANK CHANnel{i}')
-        print(f'Counts channels {channelInp[i - 1]} is : {countSignal}')
-        counts.append(countSignal)
+        print(f'Counts channel {i} is : {countSignal}')
+        indexChn += 1
     
+    # Read and display the saved txt files for each channel
+    for i in channelInp:
+        print(f"\nData for channel {i}:")
+        for count in range(counts):
+            print(f'Process file {count}/{len(counts)}')
+            file_path = os.path.join(os.getcwd(), folder_name + f'channel{i}_{count}.txt')
+            if os.path.exists(file_path):
+                data = np.loadtxt(file_path)
+                values = min(data)
+                boundary = values * 0.9
+            
+                print(f"File: {file_path}")
+                print(data)
+            else:
+                print(f"File {file_path} does not exist.")
+    # Delete the folder and all files in it
+    if os.path.exists(folder_name):
+        shutil.rmtree(folder_name)
+        print(f"Deleted folder '{folder_name}' and all its contents.")
+    else:
+        print(f"Folder '{folder_name}' does not exist.")
 elif option == '8':
     sys.exit(1)
 

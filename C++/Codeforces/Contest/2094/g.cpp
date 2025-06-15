@@ -32,38 +32,43 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-    ll t;
-    cin >> t;
+    ll t = 1;
     while(t --){
-        ll n;
-        cin >> n;
-        vector<ll> a(n);
-        vector<ll> bits(50, 0);
-        for(auto &x : a){
-            cin >> x;
-        }
-        //sort(bend(a));            
-        for(auto &x : a){
-            for(int i = 0; i <= 30; i ++){
-                if(x & (1LL << i)){
-                    bits[i] ++;
-                    
-                }
-            }
-        }
-        ll ans = 0;
-        for(auto x : a){
-            ll tmp = 0;
-            for(int i = 0; i <= 30; i ++){
-                if(x & (1LL << i)){
-                    tmp += (n - bits[i]) * (1LL << i);
+        ll q;
+        cin >> q;
+        while(q --){
+            deque<ll> a;
+            bool rev = false;
+            ll sum = 0, sumrev = 0;
+            ll s;
+            cin >> s;
+            if(s == 1){
+                sum -= (a.size() - 1);
+                sumrev += a.size() - 1;
+                if(!rev){
+                    ll tmp = a.back();
+                    a.pop_back();
+                    a.push_front(tmp);
                 }else {
-                    tmp += (bits[i]) * (1LL << i);
+                    ll tmp = a.front();
+                    a.pop_front();
+                    a.push_back(tmp);
+                }
+            }else if(s == 2){
+                rev = !rev;
+            }else {
+                ll k;
+                cin >> k;
+                sum += (a.size() + 1) * k;
+                sumrev += k;
+                if(!rev){
+                    a.push_back(k);
+                }else {
+                    a.push_front(k);
                 }
             }
-            ans = max(tmp, ans);
+            if(rev)cout << sum << endl;
+            else cout << sumrev << endl;
         }
-        cout << ans << endl;
-        
     }
 }

@@ -35,35 +35,32 @@ signed main(){
     ll t;
     cin >> t;
     while(t --){
-        ll n;
-        cin >> n;
-        vector<ll> a(n);
-        vector<ll> bits(50, 0);
-        for(auto &x : a){
-            cin >> x;
-        }
-        //sort(bend(a));            
-        for(auto &x : a){
-            for(int i = 0; i <= 30; i ++){
-                if(x & (1LL << i)){
-                    bits[i] ++;
-                    
+        ll n, m, k;
+        cin >> n >> m >> k;
+        ll times = (n * m) / k;
+        ll num = 1, diff = 1;
+        vector<vector<ll>> tbls(n + 1, vector<ll>(m + 1, 0));
+        if(n == k){
+            for(int i = 1; i <= n; i ++){
+                for(int j = 1; j <= m; j ++){
+                    cout << num << ' ' ;
+                    if((num == k && diff == 1) || (num == 1 && diff == -1)){
+                        diff *= -1;
+                    }else num += diff;
                 }
+                cout << endl;
+            }
+        }else {
+            for(int i = 1; i <= n; i ++){
+                for(int j = 1; j <= m; j ++){
+                    cout << num << ' ' ;
+                    if(num == k){
+                        num = 1;
+                    }else num += diff;
+                }
+                cout << endl;
             }
         }
-        ll ans = 0;
-        for(auto x : a){
-            ll tmp = 0;
-            for(int i = 0; i <= 30; i ++){
-                if(x & (1LL << i)){
-                    tmp += (n - bits[i]) * (1LL << i);
-                }else {
-                    tmp += (bits[i]) * (1LL << i);
-                }
-            }
-            ans = max(tmp, ans);
-        }
-        cout << ans << endl;
-        
+
     }
 }
