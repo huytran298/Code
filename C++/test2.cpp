@@ -32,11 +32,7 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-    map<int, int> q;
-    for(int i = 0; i < 5; i ++){
-        q[i] = 5 - i;
-    }
-    for (auto x : q){
-        cout << x << endl;
-    }
+    ll n;
+    cin >> n;
+    cout << n;
 }
