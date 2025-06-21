@@ -2,8 +2,8 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++-14 build active file",
-            "command": "/opt/homebrew/bin/g++-14",
+            "label": "C/C++: g++-15 build active file",
+            "command": "/opt/homebrew/Cellar/gcc/15.1.0/bin/g++-15",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
