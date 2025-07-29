@@ -21,7 +21,7 @@ def send_gcode(cmd):
         'commandText': cmd,
         'PAGEID': PAGEID
     }
-    r = requests.get(BASE_URL, params=params, timeout=5)
+    r = requests.get(BASE_URL, params=params, timeout=10)
     return r.status_code, r.text.strip()
 
 def returnHome(coor, a, b):
@@ -560,36 +560,39 @@ elif option == '8':
                     #times.sleep(0.01)
                     timebefore = times.time()
                     isRun = 1
-                    while times.time() - timebefore <= float(intervalTime):
-                        if isRun == 1:
-                            visa_write(oscilloscope, ':SINGle')
-                            isRun = 0
-                        #times.sleep(0.001)
-                        if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
-                            read_data = read_data_byChannel(oscilloscope, channelInp[i])
-                            header_len = 2 + int(read_data[1:2].decode())
-                            data_start = header_len
-                            waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
-                                #  Get the waveform parameters
-                            x_increment = float(oscilloscope.query(":WAV:XINC?"))
-                            x_origin = float(oscilloscope.query(":WAV:XOR?"))
-                            y_increment = float(oscilloscope.query(":WAV:YINC?"))
-                            y_origin = float(oscilloscope.query(":WAV:YOR?"))
-                            y_reference = float(oscilloscope.query(":WAV:YREF?"))
-                            #  Calculate the time and voltage values (change to offset)
+                    try : 
+                        while times.time() - timebefore <= float(intervalTime):
+                            if isRun == 1:
+                                visa_write(oscilloscope, ':SINGle')
+                                isRun = 0
+                            #times.sleep(0.001)
+                            if visa_query(oscilloscope, ':TRIGger:SWEep?') == "AUTO\n":
+                                read_data = read_data_byChannel(oscilloscope, channelInp[i])
+                                header_len = 2 + int(read_data[1:2].decode())
+                                data_start = header_len
+                                waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
+                                    #  Get the waveform parameters
+                                x_increment = float(oscilloscope.query(":WAV:XINC?"))
+                                x_origin = float(oscilloscope.query(":WAV:XOR?"))
+                                y_increment = float(oscilloscope.query(":WAV:YINC?"))
+                                y_origin = float(oscilloscope.query(":WAV:YOR?"))
+                                y_reference = float(oscilloscope.query(":WAV:YREF?"))
+                                #  Calculate the time and voltage values (change to offset)
 
-                            voltage = (waveform - y_reference) * y_increment + y_origin
-                            time = np.arange(len(voltage)) * x_increment + x_origin
-                            isRun = 1
-                                # print(f'Voltage : {voltage} \n Threshold : {threshold[i]}')
-                            countSignal += 1
-                                
-                        print(f'\rCounts for channel {channelInp[i]} is : {countSignal}  ({int(min(float(times.time() - timebefore) / float(intervalTime), 1) * 100) } %)', end = "")
-                        sys.stdout.flush()
-                    counts.append(countSignal)
-                    visa_write(oscilloscope, f':BLANK CHANnel{channelInp[i]}')
-                        #print(f'Counts channel {channelInp[i]} is : {countSignal}')
-                    print()
+                                voltage = (waveform - y_reference) * y_increment + y_origin
+                                time = np.arange(len(voltage)) * x_increment + x_origin
+                                isRun = 1
+                                    # print(f'Voltage : {voltage} \n Threshold : {threshold[i]}')
+                                countSignal += 1
+                                    
+                            print(f'\rCounts for channel {channelInp[i]} is : {countSignal}  ({int(min(float(times.time() - timebefore) / float(intervalTime), 1) * 100) } %)', end = "")
+                            sys.stdout.flush()
+                        counts.append(countSignal)
+                        visa_write(oscilloscope, f':BLANK CHANnel{channelInp[i]}')
+                            #print(f'Counts channel {channelInp[i]} is : {countSignal}')
+                        print()
+                    except : 
+                        continue
                 if saveFile == 'y':
                     csvFile = open(f'{fileName}.csv', 'a', newline='')
                     try :     
