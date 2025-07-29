@@ -517,7 +517,6 @@ elif option == '8':
     yStep = int(input("Enter step for Y: "))
     zStep = int(input("Enter step for Z: "))
 
-    
     saveFile = input("Do you want to save file [y/n] : ")
     fileName = ''
     csvFile = None
