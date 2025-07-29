@@ -1,15 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.special import jn
+from playsound import playsound
 
-# Trục x
-x = []
-for i in range(-2, 2):
-
-
-
-
-
-plt.grid(True)
-plt.legend()
-plt.show()
+playsound('/Users/huytranquoc/Documents/Code/Python/Oscilloscope/sound.mp3')
