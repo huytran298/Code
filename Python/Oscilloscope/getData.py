@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import shutil
-from playsound import playsound
+
 import requests
 import csv
 BASE_URL = 'http://192.168.0.152/command'
