@@ -1,96 +1,45 @@
-import pyvisa 
-import sys 
-import os
-import time as times 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+import requests
+import json
+import re
 
-REMOTE_IP = '192.168.0.104'
-PORT = 4884
-oscilloscope = None
-def printIntroducing():
-    print("\nThis is a program to process oscilloscope by \nRABBIT CAVE NUCLEAR ELECTRONICS TEAM\n")
+BASE_HOST = "http://192.168.0.152"
+CMD_URL   = BASE_HOST + "/command"
+PAGEID    = 0
 
+# 1) Tạo session và lấy cookie giống browser
+sess = requests.Session()
+sess.get(BASE_HOST + "/")
 
-def visaConnect():
+# 2) Mở một HTTP GET dài (long‐poll / SSE)
+resp = sess.get(
+    CMD_URL,
+    params={"commandText": "",    # blank để polling trạng thái
+            "PAGEID": PAGEID},
+    headers={
+        "Accept": "text/event-stream",         # yêu cầu SSE
+        "X-Requested-With": "XMLHttpRequest",
+        "Referer": BASE_HOST + "/",
+    },
+    stream=True,
+    timeout=5
+)
+
+# 3) Đọc từng dòng SSE, tìm “data: …”
+for raw in resp.iter_lines(decode_unicode=True):
+    if not raw or not raw.startswith("data:"):
+        continue
+    # Lấy payload JSON sau “data:”
+    payload = raw[len("data:"):].strip()
     try:
-        # Connect to the oscilloscope
-        rm = pyvisa.ResourceManager('@py')
-        oscilloscope = rm.open_resource(f'TCPIP0::{REMOTE_IP}::INSTR')
-        oscilloscope.timeout = 100  # Set timeout to 0.1 seconds
-        print('Connected to oscilloscope')
-        print("Instrument ID:", oscilloscope.query("*IDN?"))
-        return oscilloscope
-    except Exception as e:
-        print(f'Failed to connect to oscilloscope: {e}')
-        return None
-        #sys.exit(1)
-def visaWrite(oscilloscope, command):
-    try:
-        read = oscilloscope.write(command)
-        times.sleep(0.1)
-        return read
-    except Exception as e:
-        print(f'Failed to write command: {command}')
-        
-def visaQuery(oscilloscope, command):
-    try:
-        read = oscilloscope.query(command)
-        return read
-    except Exception as e:
-        print(f'Failed to query command: {command}')
+        doc = json.loads(payload)
+    except json.JSONDecodeError:
+        continue
 
-def read_data_byChannel(oscilloscope, channelInp):
-    try :
-        visaWrite(oscilloscope, f':WAVeform:SOURce CHANnel{channelInp}')
-        visaWrite(oscilloscope, ":WAVeform:POINts:MODE NORMal")
-        visaWrite(oscilloscope, ":WAVeform:FORMat BYTE")
-        visaWrite(oscilloscope, ":WAVeform:DATA?")
-        return oscilloscope.read_raw()
-    except Exception as e:
-        print(f'Failed to read data: {e}')
-        return None
+    # Thử lấy MPos từ JSON
+    mpos = doc.get("MPos") or doc.get("mpos") or doc.get("pos")
+    if mpos:
+        x, y, z = map(float, mpos.split(","))
+        print(f"📍 Current position → X={x:.3f}, Y={y:.3f}, Z={z:.3f}")
+        break
 
-def plot_data(read_data, channelInp):
-    #  Get the waveform data
-    header_len = 2 + int(read_data[1:2].decode())  # e.g., b'#80001200...'
-    data_start = header_len
-    waveform = np.frombuffer(read_data[data_start:], dtype=np.uint8)
-
-    #  Get the waveform parameters
-    x_increment = float(oscilloscope.query(":WAV:XINC?"))
-    x_origin = float(oscilloscope.query(":WAV:XOR?"))
-    y_increment = float(oscilloscope.query(":WAV:YINC?"))
-    y_origin = float(oscilloscope.query(":WAV:YOR?"))
-    y_reference = float(oscilloscope.query(":WAV:YREF?"))
-
-    #  Calculate the time and voltage values (change to offset)
-    voltage = (waveform - y_reference) * y_increment + y_origin
-    time = np.arange(len(voltage)) * x_increment + x_origin
-
-    #  Plot the waveform
-    plt.figure(figsize=(10, 5))
-    plt.plot(time, voltage, label=f'CH{channelInp}')
-    plt.title("Oscilloscope Waveform")
-    plt.xlabel("Time (s)")
-    plt.ylabel("Voltage (V)")
-    plt.grid(True)
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
-
-
-
-printIntroducing()
-oscilloscope = visaConnect()
-
-while oscilloscope is None:
-    REMOTE_IP = input('Enter the IP address of the oscilloscope: ')
-    oscilloscope = visaConnect()
-    
-    if oscilloscope is None:
-        REMOTE_IP = None
-
-while True:
-    
+resp.close()
