@@ -516,10 +516,8 @@ elif option == '8':
     xStep = int(input("Enter step for X: "))
     yStep = int(input("Enter step for Y: "))
     zStep = int(input("Enter step for Z: "))
-    x = int(print('Enter position of X to start : '))
-    y = int(print('Enter position of Y to start : '))
-    z = int(print('Enter position of Z to start : '))
 
+    
     saveFile = input("Do you want to save file [y/n] : ")
     fileName = ''
     csvFile = None
@@ -534,14 +532,14 @@ elif option == '8':
         finally :
             csvFile.close()
     
-
+    x = xMin
 
     delta = 1
     while abs(x) <= abs(xMax) :   
-        
+        y = yMin
         print('Complete return ! \n')
         while abs(y) <= abs(yMax) : 
-
+            z = zMin
             while abs(z) <= abs(zMax) : 
                 print(f'\nRun for coordinate ({x}, {y}, {z}).')
                 
