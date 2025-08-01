@@ -17,27 +17,30 @@ def send_gcode(cmd):
     Gửi 1 lệnh G-code qua HTTP GET.
     Trả về (status_code, response_text).
     """
-    r = None
+    
     try :
         params = {
             'commandText': cmd,
             'PAGEID': PAGEID
         }
         r = requests.get(BASE_URL, params=params, timeout=10)
+        return r.status_code, r.text.strip()
     except :
         count = 0
         params = {
             'commandText': cmd,
             'PAGEID': PAGEID
         }
+        r = requests.get(BASE_URL, params=params, timeout=10)
         while r.status_code != 200 and count < 11:
             r = requests.get(BASE_URL, params=params, timeout=10)
             count += 1
-    return r.status_code, r.text.strip()
+        return r.status_code, r.text.strip()    
 
 def returnHome(coor, a, b):
-    code, body = send_gcode(f'G90 G21 {coor}{a} F1500')
-    print('return coordinate {coor}. returning...')
+    cmd = '$J=G90 G21 ' + coor + str(a) + ' F1500'
+    code, body = send_gcode(cmd)
+    print(f'return coordinate {coor}. Returning...')
     if code == 200:
         print(f"Complete send")
     else:
@@ -316,7 +319,7 @@ elif option == '4':
     # Input trigger value
     triggerChannel = []
     for i in channels:
-        inp = input(f'Input trigger value for channel {i}: ')
+        inp = input(f'Input trigger value for channel {i}: ')   
         triggerChannel.append(float(inp))
     #create file first
     originPath = os.getcwd()
@@ -528,14 +531,14 @@ elif option == '8':
     yStep = int(input("Enter step for Y: "))
     zStep = int(input("Enter step for Z: "))
  
-    x = int(print('Enter position of X to start : '))
-    y = int(print('Enter position of Y to start : '))
-    z = int(print('Enter position of Z to start : '))
+    x = int(input('Enter position of X to start : '))
+    y = int(input('Enter position of Y to start : '))
+    z = int(input('Enter position of Z to start : '))
     saveFile = input("Do you want to save file [y/n] : ")
     fileName = ''
     csvFile = None
     writer = None
-    if saveFile == 'y':
+    if saveFile == 'y' and not os.path.exists(f'{fileName}.csv'):
         fileName = input("Enter file name (just name dont input extension) : ")
         csvFile = open(f'{fileName}.csv', 'w', newline='')
         writer = csv.writer(csvFile)
@@ -556,7 +559,7 @@ elif option == '8':
             while abs(z) <= abs(zMax) : 
                 print(f'\nRun for coordinate ({x}, {y}, {z}).')
                 
-                code, body = send_gcode(f'G90 G21 X{x} Y{y} Z{z} F1500')
+                code, body = send_gcode(f'$J=G90 G21 X{x} Y{y} Z{z} F1500')
                 if code == 200:
                     print(f"Complete send")
                 else:
@@ -623,11 +626,13 @@ elif option == '8':
             y += yStep
             delta = yStep
             returnHome('Z' ,zMin, zMax)
+            z = zMin
         x += xStep
         delta = xStep
         returnHome('Y', yMin, yMax)
+        y = yMin
     #send Home
-    code, body = send_gcode(f'G90 G21 X0 Y0 Z0 F1500')
+    code, body = send_gcode(f'$J=G90 G21 X0 Y0 Z0 F1500')
 
 elif option == '9':
     sys.exit(1)
