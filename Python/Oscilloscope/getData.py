@@ -46,7 +46,7 @@ def returnHome(coor, a, b):
     else:
         print(f"No HTTP {code}")
         sys.exit(0)
-    times.sleep(abs(b) / 25)  
+    times.sleep(abs(b - a) / 25)  
 '''
     install library:
     python get-pip.py
@@ -548,7 +548,16 @@ elif option == '8':
         finally :
             csvFile.close()
     
+    code, body = send_gcode(f'$J=G90 G21  F1500 X{x} Y{y} Z{z}')
+    if code == 200:
+        print(f"Set coordinate to start.")
+    else:
+        print(f"No HTTP {code}")
+        sys.exit(0)
 
+    y = 'n'
+    while y == 'n' : 
+        y = input('Enter y if cnc is ready to run : ')
 
     delta = 1
     while abs(x) <= abs(xMax) :   
