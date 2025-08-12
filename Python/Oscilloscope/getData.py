@@ -46,7 +46,7 @@ def returnHome(coor, a, b):
     else:
         print(f"No HTTP {code}")
         sys.exit(0)
-    times.sleep(abs(b) / 25)  
+    times.sleep(abs(b - a) / 25)  
 '''
     install library:
     python get-pip.py
