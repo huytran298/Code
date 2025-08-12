@@ -39,7 +39,7 @@ def send_gcode(cmd):
 
 def returnHome(coor, a, b):
     cmd = '$J=G90 G21 ' + coor + str(a) + ' F1500'
-    code, body = send_gcode(cmd)
+    code, body = send_gcode(f'$J=G90 G21 F1500 {coor}{a}')
     print(f'return coordinate {coor}. Returning...')
     if code == 200:
         print(f"Complete send")
@@ -434,7 +434,7 @@ elif option == '6':
     for i in range(0, len(channelInp)):
         print(f'Frequency channels {channelInp[i]} is : {frequencies[i]}')
         print(f'Counts channels {channelInp[i]} is : {counts[i]}')
-        print(f'Trigger values of channel {i} is {triggerValues[i]}')
+        print(f'Trigger values of channel {channelInp[i]} is {triggerValues[i]}')
 
 elif option == '7':
     channelInp = [int(x) for x in input("Enter the channel: ").split(' ')]
@@ -459,13 +459,14 @@ elif option == '7':
             counts = []
             visa_write(oscilloscope, ':TRIGger:SWEep AUTO')
         for i in range(len(channelInp)) :
+            timebefore = times.time()
+
             visa_write(oscilloscope, f':VIEW CHANnel{channelInp[i]}')
             visa_write(oscilloscope, f':TRIGger:SOURce CHANnel{channelInp[i]}')
             visa_write(oscilloscope, f':TRIGger:LEVel {threshold[i]} ,CHANnel{channelInp[i]}')
             print('\n' + 8 * '-' + f'Write {threshold[i]} for channel {channelInp[i]}' + 8 * '-')
             countSignal = 0
             #times.sleep(0.01)
-            timebefore = times.time()
             isRun = 1
             
             while times.time() - timebefore <= float(intervalTime):
@@ -518,22 +519,22 @@ elif option == '8':
         threshold.append(float(input(f"Enter the threshold for channel {i} (Volt): ")))
     intervalTime = int(input("Enter the interval time (second(s))  (it is for all channel(s)): "))
     
-    xMin = int(input("Enter X minimum : "))
-    xMax = int(input("Enter X maximum : "))
+    xMin = float(input("Enter X minimum : "))
+    xMax = float(input("Enter X maximum : "))
 
-    yMin = int(input("Enter Y minimum : "))
-    yMax = int(input("Enter Y maximum : "))
+    yMin = float(input("Enter Y minimum : "))
+    yMax = float(input("Enter Y maximum : "))
 
-    zMin = int(input("Enter Z minimum : "))
-    zMax = int(input("Enter Z maximum : "))
+    zMin = float(input("Enter Z minimum : "))
+    zMax = float(input("Enter Z maximum : "))
 
-    xStep = int(input("Enter step for X: "))
-    yStep = int(input("Enter step for Y: "))
-    zStep = int(input("Enter step for Z: "))
+    xStep = float(input("Enter step for X: "))
+    yStep = float(input("Enter step for Y: "))
+    zStep = float(input("Enter step for Z: "))
  
-    x = int(input('Enter position of X to start : '))
-    y = int(input('Enter position of Y to start : '))
-    z = int(input('Enter position of Z to start : '))
+    x = float(input('Enter position of X to start : '))
+    y = float(input('Enter position of Y to start : '))
+    z = float(input('Enter position of Z to start : '))
     saveFile = input("Do you want to save file [y/n] : ")
     fileName = ''
     csvFile = None
@@ -548,8 +549,17 @@ elif option == '8':
         finally :
             csvFile.close()
     
-
-
+    code, body = send_gcode(f'$J=G90 G21 F1500 X{x} Y{y} Z{z} ')
+    if code == 200:
+        print(f"Complete send")
+    else:
+        print(f"No HTTP {code}")
+        sys.exit(0)
+    
+    yes = ''
+    while yes == '':
+        yes = input("Is ready to run ? [y] ")
+    
     delta = 1
     while abs(x) <= abs(xMax) :   
 
@@ -559,7 +569,7 @@ elif option == '8':
             while abs(z) <= abs(zMax) : 
                 print(f'\nRun for coordinate ({x}, {y}, {z}).')
                 
-                code, body = send_gcode(f'$J=G90 G21 X{x} Y{y} Z{z} F1500')
+                code, body = send_gcode(f'$J=G90 G21 F1500 X{x} Y{y} Z{z} ')
                 if code == 200:
                     print(f"Complete send")
                 else:

@@ -1,3 +1,6 @@
-from playsound import playsound
-
-playsound('/Users/huytranquoc/Documents/Code/Python/Oscilloscope/sound.mp3')
+a = float(input())
+b = float(input())
+for i in range(0, 3):
+    a = a + b
+    print(a + b)
+    
