@@ -59,7 +59,7 @@ def returnHome(coor, a, b):
 
 # Configure 
 REMOTE_IP = '192.168.0.113'
-PORT = 4884
+PORT = 5000
 oscilloscope = None
 
 def printIntroducing():

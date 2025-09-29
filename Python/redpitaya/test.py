@@ -1,15 +1,11 @@
-import sys
-import redpitaya_scpi as scpi
+import numpy as np
+import matplotlib.pyplot as plt
 
-import numpy
-import matplotlib.pyplot as plot
-import time
+plt.axis([0, 10, 0, 1])
 
-IP = 'rp-f0cc52.local'
+for i in range(10):
+    y = np.random.random()
+    plt.scatter(i, y)
+    plt.pause(0.05)
 
-rp = scpi.scpi(IP)
-
-while 1:
-    rp.tx_txt('LED:HB?')
-    buff_string = rp.rx_txt()
-    print(buff_string)
+plt.show()
