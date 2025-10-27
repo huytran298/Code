@@ -23,9 +23,9 @@ trigger = float(input("Input trigger level : "))
 # baseline_time = int(input("Input time calculate baseline : "))
 max_volt = float(input("Input maximum voltage : "))
 
-rp.tx_txt(f'ACQ:TRIG:LEV {-0.05}')      # Trigger khi xuống dưới -0.1V
+rp.tx_txt(f'ACQ:TRIG:LEV {trigger}')      # Trigger khi xuống dưới -0.1V
 rp.tx_txt('ACQ:START')
-rp.tx_txt('ACQ:TRIG CH1_NE')        # NE = Negative Edge (cạnh xuống)
+rp.tx_txt('ACQ:TRIG CH2_NE')        # NE = Negative Edge (cạnh xuống)
 TRIGGER_DELAY = 6000  
 rp.tx_txt(f'ACQ:TRIG:DLY {TRIGGER_DELAY}')
 
@@ -160,7 +160,7 @@ try :
     # Cập nhật mảng
         rp.tx_txt('ACQ:TRIG:STAT?')
         if rp.rx_txt() == 'TD':
-            rp.tx_txt('ACQ:SOUR1:DATA?')
+            rp.tx_txt('ACQ:SOUR2:DATA?')
             raw_data = rp.rx_txt()
             rp.tx_txt('ACQ:STOP')    # Dừng acquisition cũ
             rp.tx_txt('ACQ:RST')      # Reset trigger
@@ -170,7 +170,7 @@ try :
             channTrig = int(abs(trigger) / max_volt * max_channels)
             
             chann = int((abs(min(filterData)) / max_volt) * max_channels)
-            if 0 <= chann < max_channels: 
+            if channTrig <= chann < max_channels: 
                 
                 channels[chann] += 1
 
@@ -180,9 +180,9 @@ try :
             
             ax.relim()
             ax.autoscale_view(scalex=True, scaley=True)
-            rp.tx_txt(f'ACQ:TRIG:LEV {-0.05}')      # Trigger khi xuống dưới -0.1V
+            rp.tx_txt(f'ACQ:TRIG:LEV {trigger}')      # Trigger khi xuống dưới -0.1V
             rp.tx_txt('ACQ:START')
-            rp.tx_txt('ACQ:TRIG CH1_NE')    
+            rp.tx_txt('ACQ:TRIG CH2_NE')    
         return bars
     ani = animation.FuncAnimation(fig, animate, interval=0.01, blit=False, cache_frame_data=True)
     plt.title('Real-time Array Update')
