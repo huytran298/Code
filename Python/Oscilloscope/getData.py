@@ -6,8 +6,8 @@ import time as times
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import shutil
 
+import datetime
 import requests
 import csv
 BASE_URL = 'http://192.168.0.152/command'
@@ -631,6 +631,12 @@ elif option == '8':
                         csv.writer(csvFile).writerow(row)
                     finally :
                         csvFile.close()
+                timeNow = datetime.datetime.now().time()
+                # if timeNow >= datetime.time(8,0,0) :
+                #     print("Program will stop because the time is over 8:00 AM \n Last location : {x} {y} {z}")
+                #     #send_gcode(f'$J=G90 G21 X{xMin} Y{yMin} Z{zMin} F1500')
+                #     sys.exit(1)
+                #     # secs = (15 * 3600) - (timeNow.hour * 3600 + timeNow.minute * 60 + timeNow.second)
                 z += zStep
                 delta = zStep
             y += yStep
@@ -642,7 +648,7 @@ elif option == '8':
         returnHome('Y', yMin, yMax)
         y = yMin
     #send Home
-    code, body = send_gcode(f'$J=G90 G21 X0 Y0 Z0 F1500')
+    code, body = send_gcode(f'$J=G90 G21 X{xMin} Y{yMin} Z{zMin} F1500')
 
 elif option == '9':
     sys.exit(1)
