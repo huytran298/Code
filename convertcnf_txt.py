@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+from mariscotti import mariscotti as mrs
+from s import MariscottiAlgorithm
 """
 Script for reading a Canberra Nuclear File (CNF) form GENIE2000 software.
 
@@ -429,7 +430,7 @@ def write_to_file(filename, dic):
 if __name__ == "__main__":
 
     import os
-
+    import numpy as np
     # Check if command line argument is given
     if len(sys.argv) < 2:
         # Default name if not provided
@@ -460,12 +461,27 @@ if __name__ == "__main__":
 
     if True:
         import matplotlib.pyplot as plt
-        fig1 = plt.figure(1, figsize=(8, 8))
+        m = MariscottiAlgorithm(chan_data)
+        peak_point = m.find_peaks()
+        # Plot channel data and S/F in the same window using subplots
 
-        ax1 = fig1.add_subplot(111)
-        ax1.set_xlabel(u'Channels')
-        ax1.set_ylabel(u'Counts')
-        ax1.plot(chan, chan_data, 'k.')
-        ax1.set_title('File read: ' + filename)
+        fig, axs = plt.subplots(2, 1, sharex=True, figsize=(10, 8))
 
+        # Top: channel data
+        axs[0].plot(chan, chan_data, drawstyle='steps-mid')
+        axs[0].set_ylabel('Counts')
+        axs[0].set_title('Channel Data')
+        axs[0].grid(True, alpha=0.3)
+
+        # Scatter peak positions on top plot
+        peaks = np.atleast_1d(np.array(peak_point).astype(int).ravel())
+        peaks = peaks[(peaks >= 0) & (peaks < len(chan_data))]
+        if peaks.size:
+            x_peaks = chan[peaks] if len(chan) == len(chan_data) else peaks
+            y_peaks = chan_data[peaks]
+            axs[0].scatter(x_peaks, y_peaks, color='red', marker='x', s=60, label='Peaks', zorder=5)
+            axs[0].legend()
+
+       
+        fig.tight_layout()
         plt.show()

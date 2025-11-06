@@ -246,7 +246,7 @@ def main():
         S_basic.append(counts_np[i + 1] - 2 * counts_np[i] + counts_np[i - 1])
 
     # --- Tính S_i(z,w) và F_i(z,w) ---
-    m = 3
+    m = 1
     z = 5
     limit = z * m + 1
 
@@ -269,7 +269,23 @@ def main():
         Sw.append(sum_S)
         F.append(math.sqrt(max(0, sum_F_sq)))
     print("Calculation complete.")
+    # Plot generalized S and F
+    fig_sf, axes_sf = plt.subplots(2, 1, sharex=True, figsize=(10, 6))
 
+    axes_sf[0].plot(channels_generalized, Sw, color='C1', linewidth=1, label='S(i)')
+    axes_sf[0].axhline(0, color='k', linestyle='--', linewidth=0.6, alpha=0.5)
+    axes_sf[0].set_ylabel('S')
+    axes_sf[0].set_title(f'Generalized S and F (z={z}, m={m})')
+    axes_sf[0].grid(True, alpha=0.3)
+    axes_sf[0].legend()
+
+    axes_sf[1].plot(channels_generalized, F, color='C2', linewidth=1, label='F(i)')
+    axes_sf[1].set_xlabel('Channel')
+    axes_sf[1].set_ylabel('F')
+    axes_sf[1].grid(True, alpha=0.3)
+    axes_sf[1].legend()
+
+    fig_sf.tight_layout()
     # --- Xác định đỉnh ---
     w = 2 * m + 1
     # Ước tính FWHM ban đầu
