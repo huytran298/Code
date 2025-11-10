@@ -70,48 +70,69 @@ class mariscotti :
         n1 = int((k_z * gamma) + 0.5) # Phương trình (18)
         peak_pos = []
         M = 0
-        for idx in range(1, len(S)):
-            
-            if S[idx] > F[idx]:
+        st = False
+        tmp = 0
+        for idx in range(1, len(S) - 1):
+            if S[idx] > F[idx] and S[idx - 1] <= F[idx - 1]:
+                i[1] = idx
+                st = True
                 M = 1
-            elif S[idx] > 0:
-                M = 2
-            else :
-                M = 3
-            if S[idx - 1] > F[idx - 1]:
+                tmp = 0
+                
+            if st :
+                if M == 1 and S[idx] >= F[idx]:
+                    i[2] = idx
+                elif M == 1:
+                    M = 2
+                    
+                if M == 2:
+                    if S[idx] < 0:
+                        i[3] = idx
+                        tmp = S[idx]
+                        
+                        i[4] = idx
+                        M = 3
+                    continue
                 if M == 3:
                     
-                    i[3] = idx
-                elif M == 1:
-                    continue
-                i[2] = idx - 1
-            elif S[idx - 1] > 0:
-                if M == 3:
-                    i[3] = idx
-                elif M == 1:
-                    i[1] = idx
-            else :
-                if M == 3 :
-                    continue
-                i[5] = idx - 1
-                tmp = S[i[3]]
-                i[4] = i[3]
-                for j in range(i[3], idx):
-                    if tmp > S[j]:
-                        i[4] = j
-                        tmp = S[j]
-                
-                n2 = abs((F[i[4]] / S[i[4]]) * 1 / 2 * (n1 + 2) + 0.5)
-                n2 = n2 if n2 >= 1 else 0
+                    i[5] = idx
+                    if tmp >= S[idx] :
+                        tmp = S[idx]
+                        i[4] = idx     
+                    if S[idx + 1] >= 0 :
+                        st = False
+                        M = 0
+                        #print(f'i4 : {i[4]}')
 
-                n3 = abs((n1 + 2) * (1 - 2 * (F[i[4]] / S[i[4]])) + 1 / 2)  
-                if abs(S[i[4]]) > 2 * F[i[4]] and abs((i[5] - i[3] + 1) - n1) <= 2 and i[3] - i[2] - 1 <= n2 and i[2] - i[1] + 1 >= n3:
-                    peak_pos.append(i[4])
+                        #first codition (14)
+                        if abs(S[i[4]]) <= 2 * F[i[4]] :
+                            continue
+                        #second codition (18)
+                        if abs(i[5] - i[3] + 1 - n1) > 2:
+                            continue
+                        #third codition (21)
+                        n2 = abs((F[i[4]] / S[i[4]]) * 0.5 * (n1 + 2) + 0.5)
+                        n2 = n2 if n2 >= 1 else 1
+                        if i[3] - i[2] - 1 > n2:
+                            continue
+                        #fourth codition (23)
+                        n3 = abs((n1 + 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
+                        if i[2] - i[1] + 1 < n3 :
+                            continue
+                        peak_pos.append(i[4])
+                        for vl in range(1, 5) : 
+                            print(f'i{vl} : {i[vl]}', end=' ')
+                        print('')
+                        continue
+                                       
         self.peak_pos = peak_pos
-        return peak_pos
     def peak_fitting_procedure(self):
         peak_pos = self.peak_pos
         N = self.N
+        preSum = [0] * len(N)
+        preSum[0] = N[0]
+        for i in range(1, len(N)):
+            preSum[i] = preSum[i - 1] + N[i]
         for i in range(0, len(peak_pos)) : 
             FWHM = 0
             limitFWHM = 50
@@ -121,7 +142,6 @@ class mariscotti :
                 p = [0 for i in range(0, 9)]
                 iMin = peak_pos[i] - 5 * FWHM
                 iMax = peak_pos[i] + 5 * FWHM
-
                 if i < len(peak_pos) - 1 and peak_pos[i + 1] < iMax :
                     p[4] = N[peak_pos[i + 1]] - p[6]
                     pass

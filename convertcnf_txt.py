@@ -461,27 +461,21 @@ if __name__ == "__main__":
 
     if True:
         import matplotlib.pyplot as plt
-        m = MariscottiAlgorithm(chan_data)
-        peak_point = m.find_peaks()
-        # Plot channel data and S/F in the same window using subplots
+        
+        m = mrs(chan_data, 5, 5)
+        S, F = m.S, m.F 
+        PEAK = []
+        x = []
 
-        fig, axs = plt.subplots(2, 1, sharex=True, figsize=(10, 8))
+        for peak in m.peak_pos:
+            PEAK.append(chan_data[peak])
+            x.append(peak)
 
-        # Top: channel data
-        axs[0].plot(chan, chan_data, drawstyle='steps-mid')
-        axs[0].set_ylabel('Counts')
-        axs[0].set_title('Channel Data')
-        axs[0].grid(True, alpha=0.3)
-
-        # Scatter peak positions on top plot
-        peaks = np.atleast_1d(np.array(peak_point).astype(int).ravel())
-        peaks = peaks[(peaks >= 0) & (peaks < len(chan_data))]
-        if peaks.size:
-            x_peaks = chan[peaks] if len(chan) == len(chan_data) else peaks
-            y_peaks = chan_data[peaks]
-            axs[0].scatter(x_peaks, y_peaks, color='red', marker='x', s=60, label='Peaks', zorder=5)
-            axs[0].legend()
-
-       
-        fig.tight_layout()
+        plt.plot(chan_data, '-o', label='spectrum', zorder=1)
+        plt.scatter(x, PEAK, marker='x',color='red', label='peak', zorder=2)
+        for i in range(len(x)):
+            plt.text(x[i], PEAK[i] + 0.1, f"{x[i]}", ha='center', fontsize=9, color='black')
+        plt.grid()
+        plt.legend()
         plt.show()
+        
