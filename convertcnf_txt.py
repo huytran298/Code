@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 from mariscotti import mariscotti as mrs
 from s import MariscottiAlgorithm
 """
@@ -434,8 +433,8 @@ if __name__ == "__main__":
     # Check if command line argument is given
     if len(sys.argv) < 2:
         # Default name if not provided
-        directory = "Examples"
-        name = "cs137.CNF"
+        directory = ""
+        name = "Eu-152-16122019.cnf.txt"
         filename = os.path.join(directory, name)
         print('*'*10 + 'No input file was given\n')
         print('*'*10 + 'Reading file:' + filename + '\n')
@@ -462,20 +461,27 @@ if __name__ == "__main__":
     if True:
         import matplotlib.pyplot as plt
         
-        m = mrs(chan_data, 5, 5)
+        m = mrs(chan_data, 10, 7)
         S, F = m.S, m.F 
         PEAK = []
         x = []
 
+
+        # plt.plot(S, label='S',zorder=1)
+        # plt.plot(F, label='F', zorder=1)
+        
+        #sys.exit(0)
+        print(f'{len(m.peak_pos)} peaks detected !')
         for peak in m.peak_pos:
             PEAK.append(chan_data[peak])
             x.append(peak)
-
-        plt.plot(chan_data, '-o', label='spectrum', zorder=1)
+        plt.plot(chan_data, '-', label='spectrum', zorder=1)
         plt.scatter(x, PEAK, marker='x',color='red', label='peak', zorder=2)
+        
         for i in range(len(x)):
             plt.text(x[i], PEAK[i] + 0.1, f"{x[i]}", ha='center', fontsize=9, color='black')
         plt.grid()
+        plt.yscale('log')
         plt.legend()
         plt.show()
         

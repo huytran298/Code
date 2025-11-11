@@ -7,6 +7,12 @@ class mariscotti :
         self.z = z
         self.w = w
         self.m = int((w - 1) / 2)
+        self.i = [[], [], [], [], [], []]
+        self.i[1] = []
+        self.i[2] = []
+        self.i[3] = []
+        self.i[4] = []
+        self.i[5] = []
         self.C_coeffs = self.C()
         self.mariscotti_calc()
         
@@ -103,7 +109,9 @@ class mariscotti :
                         st = False
                         M = 0
                         #print(f'i4 : {i[4]}')
-
+                        
+                        
+                        
                         #first codition (14)
                         if abs(S[i[4]]) <= 2 * F[i[4]] :
                             continue
@@ -116,24 +124,27 @@ class mariscotti :
                         if i[3] - i[2] - 1 > n2:
                             continue
                         #fourth codition (23)
-                        n3 = abs((n1 + 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
+                        n3 = abs((n1 - 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
                         if i[2] - i[1] + 1 < n3 :
                             continue
+                        for k in range(1, 6) :
+                            self.i[k].append(i[k])
                         peak_pos.append(i[4])
-                        for vl in range(1, 5) : 
-                            print(f'i{vl} : {i[vl]}', end=' ')
-                        print('')
                         continue
                                        
         self.peak_pos = peak_pos
     def peak_fitting_procedure(self):
         peak_pos = self.peak_pos
         N = self.N
+        l = 1
+
         preSum = [0] * len(N)
         preSum[0] = N[0]
+        
         for i in range(1, len(N)):
             preSum[i] = preSum[i - 1] + N[i]
-        for i in range(0, len(peak_pos)) : 
+        
+        for i in range(0, len(peak_pos) - 1) : 
             FWHM = 0
             limitFWHM = 50
             
@@ -142,11 +153,20 @@ class mariscotti :
                 p = [0 for i in range(0, 9)]
                 iMin = peak_pos[i] - 5 * FWHM
                 iMax = peak_pos[i] + 5 * FWHM
+
+                p[6] = (preSum[iMin + l] - preSum[iMin - l - 1] + preSum[iMax + l] - preSum[iMax - l - 1]) / (4 * l + 2)
+                p[7] = (preSum[iMin + l] - preSum[iMin - l - 1] - (preSum[iMax + l] - preSum[iMax - l - 1])) / ((2 * l + 2) * (iMax - iMin + 1))
+                p[1] = peak_pos[i + 1]
+                p[2] = i
+                p[3] = FWHM
+                
                 if i < len(peak_pos) - 1 and peak_pos[i + 1] < iMax :
                     p[4] = N[peak_pos[i + 1]] - p[6]
                     pass
-                
+                else :
 
+                    p[4] = 0
+                p[8] = 0
 
 
 
