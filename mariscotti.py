@@ -17,6 +17,7 @@ class mariscotti :
         self.mariscotti_calc()
         
         self.peak_finding_procedure()
+        
     def C(self):
         C_current = defaultdict(int)
         C_current[0] = -2
@@ -66,6 +67,8 @@ class mariscotti :
         # n1 = 1.22 * 0.6 * w
         self.S = S
         self.F = F
+    
+    
     def peak_finding_procedure(self):
         S = self.S
         F = self.F
@@ -125,55 +128,27 @@ class mariscotti :
                             continue
                         #fourth codition (23)
                         n3 = abs((n1 - 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
-                        if i[2] - i[1] + 1 < n3 :
+                        n3_1 = abs((n1 + 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
+                        n3_min = min(n3, n3_1)
+                        if i[2] - i[1] + 1 < n3_min :
                             continue
+                        sum_Si = 0.0
+                        sum_iSi = 0.0
+                        for j_i0 in range(i[3], i[5] + 1):
+                            # Dùng abs(S) làm "khối lượng"
+                            abs_Sj = abs(S[j_i0]) 
+                            sum_Si += abs_Sj
+                            sum_iSi += j_i0 * abs_Sj
+
+                        # i_0 là tâm khối lượng (float)
+                        if sum_Si == 0: continue # Tránh chia cho 0
+                        i[4] = math.ceil(sum_iSi / sum_Si)
                         for k in range(1, 6) :
                             self.i[k].append(i[k])
                         peak_pos.append(i[4])
                         continue
                                        
         self.peak_pos = peak_pos
-    def peak_fitting_procedure(self):
-        peak_pos = self.peak_pos
-        N = self.N
-        l = 1
-
-        preSum = [0] * len(N)
-        preSum[0] = N[0]
-        
-        for i in range(1, len(N)):
-            preSum[i] = preSum[i - 1] + N[i]
-        
-        for i in range(0, len(peak_pos) - 1) : 
-            FWHM = 0
-            limitFWHM = 50
-            
-            while FWHM <= limitFWHM :  
-                FWHM += 2
-                p = [0 for i in range(0, 9)]
-                iMin = peak_pos[i] - 5 * FWHM
-                iMax = peak_pos[i] + 5 * FWHM
-
-                p[6] = (preSum[iMin + l] - preSum[iMin - l - 1] + preSum[iMax + l] - preSum[iMax - l - 1]) / (4 * l + 2)
-                p[7] = (preSum[iMin + l] - preSum[iMin - l - 1] - (preSum[iMax + l] - preSum[iMax - l - 1])) / ((2 * l + 2) * (iMax - iMin + 1))
-                p[1] = peak_pos[i + 1]
-                p[2] = i
-                p[3] = FWHM
-                
-                if i < len(peak_pos) - 1 and peak_pos[i + 1] < iMax :
-                    p[4] = N[peak_pos[i + 1]] - p[6]
-                    pass
-                else :
-
-                    p[4] = 0
-                p[8] = 0
-
-
-
-
-
-
-
-
-        
+    
+   
 

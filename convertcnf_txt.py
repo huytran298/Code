@@ -460,8 +460,8 @@ if __name__ == "__main__":
 
     if True:
         import matplotlib.pyplot as plt
-        
-        m = mrs(chan_data, 10, 7)
+        data = chan_data
+        m = mrs(data, 5, 5)
         S, F = m.S, m.F 
         PEAK = []
         x = []
@@ -471,17 +471,68 @@ if __name__ == "__main__":
         # plt.plot(F, label='F', zorder=1)
         
         #sys.exit(0)
-        print(f'{len(m.peak_pos)} peaks detected !')
-        for peak in m.peak_pos:
-            PEAK.append(chan_data[peak])
-            x.append(peak)
-        plt.plot(chan_data, '-', label='spectrum', zorder=1)
-        plt.scatter(x, PEAK, marker='x',color='red', label='peak', zorder=2)
+        # print(f'{len(m.peak_pos)} peaks detected !')
+        # for peak in m.peak_pos:
+        #     PEAK.append(data[peak])
+        #     x.append(peak)
+
+        # fig, ax1 = plt.subplots(figsize=(10, 6))
+        # ax2 = ax1.twinx()
+
+        # # Linear plot on left y-axis
+        # ln1 = ax1.plot(data, '-', color='C0', label='spectrum (linear)', zorder=1)
+        # # Mark peaks on linear axis
+        # ln_peaks1 = ax1.scatter(x, PEAK, color='C1', s=40, marker='o', label='peaks (linear)', zorder=4)
+
+        # # Same data on right y-axis but with log scale
+        # ln2 = ax2.plot(data, '--', color='C2', label='spectrum (log)', zorder=2)
+        # ax2.set_yscale('log')
+        # # Mark peaks on log axis
+        # ln_peaks2 = ax2.scatter(x, PEAK, color='C3', s=40, marker='x', label='peaks (log)', zorder=5)
+
+        # ax1.set_xlabel('Channel')
+        # ax1.set_ylabel('Counts (linear)')
+        # ax2.set_ylabel('Counts (log)')
+
+        # # Combine legends from both axes
+        # handles1, labels1 = ax1.get_legend_handles_labels()
+        # handles2, labels2 = ax2.get_legend_handles_labels()
+        # ax1.legend(handles1 + handles2, labels1 + labels2, loc='upper right')
+
+        # ax1.grid(True, linestyle='--', alpha=0.4)
+        # ax1.set_xlim(0, len(data) - 1)
+        # plt.title(f'Spectrum with peaks — {len(m.peak_pos)} detected')
+        # plt.show()
         
-        for i in range(len(x)):
-            plt.text(x[i], PEAK[i] + 0.1, f"{x[i]}", ha='center', fontsize=9, color='black')
-        plt.grid()
-        plt.yscale('log')
-        plt.legend()
+        # Prepare peak positions & heights
+        if hasattr(m, "peak_pos") and len(m.peak_pos) > 0:
+            x = list(m.peak_pos)
+            PEAK = [int(data[p]) for p in x]
+        else:
+            x = []
+            PEAK = []
+
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), sharex=False)
+
+        # Top plot: S and F
+        ax1.plot(S, label='S', color='C0')
+        ax1.plot(F, label='F', color='C1', linestyle='--')
+        ax1.set_title('S and F')
+        ax1.set_ylabel('Amplitude')
+        ax1.grid(True, linestyle='--', alpha=0.4)
+        ax1.legend()
+
+        # Bottom plot: data and peaks
+        ax2.plot(data, label='spectrum', color='C2')
+        if x:
+            ax2.scatter(x, PEAK, color='C3', s=50, marker='x', label=f'peaks ({len(x)})')
+        ax2.set_title('Spectrum and detected peaks')
+        ax2.set_xlabel('Channel')
+        ax2.set_ylabel('Counts')
+        # ax2.set_yscale('log')
+        ax2.grid(True, linestyle='--', alpha=0.4)
+        ax2.legend()
+
+        plt.tight_layout()
         plt.show()
         
