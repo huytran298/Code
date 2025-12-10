@@ -164,9 +164,9 @@ class mariscotti :
                     p[4] = N[peak_pos[i + 1]] - p[6]
                     pass
                 else :
-
                     p[4] = 0
                 p[8] = 0
+                
 
 
 

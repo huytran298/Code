@@ -481,7 +481,7 @@ if __name__ == "__main__":
         for i in range(len(x)):
             plt.text(x[i], PEAK[i] + 0.1, f"{x[i]}", ha='center', fontsize=9, color='black')
         plt.grid()
-        plt.yscale('log')
+        #plt.yscale('log')
         plt.legend()
         plt.show()
         
