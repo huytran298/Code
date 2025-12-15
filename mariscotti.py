@@ -7,17 +7,17 @@ class mariscotti :
         self.z = z
         self.w = w
         self.m = int((w - 1) / 2)
-        self.i = [[], [], [], [], [], []]
+        self.i = [[], [], [], [], [], [], []]
         self.i[1] = []
         self.i[2] = []
         self.i[3] = []
         self.i[4] = []
         self.i[5] = []
+        self.i[6] = []
         self.C_coeffs = self.C()
         self.mariscotti_calc()
         
         self.peak_finding_procedure()
-        
     def C(self):
         C_current = defaultdict(int)
         C_current[0] = -2
@@ -73,7 +73,7 @@ class mariscotti :
         S = self.S
         F = self.F
         w = self.w
-        i = [i for i in range(6)]
+        i = [i for i in range(7)]
         gamma = self.w / 0.6  # Ước tính FWHM từ w 
         k_z = 1.22             # Hệ số từ Hình 8 [cite: 443]
         n1 = int((k_z * gamma) + 0.5) # Phương trình (18)
@@ -113,8 +113,6 @@ class mariscotti :
                         M = 0
                         #print(f'i4 : {i[4]}')
                         
-                        
-                        
                         #first codition (14)
                         if abs(S[i[4]]) <= 2 * F[i[4]] :
                             continue
@@ -132,23 +130,62 @@ class mariscotti :
                         n3_min = min(n3, n3_1)
                         if i[2] - i[1] + 1 < n3_min :
                             continue
-                        sum_Si = 0.0
-                        sum_iSi = 0.0
-                        for j_i0 in range(i[3], i[5] + 1):
-                            # Dùng abs(S) làm "khối lượng"
-                            abs_Sj = abs(S[j_i0]) 
-                            sum_Si += abs_Sj
-                            sum_iSi += j_i0 * abs_Sj
-
-                        # i_0 là tâm khối lượng (float)
-                        if sum_Si == 0: continue # Tránh chia cho 0
-                        i[4] = math.ceil(sum_iSi / sum_Si)
-                        for k in range(1, 6) :
+                        tmp1 = tmp = 0
+                        for j in range(i[3], i[5] + 1) :
+                            tmp += S[j]
+                            tmp1 += j * S[j]
+                        i[6] = tmp1 / tmp
+                        for k in range(1, 7) :
                             self.i[k].append(i[k])
                         peak_pos.append(i[4])
                         continue
                                        
         self.peak_pos = peak_pos
-    
-   
+    def peak_fitting_procedure(self):
+        peak_pos = self.peak_pos
+        N = self.N
+        l = 1
+
+        preSum = [0] * len(N)
+        preSum[0] = N[0]
+        
+        for i in range(1, len(N)):
+            preSum[i] = preSum[i - 1] + N[i]
+        
+        for i in range(0, len(peak_pos) - 1) : 
+            FWHM = 0
+            limitFWHM = 50
+            
+            while FWHM <= limitFWHM :  
+                FWHM += 2
+                max_i = peak_pos[i] + 5 * FWHM 
+                min_i = peak_pos[i] - 5 * FWHM
+                p = [0 for k in range(9)]
+                p[8] = 0
+                l = 1
+                sum1 = sum2 = 0
+                for j in range(max(max_i - l, 0), min(max_i + l, len(N))):
+                    sum1 += N[j]
+                for j in range(max(min_i - l, 0), min(min_i + l, len(N))):
+                    sum2 += N[j]
+                p[7] = (sum1 - sum2) / ((2 * l + 1) * (max_i - min_i + 1))
+                p[6] = (sum1 - sum2) / (4 * l + 2)
+                p[1] = N[peak_pos[i]] - p[6]
+                p[2] = self.i[6][i]
+                p[3] = FWHM
+                p[4] = N[peak_pos[i + 1]] - p[6] if peak_pos[i + 1] < max_i else 0
+                p[5] = peak_pos[i + 1]
+                
+
+                
+                
+
+
+
+
+
+
+
+
+        
 
