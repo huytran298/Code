@@ -7,16 +7,18 @@ class mariscotti :
         self.z = z
         self.w = w
         self.m = int((w - 1) / 2)
-        self.i = [[], [], [], [], [], []]
+        self.i = [[], [], [], [], [], [], []]
         self.i[1] = []
         self.i[2] = []
         self.i[3] = []
         self.i[4] = []
         self.i[5] = []
+        self.i[6] = []
         self.C_coeffs = self.C()
         self.mariscotti_calc()
         
         self.peak_finding_procedure()
+
     def C(self):
         C_current = defaultdict(int)
         C_current[0] = -2
@@ -70,7 +72,7 @@ class mariscotti :
         S = self.S
         F = self.F
         w = self.w
-        i = [i for i in range(6)]
+        i = [i for i in range(7)]
         gamma = self.w / 0.6  # Ước tính FWHM từ w 
         k_z = 1.22             # Hệ số từ Hình 8 [cite: 443]
         n1 = int((k_z * gamma) + 0.5) # Phương trình (18)
@@ -110,8 +112,6 @@ class mariscotti :
                         M = 0
                         #print(f'i4 : {i[4]}')
                         
-                        
-                        
                         #first codition (14)
                         if abs(S[i[4]]) <= 2 * F[i[4]] :
                             continue
@@ -127,7 +127,12 @@ class mariscotti :
                         n3 = abs((n1 - 2) * (1 - 2 * F[i[4]]/S[i[4]]) + 0.5)
                         if i[2] - i[1] + 1 < n3 :
                             continue
-                        for k in range(1, 6) :
+                        tmp1 = tmp = 0
+                        for j in range(i[3], i[5] + 1) :
+                            tmp += S[j]
+                            tmp1 += j * S[j]
+                        i[6] = tmp1 / tmp
+                        for k in range(1, 7) :
                             self.i[k].append(i[k])
                         peak_pos.append(i[4])
                         continue
@@ -150,22 +155,26 @@ class mariscotti :
             
             while FWHM <= limitFWHM :  
                 FWHM += 2
-                p = [0 for i in range(0, 9)]
-                iMin = peak_pos[i] - 5 * FWHM
-                iMax = peak_pos[i] + 5 * FWHM
-
-                p[6] = (preSum[iMin + l] - preSum[iMin - l - 1] + preSum[iMax + l] - preSum[iMax - l - 1]) / (4 * l + 2)
-                p[7] = (preSum[iMin + l] - preSum[iMin - l - 1] - (preSum[iMax + l] - preSum[iMax - l - 1])) / ((2 * l + 2) * (iMax - iMin + 1))
-                p[1] = peak_pos[i + 1]
-                p[2] = i
-                p[3] = FWHM
-                
-                if i < len(peak_pos) - 1 and peak_pos[i + 1] < iMax :
-                    p[4] = N[peak_pos[i + 1]] - p[6]
-                    pass
-                else :
-                    p[4] = 0
+                max_i = peak_pos[i] + 5 * FWHM 
+                min_i = peak_pos[i] - 5 * FWHM
+                p = [0 for k in range(9)]
                 p[8] = 0
+                l = 1
+                sum1 = sum2 = 0
+                for j in range(max(max_i - l, 0), min(max_i + l, len(N))):
+                    sum1 += N[j]
+                for j in range(max(min_i - l, 0), min(min_i + l, len(N))):
+                    sum2 += N[j]
+                p[7] = (sum1 - sum2) / ((2 * l + 1) * (max_i - min_i + 1))
+                p[6] = (sum1 - sum2) / (4 * l + 2)
+                p[1] = N[peak_pos[i]] - p[6]
+                p[2] = self.i[6][i]
+                p[3] = FWHM
+                p[4] = N[peak_pos[i + 1]] - p[6] if peak_pos[i + 1] < max_i else 0
+                p[5] = peak_pos[i + 1]
+                
+
+                
                 
 
 

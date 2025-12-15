@@ -472,14 +472,14 @@ if __name__ == "__main__":
         
         #sys.exit(0)
         print(f'{len(m.peak_pos)} peaks detected !')
-        for peak in m.peak_pos:
-            PEAK.append(chan_data[peak])
+        for peak in m.i[6]:
+            PEAK.append(chan_data[round(peak)])
             x.append(peak)
         plt.plot(chan_data, '-', label='spectrum', zorder=1)
         plt.scatter(x, PEAK, marker='x',color='red', label='peak', zorder=2)
         
         for i in range(len(x)):
-            plt.text(x[i], PEAK[i] + 0.1, f"{x[i]}", ha='center', fontsize=9, color='black')
+            plt.text(x[i], PEAK[i], f"{x[i]}", ha='center', fontsize=9, color='black')
         plt.grid()
         #plt.yscale('log')
         plt.legend()
