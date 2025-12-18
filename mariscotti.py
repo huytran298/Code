@@ -1,6 +1,7 @@
 import math
 from collections import defaultdict
 import numpy as np
+from scipy.optimize import least_squares
 class mariscotti :
     def __init__(self, N, z : int, w : int):
         self.N = N
@@ -141,6 +142,16 @@ class mariscotti :
                         continue
                                        
         self.peak_pos = peak_pos
+    def t(p, i, m, n):
+        return 1.665 * (i - p[m]) / p[n]
+    def f(self, p, i):
+        return p[1] * math.exp(-self.t(p, i, 2, 3) ** 2) + p[4] * math.exp(-self.t(p, i, 5, 3) ** 2) + p[6] + p[7] * i + p[8] * i ** 2
+    def residuals(self, p, i):
+        N = self.N
+        y_model = self.f(p, i)
+        weights = np.sqrt(np.maximum(N, 1))
+        return (y_model - N) / weights
+
     def peak_fitting_procedure(self):
         peak_pos = self.peak_pos
         N = self.N
@@ -175,6 +186,11 @@ class mariscotti :
                 p[3] = FWHM
                 p[4] = N[peak_pos[i + 1]] - p[6] if peak_pos[i + 1] < max_i else 0
                 p[5] = peak_pos[i + 1]
+                y_data = N[min_i:max_i]
+                x_data = [i for i in range(min_i, max_i + 1)]
+                bg = (y_data[0] + y_data[-1]) / 2
+                amp_est = max(y_data) - bg
+                
                 
 
                 
