@@ -191,8 +191,6 @@ class mariscotti:
         N = self.N
         
         i = 0
-        peak_counter = 1 # Biến đếm số thứ tự đỉnh để hiển thị
-        
         while i < len(peak_pos):
             current_idx = i
             center_est = self.i[6][current_idx]
@@ -201,8 +199,11 @@ class mariscotti:
             limitFWHM = 50.0
             fit_success = False
             
+            # Vòng lặp tăng FWHM
             while FWHM <= limitFWHM:
                 FWHM += 2.0
+                
+                # Cắt vùng ROI
                 min_i = int(max(0, center_est - 5 * FWHM))
                 max_i = int(min(len(N), center_est + 5 * FWHM))
                 
@@ -211,25 +212,31 @@ class mariscotti:
                 
                 if len(x_data) < 5: continue
                 
-                # --- KHỞI TẠO ---
+                # --- KHỞI TẠO THAM SỐ (FIX LỖI BOUNDS) ---
                 p = np.zeros(8)
-                l = 1
-                idx_L = int(peak_pos[current_idx])
                 
                 # Ước lượng nền
+                l = 1
+                idx_L = int(peak_pos[current_idx])
                 left_bg_idx = max(0, idx_L - int(5*FWHM))
                 right_bg_idx = min(len(N)-1, idx_L + int(5*FWHM))
+                
                 bg_left = np.mean(N[max(0, left_bg_idx-l):min(len(N), left_bg_idx+l+1)])
                 bg_right = np.mean(N[max(0, right_bg_idx-l):min(len(N), right_bg_idx+l+1)])
                 range_len = max(1, right_bg_idx - left_bg_idx)
                 
-                p[6] = (bg_right - bg_left) / range_len 
-                p[5] = bg_left - p[6] * left_bg_idx     
+                p[6] = (bg_right - bg_left) / range_len # Slope
+                p[5] = bg_left - p[6] * left_bg_idx     # Intercept
+                
+                # Tính nền tại đỉnh để ước lượng Amp
                 bg_at_peak = p[5] + p[6] * center_est
                 
                 p[1] = center_est
                 p[2] = FWHM
-                p[0] = max(N[int(center_est)] - bg_at_peak, 10.0) 
+                p[0] = max(N[int(center_est)] - bg_at_peak, 10.0) # Amp1 > 0
+                
+                # [QUAN TRỌNG] Gán giá trị hợp lệ cho p[4] (Pos2) ngay cả khi không dùng
+                # Để tránh lỗi "Initial guess outside bounds" vì bounds của p[4] là [min_i, max_i]
                 p[4] = center_est 
                 
                 is_doublet = False
@@ -241,9 +248,10 @@ class mariscotti:
                         is_doublet = True
                         bg_at_next = p[5] + p[6] * next_peak_loc
                         p[3] = max(N[int(next_peak_loc)] - bg_at_next, 10.0)
-                        p[4] = next_peak_loc
+                        p[4] = next_peak_loc # Cập nhật lại nếu là Doublet thật
                         skip_next = True
                 
+                # Bounds: Amp1, Pos1, Width, Amp2, Pos2, Bg0, Bg1, Bg2
                 lower_bounds = [0, min_i, 0.1, 0, min_i, -np.inf, -np.inf, -np.inf]
                 upper_bounds = [np.inf, max_i, np.inf, np.inf, max_i, np.inf, np.inf, np.inf]
                 
@@ -256,80 +264,22 @@ class mariscotti:
                     )
                     
                     if res.success:
-                        # --- TÍNH TOÁN SAI SỐ VÀ CHI-SQUARE (MỚI) ---
-                        # 1. Tính Chi-square
-                        chi_sq = np.sum(res.fun**2)
-                        dof = len(x_data) - 8 # Bậc tự do (Degrees of freedom)
-                        reduced_chi_sq = chi_sq / dof if dof > 0 else chi_sq
-                        
-                        # 2. Tính sai số chuẩn (Standard Error) từ Jacobian
-                        try:
-                            J = res.jac
-                            # Ma trận hiệp phương sai gần đúng: Cov = inv(J.T * J)
-                            cov = np.linalg.inv(J.T @ J) 
-                            # Sai số = căn bậc 2 của đường chéo ma trận Cov
-                            perr = np.sqrt(np.diag(cov))
-                        except Exception:
-                            perr = np.zeros(8) # Nếu lỗi tính toán ma trận thì gán sai số = 0
-
                         self.fitted_params_list.append({
-                            'peak_id': peak_counter,
                             'roi_x': x_data,
                             'params': res.x,
-                            'errors': perr,
-                            'chi_sq': reduced_chi_sq, # Lưu Reduced Chi-sq cho dễ so sánh
-                            'iter': res.nfev,         # Số lần tính toán hàm
                             'is_doublet': is_doublet
                         })
-                        
                         fit_success = True
-                        if skip_next: 
-                            i += 1
-                            peak_counter += 1 # Tăng ID cho đỉnh phụ trong doublet
+                        if skip_next: i += 1
                         break
                         
                 except ValueError:
-                    pass
+                    pass # Bỏ qua lỗi để thử FWHM khác hoặc đỉnh khác
 
             if not fit_success:
-                print(f"Bỏ qua đỉnh tại {center_est:.1f}")
+                print(f"Bỏ qua đỉnh tại {center_est:.1f} (không hội tụ).")
             
             i += 1
-            peak_counter += 1
-    def print_report(self):
-        print("\n" + "="*95)
-        print(f"{'Peak':<6} {'Position (Error)':<20} {'Height (Error)':<20} {'FWHM (Error)':<20} {'Chi^2':<10} {'Iter':<6}")
-        print("="*95)
-        
-        for item in self.fitted_params_list:
-            p = item['params']
-            err = item['errors']
-            chi2 = item['chi_sq']
-            iters = item['iter']
-            pid = item['peak_id']
-            is_doublet = item['is_doublet']
-            
-            # --- In Đỉnh 1 (Peak A) ---
-            # p[1]: Pos, p[0]: Height, p[2]: FWHM
-            pos_str = f"{p[1]:.3f} ({err[1]:.3f})"
-            h_str   = f"{p[0]:.1f} ({err[0]:.1f})"
-            fwhm_str= f"{p[2]:.3f} ({err[2]:.3f})"
-            
-            # Nếu là Doublet, ID của đỉnh đầu là (ID_hiện_tại - 1) vì vòng lặp đã +2
-            # Nhưng để đơn giản, ta in ID lưu trong item
-            print(f"{pid:<6} {pos_str:<20} {h_str:<20} {fwhm_str:<20} {chi2:<10.2f} {iters:<6}")
-            
-            # --- In Đỉnh 2 (Peak B) nếu là Doublet ---
-            if is_doublet:
-                # p[4]: Pos2, p[3]: Height2, p[2]: FWHM (dùng chung)
-                pos2_str = f"{p[4]:.3f} ({err[4]:.3f})"
-                h2_str   = f"{p[3]:.1f} ({err[3]:.1f})"
-                # FWHM giống nhau (theo mô hình này)
-                fwhm2_str= f"{p[2]:.3f} ({err[2]:.3f})" 
-                
-                print(f"{pid+1:<6} {pos2_str:<20} {h2_str:<20} {fwhm2_str:<20} {'-'*10} {'-'*6}")
-                
-        print("="*95)
     def plot_results(self):
         try:
             import matplotlib.pyplot as plt

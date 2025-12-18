@@ -6,7 +6,23 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [],
-            "intelliSenseMode": "macos-clang-arm64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "C:/Users/huyhuyne/scoop/apps/gcc/13.2.0/bin/gcc.exe"
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\Users\\huyhuyne\\scoop\\apps\\gcc\\13.2.0\\bin\\gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4
