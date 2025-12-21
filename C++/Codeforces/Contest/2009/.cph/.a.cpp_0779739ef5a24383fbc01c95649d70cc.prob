@@ -1,1 +1,0 @@
-{"name":"Local: a","url":"/workspaces/Code/C++/Codeforces/Contest/2009/a.cpp","tests":[{"id":1725374270310,"input":"3\n1 2\n3 10\n5 5\n","output":"1\n7\n0\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/workspaces/Code/C++/Codeforces/Contest/2009/a.cpp","group":"local","local":true}

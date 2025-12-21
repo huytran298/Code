@@ -1,1 +1,0 @@
-{"name":"Local: d","url":"c:\\Users\\as\\Documents\\Code\\C++\\Atcoder\\abc385\\d.cpp","tests":[{"id":1734787167377,"input":"3 4 3 2\n2 2\n3 3\n2 1\nL 2\nD 1\nR 1\nU 2\n","output":"2 3 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\as\\Documents\\Code\\C++\\Atcoder\\abc385\\d.cpp","group":"local","local":true}

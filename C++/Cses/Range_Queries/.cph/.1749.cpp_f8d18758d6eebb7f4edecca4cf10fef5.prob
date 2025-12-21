@@ -1,1 +1,0 @@
-{"name":"Local: 1749","url":"c:\\Users\\huyhuyne\\Documents\\Code\\C++\\Cses\\Range_Queries\\1749.cpp","tests":[{"id":1732249265145,"input":"5\n2 6 1 4 2\n3 1 3 1 1","output":"1 2 2 6 4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\huyhuyne\\Documents\\Code\\C++\\Cses\\Range_Queries\\1749.cpp","group":"local","local":true}
