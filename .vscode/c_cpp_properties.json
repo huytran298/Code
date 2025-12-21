@@ -7,7 +7,7 @@
             ],
             "defines": [],
             "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "C:/Users/huyhuyne/scoop/apps/gcc/13.2.0/bin/gcc.exe"
+            "compilerPath": "/opt/homebrew/bin/g++-15"
         },
         {
             "name": "Win32",
