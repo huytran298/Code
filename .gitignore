@@ -1,7 +1,7 @@
 # Các file hệ thống
 .DS_Store
 Thumbs.db
-
+*__test_*/
 .vscode/
 .cph/
 __pycache__/
