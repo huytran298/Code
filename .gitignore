@@ -1,7 +1,13 @@
-# Các file hệ thống
+# 1. Quy tắc chung cho file không đuôi (Đưa lên trên)
+*
+!*/
+!*.*
+
+# 2. Các file hệ thống và thư mục cụ thể (Đưa xuống dưới để ghi đè)
 .DS_Store
 Thumbs.db
 *__test_*/
 .vscode/
 .cph/
 __pycache__/
+*.prob

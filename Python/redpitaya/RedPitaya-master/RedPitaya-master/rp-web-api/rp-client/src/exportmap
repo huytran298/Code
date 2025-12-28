@@ -1,4 +1,0 @@
-{
-global: *rp_WC_*;
-local: *;
-};
