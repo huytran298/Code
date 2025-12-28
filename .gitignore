@@ -3,6 +3,7 @@
 !*/
 !*.*
 *.exe
+*.bin
 # 2. Các file hệ thống và thư mục cụ thể (Đưa xuống dưới để ghi đè)
 .DS_Store
 Thumbs.db
