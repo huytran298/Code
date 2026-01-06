@@ -32,5 +32,18 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-
+    ll n, m;
+    cin >> n >> m;
+    string s, t;
+    cin >> s >> t;
+    ll ans = LIMIT;
+    for(int i = 0; i <= n - m; i ++){
+        ll cnt = 0;
+        for(int j = 0; j < m; j ++){
+            if(s[i + j] >= t[j])cnt += s[i + j] - t[j];
+            else cnt += s[i + j] - '0' + ('9' - t[j] + 1);
+        }
+        ans = min(ans, cnt);
+    }
+    cout << ans;
 }

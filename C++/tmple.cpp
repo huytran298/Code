@@ -32,5 +32,20 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-
+     for(unsigned int p = 0; p <= 1; p ++){
+        for(unsigned int q = 0; q <= 1; q ++){
+            for(unsigned int r = 0; r <= 1; r ++){
+                cout <<p << ' ' << q << ' ' << r << ' ' << (!(((!p || r) && (!q || r)) && (q || p)) || r) << endl;
+            }
+        }
+    }
+    for(int i = 0; i <= 5; i ++)cout << "-";
+    cout << endl;
+    for(unsigned int p = 0; p <= 1; p ++){
+        for(unsigned int q = 0; q <= 1; q ++){
+            for(unsigned int r = 0; r <= 1; r ++){
+                cout <<p << ' ' << q << ' ' << r << ' ' << ((!p || (!(!q) || !r) && r) || (q && !p)) << endl;
+            }
+        }
+    }
 }

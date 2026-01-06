@@ -32,5 +32,32 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
+    ll n;
+    cin >> n;
+    ll a[n + 1], b[n + 1], c[n + 1];
+    for(int i = 1; i <= n; i ++)cin >> a[i];
+    for(int i = 1; i <= n; i ++)cin >> b[i];
+    for(int i = 1; i <= n; i ++)cin >> c[i];
+    ll preA[n + 1], preB[n + 1];
+    preA[0] = preB[0] = 0;
+    preB[1] = b[1];
+    
+    for(int i = 1; i <= n; i ++)preA[i] = preA[i - 1] + a[i];
+    for(int i = 2; i <= n; i ++)preB[i] = preB[i - 1] + b[i];
+    ll RevPreC[n + 1];
+    RevPreC[n] = c[n];
+    for(int i = n - 1; i > 0; i --)RevPreC[i] = RevPreC[i + 1] + c[i];
+
+    ll dp[n + 1];
+    dp[0] = 0;
+    dp[1] = a[1];
+    for(int i = 2; i <= n; i ++){
+        dp[i] = max(dp[i - 1] + b[i], preA[i - 1] + b[i]);
+    }
+    ll ans = 0;
+    for(int i = 3; i <= n; i ++){
+        ans = max(ans, dp[i - 1] + RevPreC[i]);
+    }
+    cout << ans;
 
 }

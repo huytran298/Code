@@ -32,5 +32,28 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
+    ll n;
+    cin >> n;
+    vector<ll> arr;
+    for(int i = 0; i < n; i ++){
+        ll x; cin >> x;
+        arr.pb(x);
+        if(arr.size() >= 4){
+            ll check = 1;
+            for(int j = 2; j <= 4; j ++){
+                if(arr.back() != arr[arr.size() - j]){
+                    check = 0;
+                    break;
+                }
+            }
+            if(check){
+                
+                for(int j = 1; j <= 4; j ++){
 
+                    arr.pop_back();
+                }
+            }
+        }
+    }
+    cout << arr.size();
 }
