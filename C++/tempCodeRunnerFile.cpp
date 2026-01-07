@@ -33,13 +33,14 @@ int nxt(){ int n; cin >> n; return n;}
 signed main(){
     fast; 
     ll c[6] ;
+    for(int i = 0; i < 6; i ++)c[i] = 0;
     c[0] = -2;
     c[1] = 1;
     for(int z = 1; z <= 5; z ++){
         ll ctemp[6];
-
+        for(int i = 0; i < 6; i ++)ctemp[i] = 0;
         for(int diff = 0; diff <= 5; diff ++){
-            for(int l = -5; l <= 5; l ++){
+            for(int l = -2; l <= 2; l ++){
                 ctemp[diff] += c[abs(diff + l)];
             }
             for(ll k = 0; k <= 5; k ++){
@@ -47,6 +48,6 @@ signed main(){
             }
         }
     }
-    for(int i = 0; i < 6; i ++)cout << c << ' ';
+    for(int i = 0; i < 6; i ++)cout << c[i] << ' ';
     
 }
