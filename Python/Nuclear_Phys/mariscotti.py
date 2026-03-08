@@ -98,7 +98,6 @@ class mariscotti:
                 st = True
                 M = 1
                 tmp = 0
-                
             if st:
                 if M == 1 and S[idx] >= F[idx]:
                     curr_i[2] = idx
@@ -116,7 +115,7 @@ class mariscotti:
                     curr_i[5] = idx
                     if tmp >= S[idx]:
                         tmp = S[idx]
-                        curr_i[4] = idx     
+                        curr_i[4] = idx 
                     if S[idx + 1] >= 0:
                         st = False
                         M = 0
