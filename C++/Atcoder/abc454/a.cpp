@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std; 
 
 #define ll long long
@@ -32,5 +32,8 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-
+    ll a, b;
+    cin >> a >> b;
+    cout << b - a + 1;
+    
 }

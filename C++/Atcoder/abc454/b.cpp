@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std; 
 
 #define ll long long
@@ -32,5 +32,25 @@ int nxt(){ int n; cin >> n; return n;}
 
 signed main(){
     fast; 
-
+    ll n, m;
+    cin >> n >> m;
+    ll f[n + 1];
+    set<ll> q;
+    for(int i = 1; i <= n; i ++){
+        cin >> f[i];
+        q.insert(f[i]);
+    }
+    if(q.size() == n){
+        cout << "Yes";
+    }else {
+        cout << "No";
+    }
+    cout << endl;
+    if(q.size() == m){
+        cout << "Yes";
+    }else {
+        cout << "No";
+    }
+    
+    
 }

@@ -1,4 +1,4 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std; 
 
 #define ll long long
@@ -29,8 +29,33 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
+vector<ll> tree[maxN], visitors(maxN, 0), costs(maxN, 0);
 
+void dfs(ll u){
+    
+    for(auto v : tree[u]){
+        if(visitors[v])continue;
+        visitors[v] = 1;
+        dfs(v);
+
+    }
+
+}
 signed main(){
     fast; 
+    ll n, m;
+    cin >> n >> m;
+
+    for(int i = 1; i <= m; i ++){
+        ll a, b;
+        cin >> a >> b;
+        tree[a].pb(b);
+    }
+    visitors[1] = 1;
+    dfs(1);
+    ll ans = 0;
+    
+    for(int i = 1; i <= n; i ++)ans += visitors[i];
+    cout << ans;
 
 }
