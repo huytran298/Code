@@ -433,8 +433,8 @@ if __name__ == "__main__":
     # Check if command line argument is given
     if len(sys.argv) < 2:
         # Default name if not provided
-        directory = ""
-        name = "Eu-152-16122019.cnf.txt"
+        directory = "C:\\Users\\huyhuyne\\Documents\\Code\\Python\\Nuclear_Phys\\"
+        name = "Eu154 - Subtract BG.CNF"
         filename = os.path.join(directory, name)
         print('*'*10 + 'No input file was given\n')
         print('*'*10 + 'Reading file:' + filename + '\n')
@@ -461,15 +461,15 @@ if __name__ == "__main__":
     if True:
         import matplotlib.pyplot as plt
         data = chan_data
-        m = mrs(data, 5, 5)
+        m = mrs(data, 7, 5)
         S, F = m.S, m.F 
         PEAK = []
         x = []
-        m.print_report()
-        m.plot_results() 
-        # plt.plot(S, label='S',zorder=1)
-        # plt.plot(F, label='F', zorder=1)
-        
+        # m.print_report()
+        # m.plot_results() 
+        plt.plot(S, label='S',zorder=1)
+        plt.plot(F, label='F', zorder=1)
+        plt.show()
         #sys.exit(0)
         
         

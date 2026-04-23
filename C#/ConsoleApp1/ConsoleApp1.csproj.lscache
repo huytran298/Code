@@ -1,0 +1,70 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically.
+#
+# To exclude from version control, add *.lscache to your .gitignore file.
+#
+# To disable caching, add the following to your VS Code settings:
+#   "dotnet.projectsystem.enableLanguageServiceCache": false
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[properties]
+AssemblyName=ConsoleApp1
+CommandLineArgsForDesignTimeEvaluation=-langversion:13.0 -define:TRACE
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=13.0
+ProjectAssetsFile=<PATH>obj/project.assets.json
+RootNamespace=ConsoleApp1
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=<PATH>../../ConsoleApp1.sln
+TargetFrameworkIdentifier=.NETCoreApp
+TargetPath=<PATH>bin/Debug/net9.0/ConsoleApp1.dll
+TargetRefPath=<PATH>obj/Debug/net9.0/ref/ConsoleApp1.dll
+TemporaryDependencyNodeTargetIdentifier=net9.0
+
+[commandLineArguments]
+/noconfig
+/unsafe-
+/checked-
+/nowarn:1701,1702,1701,1702,8002
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:9
+/define:TRACE;DEBUG;NET;NET9_0;NETCOREAPP;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER
+/highentropyva+
+/nullable:enable
+/debug+
+/debug:portable
+/filealign:512
+/optimize-
+/out:obj\Debug\net9.0\ConsoleApp1.dll
+/refout:obj\Debug\net9.0\refint\ConsoleApp1.dll
+/target:exe
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:13.0
+/warnaserror+:NU1605,SYSLIB0011
+
+[sourceFiles]
+obj/Debug/net9.0/
+ .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+ ConsoleApp1.AssemblyInfo.cs
+ ConsoleApp1.GlobalUsings.g.cs
+
+[analyzerReferences]
+<DOTNET>/sdk/10.0.202/Sdks/Microsoft.NET.Sdk/analyzers/
+ Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
+ Microsoft.CodeAnalysis.NetAnalyzers.dll
+
+[analyzerConfigFiles]
+<DOTNET>/sdk/10.0.202/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_9_default.globalconfig
+obj/Debug/net9.0/ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
