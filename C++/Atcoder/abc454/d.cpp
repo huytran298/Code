@@ -29,50 +29,43 @@ int nxt(){ int n; cin >> n; return n;}
 |_||_|\_,_|\_, |   |_||_| \__,_|_||_|
            |__/                      
 */
-string convert(string a){
-    ll v = a.size();
-    for(int i = 1; i < v - 1; i ++){
-        if(a[i] == a[i + 1] && a[i] == 'x' && i < v - 2){
-            if(a[i - 1] == '(' && a[i + 2] == ')'){
-                string b = a;
-                b.erase(i + 2, 1);
-                b.erase(i - 1, 1);
-                a = b;
-                i -= 2;
-                v -= 2;
+
+string result(string s){
+    vector<char> res;
+    for(int i = 0; i < s.size(); i ++){
+        if(s[i] == ')' && res.size() >= 3){
+            ll n = res.size();
+            if(res[n - 1] == 'x' && res[n - 2] == 'x' && res[n - 3] == '('){
+                for(int j = 1; j <= 3; j ++)res.pop_back();
+                res.push_back('x');
+                res.push_back('x');
+            }else {
+                res.pb(s[i]);
             }
+        }else {
+            res.pb(s[i]);
         }
     }
-    return a;
+    string r = "";
+    for(auto x : res){
+        r += x;
+    }
+    return r;
 }
 void solve(){
     string a, b;
     cin >> a >> b;
-    // if(convert(a) == convert(b)){
-    //     cout << "Yes";
-    // }else {
-    //     cout << "No";
-    // }
-    // cout << endl;
-    cout << convert(a);
+    if(result(a) == result(b))cout << "Yes";
+    else cout << "No";
+    // cout << result(a) << " | " << result(b); 
+    cout << endl;
 }
 signed main(){
     fast; 
-    string s;
-    cin >> s;
-    ll v = s.size();
-    for(int i = 1; i < v - 1; i ++){
-        if(s[i] == s[i + 1] && s[i] == 'x' && i < v - 2){
-            if(s[i - 1] == '(' && s[i + 2] == ')'){
-                s.erase(i + 2, 1);
-                string b = s;
-                b.erase(i - 1, 1);
-                s = b;
-                i -= 2;
-                v -= 2;
-            }
-        }
+    ll t;
+    cin >> t;
+    while(t --){
+        solve();
     }
-    cout << s;
     
 }
