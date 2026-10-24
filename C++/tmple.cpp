@@ -1,51 +1,89 @@
-#include<bits/stdc++.h>
-using namespace std; 
+private void FindPeak()
+        {
+            peakPos.Clear();
 
-#define ll long long
-#define maxN (long long) 1e6 + 5
-#define endl '\n'
-#define fi first
-#define se second
-#define infi (int)(1e18)
-#define bend(a) (a).begin(), (a).end()
-#define rbend(a) (a).rbegin(), (a).rend()
-#define gcd(a, b) __gcd(a, b)
-#define lcm(a, b) ((a / gcd(a, b)) * b)
-#define fast ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
-#define LIMIT (long long) 1e18
-#define maxSelf(a, b) a = max(a, b)
-#define minSelf(a, b) a = min(a, b)
-#define elif else if
-#define FORi(a, b, c) for(int i = a; i <= b; i += c)
-#define FORj(a, b, c) for(int j = a; j <= b; j += c)
-#define foreach(a) for(auto x : a)
-#define pb push_back
-#define mod 1000000007
-int nxt(){ int n; cin >> n; return n;}
-/*
- _  _             _____              
-| || |_  _ _  _  |_   _| _ __ _ _ _  
-| __ | || | || |   | || '_/ _` | ' \ 
-|_||_|\_,_|\_, |   |_||_| \__,_|_||_|
-           |__/                      
-*/
+            if (_S.Count == 0 || _F.Count != _S.Count || _N.Count != _S.Count)
+                return;
 
-signed main(){
-    fast; 
-     for(unsigned int p = 0; p <= 1; p ++){
-        for(unsigned int q = 0; q <= 1; q ++){
-            for(unsigned int r = 0; r <= 1; r ++){
-                cout <<p << ' ' << q << ' ' << r << ' ' << (!(((!p || r) && (!q || r)) && (q || p)) || r) << endl;
+            int radius = _z * _m + 1;
+
+            int minNegWidth = Math.Max(1, radius / 2);
+            int maxNegWidth = Math.Max(minNegWidth + 2, 4 * radius);
+            double sigmaThreshold = 2.5;
+            int refineHalfWindow = Math.Max(2, radius);
+            int mergeDistance = Math.Max(2, radius / 2);
+
+            List<int> candidates = new List<int>();
+
+            int i = 1;
+            while (i < _S.Count - 1)
+            {
+                // Candidate region: significantly negative second-difference
+                if (_S[i] < -sigmaThreshold * _F[i])
+                {
+                    int start = i;
+                    int minIndex = i;
+                    double minValue = _S[i];
+
+                    while (i < _S.Count - 1 && _S[i] < 0.0)
+                    {
+                        if (_S[i] < minValue)
+                        {
+                            minValue = _S[i];
+                            minIndex = i;
+                        }
+                        i++;
+                    }
+
+                    int end = i - 1;
+                    int negWidth = end - start + 1;
+
+                    if (negWidth >= minNegWidth && negWidth <= maxNegWidth)
+                    {
+                        // Refine on original spectrum: choose local maximum near minIndex
+                        int left = Math.Max(0, minIndex - refineHalfWindow);
+                        int right = Math.Min(_N.Count - 1, minIndex + refineHalfWindow);
+
+                        int peakIndex = left;
+                        int peakCount = _N[left];
+
+                        for (int k = left + 1; k <= right; k++)
+                        {
+                            if (_N[k] > peakCount)
+                            {
+                                peakCount = _N[k];
+                                peakIndex = k;
+                            }
+                        }
+
+                        candidates.Add(peakIndex);
+                    }
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            // Merge peaks too close to each other
+            candidates.Sort();
+            foreach (int p in candidates)
+            {
+                if (peakPos.Count == 0)
+                {
+                    peakPos.Add(p);
+                    continue;
+                }
+
+                int last = peakPos[peakPos.Count - 1];
+                if (Math.Abs(p - last) <= mergeDistance)
+                {
+                    if (_N[p] > _N[last])
+                        peakPos[peakPos.Count - 1] = p;
+                }
+                else
+                {
+                    peakPos.Add(p);
+                }
             }
         }
-    }
-    for(int i = 0; i <= 5; i ++)cout << "-";
-    cout << endl;
-    for(unsigned int p = 0; p <= 1; p ++){
-        for(unsigned int q = 0; q <= 1; q ++){
-            for(unsigned int r = 0; r <= 1; r ++){
-                cout <<p << ' ' << q << ' ' << r << ' ' << ((!p || (!(!q) || !r) && r) || (q && !p)) << endl;
-            }
-        }
-    }
-}
