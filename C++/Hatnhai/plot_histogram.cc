@@ -4,9 +4,9 @@
 using namespace std;
 
 int plot_histogram(){
-ifstream file ("runlinear.dat");
+ifstream file ("data1.dat");
 double x;
-TH1* h1 = new TH1F("h1","ve histogram",2000,-10,10); //Khai bao histogram
+TH1* h1 = new TH1F("h1","ve histogram",200,-4,4); //Khai bao histogram
 
 /// Doc du lieu tu file va fill vao histogram
 x=0;
@@ -18,6 +18,7 @@ while (1){
 
 /// Ve histogram
 TCanvas* c1 = new TCanvas();
+
 h1->Draw();
 file.close();
 return 0;

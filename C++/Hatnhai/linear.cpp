@@ -1,21 +1,22 @@
 #include <iostream>
 #include <cmath>
+#include<fstream>
 using namespace std;
 
 int main () {
   double x, y, Y;
-  freopen("runlinear.dat","w", stdout);
+  ofstream myFile("data1.dat");
   srand(time(NULL));
-  int length = 10E5, i = 1;
-  while(i <= length){
-    x = rand()/RAND_MAX;
-    x = x * 5 - 2;
-    y = rand()/RAND_MAX;
-    y = y * 8 - 1;
-    Y = 2 * x + 1;
+  int length = 5 * 10E4;
+  while(length > 1){
+    x = double(rand())/RAND_MAX;
+    y = double(rand())/RAND_MAX;
+    x = x * 8 - 4;
+    y = y * 20;
+    Y = x * x + 4;
     if(y < Y){
-      cout << x << endl;
-      i ++;
+      myFile << x << endl;
+      length --;
     }
   }
   return 0;

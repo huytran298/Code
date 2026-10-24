@@ -1,0 +1,18 @@
+# Fdb version 4
+["pdflatex"] 1786184561.95037 "/Users/huytranquoc/Dev/Code/Latex/ontapcpp.tex" "ontapcpp.pdf" "ontapcpp" 1786184562.54083 0
+  "/Users/huytranquoc/Dev/Code/Latex/ontapcpp.tex" 1786184561.63312 73 d30020e78c943c4d9f4f73ff43bc0b9e ""
+  "/Volumes/Extended/TexLive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/Volumes/Extended/TexLive/texmf-dist/tex/latex/base/article.cls" 1748806692 20144 b966087dda3b194755eb460d32e2ef75 ""
+  "/Volumes/Extended/TexLive/texmf-dist/tex/latex/base/size10.clo" 1748806692 8448 686612a86f0e04f41ea577f5ec7e83d8 ""
+  "/Volumes/Extended/TexLive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1761248321 30662 bfd6e864f4ffc5018b0e2b6260c3181c ""
+  "/Volumes/Extended/TexLive/texmf-dist/web2c/texmf.cnf" 1770478701 43630 e9fa012910491fe5ae08a72c3c2997a7 ""
+  "/Volumes/Extended/TexLive/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1786183528 5541365 0838e90a399d01b63112fd87f98d897e ""
+  "/Volumes/Extended/TexLive/texmf-var/web2c/pdftex/pdflatex.fmt" 1786183608 3636516 b7f711ae84b95f688c285ec40c494e0c ""
+  "/Volumes/Extended/TexLive/texmf.cnf" 1786183517.15955 618 071f8a3353a7f2e18e0e97dd4a9eb201 ""
+  "ontapcpp.aux" 1786184562.50061 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "ontapcpp.tex" 1786184561.63312 73 d30020e78c943c4d9f4f73ff43bc0b9e ""
+  (generated)
+  "ontapcpp.aux"
+  "ontapcpp.log"
+  "ontapcpp.pdf"
+  (rewritten before read)
