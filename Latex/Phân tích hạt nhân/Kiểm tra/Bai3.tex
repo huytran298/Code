@@ -1,0 +1,99 @@
+\documentclass[a4paper]{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm}
+\usepackage[toc,page]{appendix}
+\usepackage{graphics, graphicx}
+\usepackage[utf8x]{vietnam}
+\usepackage{lipsum}
+\usepackage{pdfpages}
+\usepackage{enumitem}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage{caption}
+\usepackage{blindtext}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{tabularx}
+\newtheorem{problem}{Bài tập}
+\usepackage{float}
+\setlength{\parindent}{0pt}
+\begin{document}
+
+\noindent 
+{\bf Họ và tên : }Trần Quốc Huy 
+\hfill
+{\bf Học phần: Kỹ thuật phân tích hạt nhân} \\
+{\bf MSSV :} 23230005
+\hfill
+{\bf Kiểm tra 3} \\
+{\bf Lớp:} 23KTH
+
+\hrulefill
+
+\section{}
+Các yếu tố có thể ảnh hưởng đến cường độ tia X huỳnh quang $K_\alpha$ : 
+\begin{itemize}
+    \item Hiệu suất phát quang : 
+    \begin{itemize}
+        \item Cu : 
+        $$w = \frac{Z^4}{A_i + Z^4} = \frac{29^4}{1,08 \times 10^6 + 29^4} = 39,57 \, \%$$
+        \item Fe : $$w = \frac{Z^4}{A_i + Z^4} = \frac{26^4}{1,08 \times 10^6 + 26^4} = 29,73 \, \%$$
+    \end{itemize}
+    Từ đó cho thấy hiệu suất phát quang của Cu lớn hơn Fe khoảng $10\, \%$ 
+    \item Tiết diện tương tác : Vì năng lượng của tia X có thể ở vùng tăng đột ngột của tiết diện tương tác của Cu nên có thể cường độ $K_\alpha$ của Cu sẽ nhiều hơn Fe.
+    \item Hiệu suất đầu dò : Hiệu suất đầu dò phụ thuộc vào năng lượng, vì vậy có thể hiệu suất đo năng lượng của vạch $K_\alpha$ của Cu cao hơn Fe.
+\end{itemize}
+Qua đó cho thấy cường độ đo chỉ phụ thuộc vào hàm lượng mà còn phụ thuộc vào tiết diện tương tác, hiệu suất đầu dò, v.v., đồng thời kết quả ghi nhận được còn phụ thuộc vào bản chất đầu dò, cách thiết lập hệ đo như thế nào.
+
+\section{}
+\begin{enumerate}[label=\alph*)]
+    \item \hfill 
+    \begin{itemize}
+        \item $\sum Ch = 1083$
+        \item $\sum Ch^2 = 477149$
+        \item $\sum E = 42,4$
+        \item $\sum Ch \cdot E = 18670,7$
+    \end{itemize}
+    \begin{gather*}
+        \begin{cases}
+            a \cdot \sum Ch^2 + b \cdot \sum Ch = \sum Ch \cdot E \\ a  \cdot \sum Ch + b \cdot n = \sum E
+        \end{cases}\\
+        \begin{cases}
+            a \cdot 477149 + b \cdot 1083 = 18670,7 \\ a  \cdot 1083 + b \cdot 3 = 42,4
+        \end{cases}\\
+        \begin{cases}
+            a = 0,039 \\ b = 0,0415
+        \end{cases}
+    \end{gather*}
+    \item 
+    \begin{itemize}
+        \item Năng lượng $K_\alpha$ tại kênh 593: $E = 0,039 \cdot 593 + 0,0415 = 23,1685 \longrightarrow Cd$
+        \item Năng lượng $L_\alpha$ tại kênh 269: $E = 0,039 \cdot 269 + 0,0415 = 10,5325 \longrightarrow Pb$
+    \end{itemize}
+    \item 
+    Năng lượng cạnh hấp thụ của 2 nguyên tố $K_\alpha-Cd, L_\alpha-Pb$ : $26,711\, KeV; 15,860\, KeV$, do đó ở đây nguồn kích được sử dụng là $^{241}Am$
+    \item 
+    Tỉ số hệ số suy giảm : \[\frac{\mu(E)}{\mu^*(E)} = \frac{\frac{2,05}{\sqrt{E}}}{\frac{2,58}{\sqrt{E}}} = \frac{2,05}{2,58} = 0,7946\]
+    Hàm lượng và cường độ nguyên tố A, B trong mẫu phân tích : 
+    \begin{itemize}
+        \item nguyên tố A 
+        \begin{itemize}
+            \item $w_A^* = 5\% = 0,05$
+            \item $I^*_A = 172 \, cps$
+            \item $I_A = 256 \, cps$
+        \end{itemize}
+
+        \item nguyên tố B
+        \begin{itemize}
+            \item $w_B^* = 1000\, ppm = 0,001$
+            \item $I^*_B = 98 \, cps$
+            \item $I_B = 53\, cps$
+        \end{itemize}
+    \end{itemize}
+    Hàm lượng nguyên tố A và B :
+    \begin{gather*}
+        w_A = \frac{I_A(E)}{I_A^*(E)} \cdot \frac{\mu_A(E)}{\mu_A^*(E)} \cdot w_A(E) = \frac{256}{172} \cdot 0,7946 \cdot 0,05 = 0,0591 = 5,91 \, \%\\
+        w_B = \frac{I_B(E)}{I_B^*(E)} \cdot \frac{\mu_B(E)}{\mu_B^*(E)} \cdot w_B(E) = \frac{53}{98} \cdot 0,7946 \cdot 0,001 = 4,297\times 10^{-4} = 0,0429 \,\%
+    \end{gather*} 
+\end{enumerate}
+\end{document}

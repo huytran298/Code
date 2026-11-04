@@ -1,0 +1,56 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ydnt/global//global/global/global}
+    \entry{Athalye2018}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=01cd80ecd0db93c3b85a0893e67b9d6c}{%
+           family={Athalye},
+           familyi={A\bibinitperiod},
+           given={Anish},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {GitHub}%
+      }
+      \strng{namehash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{fullhash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{fullhashraw}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{bibnamehash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{authorbibnamehash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{authornamehash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{authorfullhash}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \strng{authorfullhashraw}{01cd80ecd0db93c3b85a0893e67b9d6c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/anishathalye/gemini}}
+      \field{journaltitle}{GitHub repository}
+      \field{title}{Gemini: A Modern LaTeX Poster Theme}
+      \field{year}{2018}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
