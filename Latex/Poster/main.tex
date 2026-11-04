@@ -8,6 +8,22 @@
 \usecolortheme{seagull}
 \useinnertheme{rectangles}
 
+
+% Định nghĩa kiểu dáng các khối trong sơ đồ
+\tikzset{
+    font=\sffamily\small,
+    node distance=0.8cm and 1.5cm,
+    base/.style={draw, align=center, line width=0.6pt},
+    startstop/.style={base, rectangle, rounded corners=10pt, fill=red!15, draw=red!70!black, font=\sffamily\bfseries\small, minimum width=2.8cm, minimum height=0.8cm},
+    process/.style={base, rectangle, rounded corners=3pt, fill=blue!8, draw=blue!70!black, minimum width=3.5cm, minimum height=0.85cm},
+    decision/.style={base, diamond, aspect=1.8, fill=orange!12, draw=orange!80!black, inner sep=2pt},
+    io/.style={base, trapezium, trapezium left angle=70, trapezium right angle=110, fill=green!12, draw=green!60!black, minimum width=3.2cm, minimum height=0.8cm},
+    arrow/.style={-{Stealth[scale=1.1]}, thick, draw=gray!80!black},
+    lbl/.style={font=\sffamily\scriptsize\bfseries, fill=white, inner sep=1.5pt}
+}
+
+
+
 % ====================
 % Packages
 % ====================
@@ -45,9 +61,9 @@
 % ====================
 
 \footercontent{
-	ABC Conference 2025, Tokyo, Japan \hfill
+	Hội nghị Khoa học Trường Đại học Khoa học tự nhiên, ĐHQG-HCM lần thứ 15 năm 2026 \hfill
 	\insertdate \hfill
-	\href{mailto:myemail@exampl.com}{\texttt{myemail@example.com}}
+	\href{mailto:huytranquoc298@gmail.com}{\texttt{huytranquoc298@gmail.com}}
 }
 % (can be left out to remove footer)
 
@@ -65,7 +81,7 @@
 
 \title{Xây dựng phần mềm PEAKFIT \\ trong việc phân tích phổ tia gamma }
 
-\author{Trần Quốc Huy\inst{1} \and Châu Thành Tài \inst{1} \and Lê Anh Nhi \inst{1} \and Trần Thiện Thanh \inst{1} \and Châu Văn Tạo \inst{1}}
+\author{Trần Quốc Huy\inst{1} \and Châu Thành Tài \inst{1}$^{,*}$ \and Lê Anh Nhi \inst{1} \and Trần Thiện Thanh \inst{1} \and Châu Văn Tạo \inst{1}}
 
 \institute[shortinst]{\inst{1} Bộ môn Vật lý Hạt nhân – Kỹ thuật Hạt nhân – Vật lý Y khoa, Khoa Vật lý – Vật lý Kỹ thuật, Đại học Khoa học Tự nhiên, Đại học Quốc gia Thành phố Hồ Chí Minh, Việt Nam}
 
@@ -78,28 +94,17 @@
 	\begin{columns}[t]
 	
 	\begin{column}{2\colwidth+\sepwidth}
-	\begin{block}{A block title}
+	\begin{alertblock}{Tóm tắt}
+		Mục tiêu của nghiên cứu này là phát triển phần mềm PEAKFIT phục vụ đọc, xử lý và phân tích phổ gamma thông qua một giao diện đồ họa thân thiện với người dùng. 
+		Phần mềm được phát triển bằng ngôn ngữ C\# và tích hợp thuật toán Mariscotti để tự động nhận diện các đỉnh phổ. 
+		Các mô-đun hiệu chuẩn năng lượng, hiệu chuẩn độ rộng toàn phần tại nửa cực đại (FWHM) và hiệu chuẩn hiệu suất 
+		cũng được tích hợp nhằm cung cấp một quy trình phân tích phổ thống nhất. PEAKFIT hỗ trợ trực quan hóa phổ, 
+		xác định và hiệu chỉnh các đỉnh, thực hiện các phép khớp hiệu chuẩn và lưu trữ các tham số cần thiết cho quá trình 
+		phân tích. Các thử nghiệm ban đầu cho thấy phần mềm có khả năng xử lý ổn định các phổ gamma thử nghiệm và thực hiện 
+		các chức năng phân tích đã thiết kế. Kết quả cho thấy PEAKFIT có tiềm năng trở thành một công cụ thuận tiện và có 
+		khả năng tiếp cận cao cho phân tích phổ gamma trong nghiên cứu và đào tạo hạt nhân.
 		
-		This poster was made by modifying the Gemini Beamer Poster Theme~\parencite{Athalye2018} and the Beamer \texttt{seagull} Color Theme.
-		Some block contents, followed by a diagram, followed by a dummy paragraph.
-		
-		\begin{figure}
-			\centering
-			\begin{tikzpicture}[scale=6]
-				\draw[step=0.25cm,color=gray] (-1,-1) grid (1,1);
-				\draw (1,0) -- (0.2,0.2) -- (0,1) -- (-0.2,0.2) -- (-1,0)
-				-- (-0.2,-0.2) -- (0,-1) -- (0.2,-0.2) -- cycle;
-			\end{tikzpicture}
-			\caption{A figure caption.}
-		\end{figure}
-		
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies
-		eget libero ac ullamcorper. Integer et euismod ante. Aenean vestibulum
-		lobortis augue, ut lobortis turpis rhoncus sed. Proin feugiat nibh a
-		lacinia dignissim. Proin scelerisque, risus eget tempor fermentum, ex
-		turpis condimentum urna, quis malesuada sapien arcu eu purus.
-		
-	\end{block}
+	\end{alertblock}
 	\end{column}
 
 	\end{columns}
@@ -109,51 +114,28 @@
 		
 		\begin{column}{\colwidth}
 			
-			\begin{thm}{A \texttt{tcolorbox} theorem block containing a list}{}
+			% \begin{box}{Mục tiêu}
 				
-				Nam vulputate nunc felis, non condimentum lacus porta ultrices. Nullam sed
-				sagittis metus. Etiam consectetur gravida urna quis suscipit.
+			% 	\begin{itemize}
+			% 		\item Tự động phân tích đỉnh bằng cách phát triển các thuật toán tìm đỉnh : Mariscotti, Savitzky-Golay.
+			% 		\item Tối ưu độ chính xác và ứng dụng.
+			% 	\end{itemize}
+				
+			% 	Eget augue porta, bibendum venenatis tortor.
+				
+			% \end{box}
+			
+			\begin{block}{Phương pháp}
 				
 				\begin{itemize}
-					\item \textbf{Mauris tempor} risus nulla, sed ornare
-					\item \textbf{Libero tincidunt} a duis congue vitae
-					\item \textbf{Dui ac pretium} morbi justo neque, ullamcorper
-				\end{itemize}
+					\item Thuật toán nhận diện đỉnh : 
+					\item Chuẩn năng lượng : 
+					\item Chuẩn hiệu suất : 
+					\item Chuẩn bề rộng một nửa (FWHM) :
+				\end{itemize} 
+
 				
-				Eget augue porta, bibendum venenatis tortor.
-				
-			\end{thm}
-			
-			\begin{alertblock}{A highlighted block}
-				
-				This block catches your eye, so \textbf{important stuff} should probably go
-				here.
-				
-				Curabitur eu libero vehicula, cursus est fringilla, luctus est. Morbi
-				consectetur mauris quam, at finibus elit auctor ac. Aliquam erat volutpat.
-				Aenean at nisl ut ex ullamcorper eleifend et eu augue. Aenean quis velit
-				tristique odio convallis ultrices a ac odio.
-				
-				\begin{itemize}
-					\item \textbf{Fusce dapibus tellus} vel tellus semper finibus. In
-					consequat, nibh sed mattis luctus, augue diam fermentum lectus.
-					\item \textbf{In euismod erat metus} non ex. Vestibulum luctus augue in
-					mi condimentum, at sollicitudin lorem viverra.
-				\end{itemize}
-			
-				\begin{enumerate}
-					\item \textbf{Morbi mauris purus}, egestas at vehicula et, convallis
-					accumsan orci. Orci varius natoque penatibus et magnis dis parturient
-					montes, nascetur ridiculus mus.
-					\item \textbf{Cras vehicula blandit urna ut maximus}. Aliquam blandit nec
-					massa ac sollicitudin. Curabitur cursus, metus nec imperdiet bibendum,
-					velit lectus faucibus dolor, quis gravida metus mauris gravida turpis.
-				\end{enumerate}
-				
-				Aenean tincidunt risus eros, at gravida lorem sagittis vel. Vestibulum ante
-				ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-				
-			\end{alertblock}
+			\end{block}
 			
 			\begin{defbox}{A block containing an enumerated list}{}
 				
