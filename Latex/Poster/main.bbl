@@ -16,5 +16,40 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{mariscotti1967method}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=baa3db9da43cb81558c9626fc412824d}{%
+           family={Mariscotti},
+           familyi={M\bibinitperiod},
+           given={MA},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {North-Holland Publishing Co.}%
+      }
+      \strng{namehash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{fullhash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{fullhashraw}{baa3db9da43cb81558c9626fc412824d}
+      \strng{bibnamehash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{authorbibnamehash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{authornamehash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{authorfullhash}{baa3db9da43cb81558c9626fc412824d}
+      \strng{authorfullhashraw}{baa3db9da43cb81558c9626fc412824d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nuclear Instruments and Methods}
+      \field{title}{A method for automatic identification of peaks in the presence of background and its application to spectrum analysis}
+      \field{volume}{50}
+      \field{year}{1967}
+      \field{pages}{309\bibrangedash 320}
+      \range{pages}{12}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
