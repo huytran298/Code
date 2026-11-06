@@ -1,15 +1,15 @@
 # Fdb version 4
-["biber main"] 1793900980.12602 "main.bcf" "main.bbl" "main" 1793901188.60586 0
-  "main.bcf" 1793901188 108533 d78c90326bac637b7bfdeb6d5ccbc9a6 "pdflatex"
+["biber main"] 1793900980.12602 "main.bcf" "main.bbl" "main" 1793935936.93552 0
+  "main.bcf" 1793935936 108533 d78c90326bac637b7bfdeb6d5ccbc9a6 "pdflatex"
   "refs.bib" 1793856932 334 8f876ae229f048f22b3d9c3f15c89827 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1793901185.42078 "c:/Users/huyhuyne/Documents/Code/Latex/Poster/main.tex" "main.pdf" "main" 1793901188.6065 0
+["pdflatex"] 1793935933.57744 "c:/Users/huyhuyne/Documents/Code/Latex/Poster/main.tex" "main.pdf" "main" 1793935936.93632 0
   "beamercolorthemeseagull.sty" 1793796717 1959 04670dde060c0fe86bf7c99376c3666f ""
   "beamerthemegemini.sty" 1793796717 6548 a7d693758e1321b960e1f67967048bed ""
-  "c:/Users/huyhuyne/Documents/Code/Latex/Poster/main.tex" 1793901184 9233 ab322f889aecb031484e775355d410b4 ""
+  "c:/Users/huyhuyne/Documents/Code/Latex/Poster/main.tex" 1793935932 9079 2d7792220b43c965eb8e2e36c76f768f ""
   "f:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1728660281 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "f:/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1728656967 1004 54797486969f23fa377b128694d548df ""
   "f:/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1728656967 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -311,15 +311,14 @@
   "img/Fit_E.jpg" 1793893031 178601 cf024c88587a0d0b7c1bd8e22a10361e ""
   "img/Fit_FWHM.jpg" 1793894062 181782 56dd7c7fa1f3ade9162463b2277b5cfb ""
   "img/fit_effJPEG.jpg" 1793893906 159753 d3691d069a817a4addd22c8ccdee0674 ""
-  "img/regionpeak.png" 1793859707 237187 02d7e61e51f3052f5a94f2a123ca54f2 ""
   "logos/HCMUS.png" 1793796717 171008 33d8fa062545bb5af070d552468ca1b6 ""
   "logos/VLHN.png" 1793796717 533160 c3d9116ee078a5dd9f17b7e5fd2ec998 ""
-  "main.aux" 1793901188 1447 7f2c68a5dccef01448a12ea583e3c460 "pdflatex"
+  "main.aux" 1793935936 1447 7f2c68a5dccef01448a12ea583e3c460 "pdflatex"
   "main.bbl" 1793900981 1945 4a84726068960a5a37c73f6a84870372 "biber main"
-  "main.nav" 1793901188 307 9e520c26371a1250ff9fc1fe87f9c655 "pdflatex"
-  "main.out" 1793901187 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.run.xml" 1793901188 2396 e47ea45c322d055e3675b7a29448d164 "pdflatex"
-  "main.tex" 1793901184 9233 ab322f889aecb031484e775355d410b4 ""
+  "main.nav" 1793935936 307 9e520c26371a1250ff9fc1fe87f9c655 "pdflatex"
+  "main.out" 1793935935 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.run.xml" 1793935936 2396 e47ea45c322d055e3675b7a29448d164 "pdflatex"
+  "main.tex" 1793935932 9079 2d7792220b43c965eb8e2e36c76f768f ""
   (generated)
   "main.aux"
   "main.bcf"

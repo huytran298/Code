@@ -80,7 +80,7 @@
 	\begin{columns}[t]
 	
 	\begin{column}{2\colwidth+\sepwidth}
-	\begin{alertblock}{Tóm tắt}
+	\begin{block}{Tóm tắt}
 		Mục tiêu của nghiên cứu này là phát triển phần mềm PEAKFIT phục vụ đọc, xử lý và phân tích phổ gamma thông qua một giao diện đồ họa thân thiện với người dùng. 
 		Phần mềm được phát triển bằng ngôn ngữ C\# và tích hợp thuật toán Mariscotti để tự động nhận diện các đỉnh phổ. 
 		Các mô-đun hiệu chuẩn năng lượng, hiệu chuẩn độ rộng toàn phần tại nửa cực đại (FWHM) và hiệu chuẩn hiệu suất 
@@ -90,7 +90,7 @@
 		các chức năng phân tích đã thiết kế. Kết quả cho thấy PEAKFIT có tiềm năng trở thành một công cụ thuận tiện và có 
 		khả năng tiếp cận cao cho phân tích phổ gamma trong nghiên cứu và đào tạo hạt nhân.
 		
-	\end{alertblock}
+	\end{block}
 	\end{column}
 
 	\end{columns}
@@ -133,8 +133,8 @@
 						
 					\begin{figure}[t]
 							\centering
-							\includegraphics[width=0.8\textwidth]{img/regionpeak.png}
-							\caption{Minh họa một đỉnh kép. Số lượng kênh trong các vùng I, II và III (hoặc IV) \\được tính đến để xác định một tập hợp các điểm là một đỉnh năng lượng.}
+							\includegraphics[width=0.8\textwidth]{img/Eu-152-16122019.jpg}
+							\caption{Phổ năng lượng của $^{152}\text{Eu}$ và điểm đánh dấu đỉnh năng lượng bằng thuật toán nhận diện đỉnh }
 						\end{figure}
 						Sử dụng thuật toán Mariscotti với hàm sai phân bậc 2 $S_i$ và độ lệch chuẩn $F_i$ để tìm kiếm đỉnh. \\ 
 				Đánh giá đỉnh dựa trên 4 điều kiện ràng buộc: backendiên độ đỉnh ($|S_{i_1}| > f \cdot F_{i_1}$), độ rộng đỉnh $w$, và các tham số dung sai $\epsilon$, hệ số tin cậy $f$
@@ -157,7 +157,6 @@
 
 				\begin{figure}
 					\centering
-					\subfloat[]{\includegraphics[width=0.49\textwidth]{img/Eu-152-16122019.jpg}} 
 					\subfloat[]{\includegraphics[width=0.49\textwidth]{img/Fit_E.jpg}} \\
 					\subfloat[]{\includegraphics[width=0.49\textwidth]{img/fit_effJPEG.jpg}}
 					\subfloat[]{\includegraphics[width=0.49\textwidth]{img/Fit_FWHM.jpg}}

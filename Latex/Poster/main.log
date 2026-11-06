@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.12)  6 NOV 2026 00:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.12)  6 NOV 2026 10:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1402,110 +1402,95 @@ Overfull \hbox (18.46216pt too wide) in paragraph at lines 76--76
 
 File: logos/HCMUS.png Graphic file (type png)
 <use logos/HCMUS.png>
-Package pdftex.def Info: logos/HCMUS.png  used on input line 202.
+Package pdftex.def Info: logos/HCMUS.png  used on input line 201.
 (pdftex.def)             Requested size: 284.52756pt x 228.25127pt.
 File: logos/VLHN.png Graphic file (type png)
 <use logos/VLHN.png>
-Package pdftex.def Info: logos/VLHN.png  used on input line 202.
+Package pdftex.def Info: logos/VLHN.png  used on input line 201.
 (pdftex.def)             Requested size: 284.52756pt x 263.69281pt.
 
-Overfull \hbox (18.46216pt too wide) in paragraph at lines 202--202
+Overfull \hbox (18.46216pt too wide) in paragraph at lines 201--201
  [][]|   
  []
 
-LaTeX Font Info:    Calculating math sizes for size <24.89> on input line 202.
+LaTeX Font Info:    Calculating math sizes for size <24.89> on input line 201.
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <12.44499> not available
-(Font)              size <12> substituted on input line 202.
+(Font)              size <12> substituted on input line 201.
 
-<img/regionpeak.png, id=26, 717.17938pt x 681.04437pt>
-File: img/regionpeak.png Graphic file (type png)
-<use img/regionpeak.png>
-Package pdftex.def Info: img/regionpeak.png  used on input line 202.
-(pdftex.def)             Requested size: 861.43312pt x 818.08052pt.
+<img/Eu-152-16122019.jpg, id=26, 1204.5pt x 803.0pt>
+File: img/Eu-152-16122019.jpg Graphic file (type jpg)
+<use img/Eu-152-16122019.jpg>
+Package pdftex.def Info: img/Eu-152-16122019.jpg  used on input line 201.
+(pdftex.def)             Requested size: 861.43312pt x 574.3122pt.
 
-Overfull \hbox (52.56015pt too wide) in paragraph at lines 202--202
+Overfull \hbox (52.56015pt too wide) in paragraph at lines 201--201
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--202
+Underfull \hbox (badness 10000) in paragraph at lines 201--201
 
  []
 
-<img/Eu-152-16122019.jpg, id=27, 1204.5pt x 803.0pt>
-File: img/Eu-152-16122019.jpg Graphic file (type jpg)
-<use img/Eu-152-16122019.jpg>
-Package pdftex.def Info: img/Eu-152-16122019.jpg  used on input line 202.
-(pdftex.def)             Requested size: 527.63168pt x 351.76498pt.
-
-Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
-See the caption package documentation for explanation.
-
-<img/Fit_E.jpg, id=28, 1746.525pt x 1165.35374pt>
+<img/Fit_E.jpg, id=27, 1746.525pt x 1165.35374pt>
 File: img/Fit_E.jpg Graphic file (type jpg)
 <use img/Fit_E.jpg>
-Package pdftex.def Info: img/Fit_E.jpg  used on input line 202.
+Package pdftex.def Info: img/Fit_E.jpg  used on input line 201.
 (pdftex.def)             Requested size: 527.63168pt x 352.04494pt.
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
-<img/fit_effJPEG.jpg, id=29, 1746.525pt x 1165.35374pt>
+<img/fit_effJPEG.jpg, id=28, 1746.525pt x 1165.35374pt>
 File: img/fit_effJPEG.jpg Graphic file (type jpg)
 <use img/fit_effJPEG.jpg>
-Package pdftex.def Info: img/fit_effJPEG.jpg  used on input line 202.
+Package pdftex.def Info: img/fit_effJPEG.jpg  used on input line 201.
 (pdftex.def)             Requested size: 527.63168pt x 352.04494pt.
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
-<img/Fit_FWHM.jpg, id=30, 1779.64874pt x 1239.63126pt>
+<img/Fit_FWHM.jpg, id=29, 1779.64874pt x 1239.63126pt>
 File: img/Fit_FWHM.jpg Graphic file (type jpg)
 <use img/Fit_FWHM.jpg>
-Package pdftex.def Info: img/Fit_FWHM.jpg  used on input line 202.
+Package pdftex.def Info: img/Fit_FWHM.jpg  used on input line 201.
 (pdftex.def)             Requested size: 527.63168pt x 367.52283pt.
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: Cannot determine current font size.
-(caption)                Try setting it with `size=' explicitly on input line 202.
+(caption)                Try setting it with `size=' explicitly on input line 201.
 See the caption package documentation for explanation.
 
 
 LaTeX Font Warning: Font shape `T5/cmss/m/it' in size <29.86> not available
-(Font)              Font shape `T5/cmss/m/sl' tried instead on input line 202.
+(Font)              Font shape `T5/cmss/m/sl' tried instead on input line 201.
 
 
 
 File: logos/HCMUS.png Graphic file (type png)
 <use logos/HCMUS.png>
-Package pdftex.def Info: logos/HCMUS.png  used on input line 202.
+Package pdftex.def Info: logos/HCMUS.png  used on input line 201.
 (pdftex.def)             Requested size: 284.52756pt x 228.25127pt.
 File: logos/VLHN.png Graphic file (type png)
 <use logos/VLHN.png>
-Package pdftex.def Info: logos/VLHN.png  used on input line 202.
+Package pdftex.def Info: logos/VLHN.png  used on input line 201.
 (pdftex.def)             Requested size: 284.52756pt x 263.69281pt.
 
 Overfull \hbox (18.46216pt too wide) has occurred while \output is active
@@ -1517,7 +1502,7 @@ Overfull \hbox (18.46216pt too wide) has occurred while \output is active
  <./logos/HCMUS.png
 
 pdfTeX warning: pdflatex.exe (file ./logos/HCMUS.png): large interlaced PNG might cause out of memory (use non-interlaced PNG to fix this)
-> <./logos/VLHN.png> <./img/regionpeak.png> <./img/Eu-152-16122019.jpg> <./img/Fit_E.jpg> <./img/fit_effJPEG.jpg> <./img/Fit_FWHM.jpg>]
+> <./logos/VLHN.png> <./img/Eu-152-16122019.jpg> <./img/Fit_E.jpg> <./img/fit_effJPEG.jpg> <./img/Fit_FWHM.jpg>]
 \tf@nav=\write7
 \openout7 = `main.nav'.
 
@@ -1544,18 +1529,18 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45752 strings out of 473579
- 1039734 string characters out of 5732262
- 1968962 words of memory out of 5000000
- 67854 multiletter control sequences out of 15000+600000
- 589551 words of font info for 115 fonts, out of 8000000 for 9000
+ 45741 strings out of 473579
+ 1039422 string characters out of 5732262
+ 1966963 words of memory out of 5000000
+ 67843 multiletter control sequences out of 15000+600000
+ 591445 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,20n,123p,1071b,2161s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <f:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><f:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><f:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><f:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><f:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/texlive/2024/texmf-dist/fonts/type1/vntex/vnr/vnss17.pfb><f:/texlive/2024/texmf-dist/fonts/type1/vntex/vnr/vnssbx10.pfb><f:/texlive/2024/texmf-dist/fonts/type1/vntex/vnr/vnssi17.pfb><f:/texlive/2024/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on main.pdf (1 page, 1501368 bytes).
+Output written on main.pdf (1 page, 1332037 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
+ 89 PDF objects out of 1000 (max. 8388607)
  45 compressed objects within 1 object stream
  4 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
