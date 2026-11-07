@@ -26,11 +26,17 @@
 
 % If you have N columns, choose \sepwidth and \colwidth such that
 % (N+1)*\sepwidth + N*\colwidth = \paperwidth
-\newlength{\sepwidth}
-\newlength{\colwidth}
-\setlength{\sepwidth}{0.01\paperwidth}
-\setlength{\colwidth}{0.48\paperwidth}
+% ====================
+% Lengths
+% ====================
 
+\newlength{\sepwidth}
+\newlength{\leftcolwidth}  % Thêm biến cho cột trái
+\newlength{\rightcolwidth} % Thêm biến cho cột phải
+
+\setlength{\sepwidth}{0.01\paperwidth}
+\setlength{\leftcolwidth}{0.38\paperwidth}  % Giảm cột trái (ví dụ từ 0.48 xuống 0.40)
+\setlength{\rightcolwidth}{0.57\paperwidth} % Tăng cột phải (ví dụ từ 0.48 lên 0.56) 
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
 
 % ====================
@@ -79,7 +85,8 @@
 	
 	\begin{columns}[t]
 	
-	\begin{column}{2\colwidth+\sepwidth}
+	% Đổi từ 2\colwidth+\sepwidth thành 0.97\paperwidth
+	\begin{column}{0.97\paperwidth}
 	\begin{block}{Tóm tắt}
 		Mục tiêu của nghiên cứu này là phát triển phần mềm PEAKFIT phục vụ đọc, xử lý và phân tích phổ gamma thông qua một giao diện đồ họa thân thiện với người dùng. 
 		Phần mềm được phát triển bằng ngôn ngữ C\# và tích hợp thuật toán Mariscotti để tự động nhận diện các đỉnh phổ. 
@@ -98,7 +105,7 @@
 	\begin{columns}[t]
 		\separatorcolumn
 		
-		\begin{column}{\colwidth}
+		\begin{column}{\leftcolwidth}
 			
 			% \begin{box}{Mục tiêu}
 				
@@ -113,28 +120,29 @@
 			\begin{block}{Giới thiệu}
 				PEAKFIT là phần mềm có giao diện đồ họa, được phát triển bằng C\# để đọc, hiển thị và phân tích phổ gamma. 
 				Phần mềm tích hợp chức năng tìm đỉnh tự động và các công cụ hiệu chuẩn năng lượng, hiệu suất và độ rộng đỉnh (FWHM).
+			\begin{figure}[t]
+						\centering
+						\includegraphics[width=0.8\textwidth]{img/spectrum.png}
+						\caption{Phổ năng lượng của $^{152}\text{Eu}$ được mở bằng phần mềm PEAKFIT}
+						\end{figure}
 			\end{block}
-
+			\hspace{1em}
 			\begin{block}{Các chức năng của PEAKFIT}
 				
 				\begin{enumerate}
 					\item \textbf{Thuật toán nhận diện đỉnh :} \\
 					PEAKFIT Sử dụng thuật toán Mariscotti với hàm sai phân bậc 2 $S_i$ và độ lệch chuẩn $F_i$ để tìm kiếm đỉnh. \\ 
-					Xác định hàm sai phân bậc hai với hàm rời rạc : 
+					Xác định hàm sai phân bậc hai với hàm rời rạc:\textsuperscript{\cite{mariscotti1967method}}
 					\begin{equation}
-						S_i =\sum_{j}C_{ij}(z, w) N_j \quad \text{\cite{mariscotti1967method}}
+						S_i = \sum_{j}C_{ij}(z, w) N_j
 					\end{equation}
 					Trong đó : $C_{ij}$ là hệ số trọng số. 
-					và độ lệch chuẩn của hàm sai phân bậc hai : 
+					và độ lệch chuẩn của hàm sai phân bậc hai : \textsuperscript{\cite{mariscotti1967method}}
 					\begin{equation}
-						F_i = \left(\sum_{j}C_{ij}^2(z, w) N_j\right)^{1/2} \quad \text{\cite{mariscotti1967method}}
+						F_i = \left(\sum_{j}C_{ij}^2(z, w) N_j\right)^{1/2} 
 					\end{equation}
 					Đánh giá đỉnh dựa trên 4 điều kiện ràng buộc: biên độ đỉnh ($|S_{i_1}| > f \cdot F_{i_1}$), độ rộng đỉnh $w$, và các tham số dung sai $\epsilon$, hệ số tin cậy $f$\\
-					\begin{figure}[t]
-						\centering
-						\includegraphics[width=0.8\textwidth]{img/spectrum.png}
-						\caption{Phổ năng lượng của $^{22}\text{Na}$ và điểm đánh dấu đỉnh năng lượng bằng thuật toán}
-						\end{figure}
+					
 					\item \textbf{ Hiệu chuẩn năng lượng và hiệu suất :}
 						\begin{itemize}
 							\item Hiệu chuẩn năng lượng :  thiết lập quan hệ giữa vị trí đỉnh năng lượng theo kênh và năng lượng gamma tham chiếu. Bằng phương pháp bình phương tối thiểu có thể xây dựng với đường chuẩn tuyến tính hoặc bậc hai : 
@@ -171,7 +179,7 @@
 	
 		\separatorcolumn
 		
-		\begin{column}{\colwidth}
+		\begin{column}{\rightcolwidth}
 			
 			\begin{block}{Kết quả}
 				Kết quả thu được từ phổ nguồn chuẩn $^{152}\text{Eu}$, $A = 26200\text{ Bq}$:
@@ -179,13 +187,18 @@
 				\begin{figure}
 					\centering
 					\subfloat[]{\includegraphics[width=0.48\textwidth]{img/Eu-152-16122019.png}}
-					\subfloat[]{\includegraphics[width=0.48\textwidth]{img/Fit_E.png}} \\
+					\hspace{0.02\textwidth} % Tạo khoảng trống tối đa giữa 2 hình trên cùng 1 hàng
+					\subfloat[]{\includegraphics[width=0.48\textwidth]{img/Fit_E.png}}
+					
+					\vspace{0.5em} % Tạo khoảng cách dọc giữa 2 hàng
+					
 					\subfloat[]{\includegraphics[width=0.48\textwidth]{img/Fit_eff.png}}
+					\hspace{0.02\textwidth} % Tạo khoảng trống tối đa giữa 2 hình dưới
 					\subfloat[]{\includegraphics[width=0.48\textwidth]{img/Fit_FWHM.png}}
-					\caption{(a) Phổ $^{152}Eu$ với các điểm đánh dấu vị trí đỉnh năng lượng 
-					 (b) Đường chuẩn năng lượng 
-					 (c) Đường chuẩn hiệu suất 
-					 (d) Đường chuẩn bề rộng một nửa (FWHM)}
+					\caption{(a) Phổ $^{152}Eu$ với các điểm đánh dấu vị trí đỉnh năng lượng\\
+							(b) Đường chuẩn năng lượng\\
+							(c) Đường chuẩn hiệu suất\\
+							(d) Đường chuẩn bề rộng nửa (FWHM)}
 				\end{figure}
 				\begin{enumerate}
 					\item Nhận diện đỉnh tự động : \\
@@ -209,14 +222,14 @@
 					\begin{equation}
 						FWHM = (0,1713 \pm 0,0078)\cdot \sqrt{E} + (4,6226 \pm 0,2010)
 					\end{equation}
-					$R^2 = 0,9808$
+					$R^2 = 0,9809$
 				\end{enumerate}
 			\end{block}
 			
 			\begin{block}{Kết luận}
 			\begin{itemize}
 				\item Đã sơ bộ xây dựng thành công phần mềm PEAKFIT ứng dụng trong phân tích phổ tia gamma.
-				\item Phần mềm tự động hóa quy trình nhận diện đỉnh thông qua thuật toán Mariscotti, đồng thời tích hợp thành công các công cụ hiệu chuẩn năng lượng, hiệu chuẩn bề rộng một nửa (FWHM) và hiệu chuẩn hiệu suất. Với chuẩn bề rộng một nửa phần mềm xử lý tính toán tốt các tham số ban đầu theo thuật toán Levenberg-Marquardt và kết quả FWHM.
+				\item Phần mềm tự động hóa quy trình nhận diện đỉnh thông qua thuật toán Mariscotti, đồng thời tích hợp thành công các công cụ hiệu chuẩn năng lượng, hiệu chuẩn bề rộng một nửa (FWHM) và hiệu chuẩn hiệu suất. 
 				\item Kết quả thử nghiệm trên phổ thực nghiệm cho thấy sự ổn định của phần mềm, với khả năng nhận diện tự động {\bf 10/14} đỉnh phổ (các đỉnh có cường độ lớn hơn 1\%) và thiết lập các đường chuẩn thực nghiệm có độ chính xác cao.
 			\end{itemize}	
 			\end{block}
